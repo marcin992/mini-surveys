@@ -5,8 +5,8 @@
 var mongoose = require('mongoose');
 
 var answerSchema = mongoose.Schema({
-    surveyId: mongoose.Schema.Types.ObjectId,
-    text: String
+  surveyId: mongoose.Schema.Types.ObjectId,
+  answers: [String]
 });
 
 var Answer = mongoose.model('answers', answerSchema);

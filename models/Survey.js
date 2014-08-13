@@ -4,19 +4,22 @@
 
 var mongoose = require('mongoose');
 
-var surveySchema = mongoose.Schema({
-    title: String,
-    questions: [{
-        number: Number,
-        type: {
-            type: String,
-            enum: ['oneChoice', 'multiChoice', 'boolean', 'text']
-        },
-        body: String,
-        possibleAnswers: [String]
-    }]
+var questionSchema = mongoose.Schema({
+  number: Number,
+  type: {
+    type: String,
+    enum: ['oneChoice', 'multiChoice', 'boolean', 'text']
+  },
+  body: String,
+  possibleAnswers: [String]
 });
 
-var Survey = mongoose.model('surveys', surveySchema);
+var surveySchema = mongoose.Schema({
+  title: String,
+  questionCount: Number,
+  questions: [questionSchema]
+});
+
+var Survey = mongoose.Model('surveys', surveySchema);
 
 module.exports = Survey;
