@@ -4,14 +4,16 @@
 extends layout
 
 block content
-  if message.length > 0
-    div
-      p= message
-  form(action="/login", method="POST")
-    div
-      label Email
-      input(type="text", name="email")
-    div
-      label Password
-      input(type="password", name="password")
-    button(type="submit") Login!
+  .container
+    .col-sm-6.col-sm-offset-3
+      if message.length > 0
+        .alert.alert-danger
+          p= message
+      form(action="/login", method="POST")
+        .form-group
+          label Email
+          input(type="text", class="form-control", name="email")
+        .form-group
+          label Password
+          input(type="password", class="form-control", name="password")
+        button(type="submit", class="btn btn-warning btn-lg") Login!

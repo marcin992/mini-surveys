@@ -4,16 +4,18 @@
 extends layout
 
 block content
-  h1 Signup
-  if message.length > 0
-    div
-      p= message
+  .container
+    .col-sm-6.col-sm-offset-3
+      h1 Signup
+      if message.length > 0
+        .alert.alert-danger
+          p #{message}
 
-  form(action="/signup", method="POST")
-    div
-      label Email
-      input(type="text", name="email")
-    div
-      label Password
-      input(type="password", name="password")
-    button(type="submit") Sign up!
+      form(action="/signup", method="POST")
+        .form-group
+          label Email
+          input(type="text", class="form-control", name="email")
+        .form-group
+          label Password
+          input(type="password", class="form-control", name="password")
+        button(type="submit", class="btn btn-warning btn-lg") Sign up!
