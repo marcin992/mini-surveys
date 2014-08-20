@@ -36,7 +36,7 @@ Application.prototype = {
     this.app = express();
 
 // view engine setup
-    this.app.set('views', path.join(__dirname, 'views'));
+    this.app.set('views', path.join(__dirname, 'public', 'views'));
     this.app.set('view engine', 'jade');
 
     this.app.use(favicon());
