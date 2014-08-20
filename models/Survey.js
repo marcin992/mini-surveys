@@ -20,6 +20,12 @@ var surveySchema = mongoose.Schema({
   questions: [questionSchema]
 });
 
-var Survey = mongoose.Model('surveys', surveySchema);
+surveySchema.methods.addQuestion = function(newQuestion, done) {
+  this.questions.push(newQuestion);
+  this.questionCount += 1;
+  this.save(done);
+};
+
+var Survey = mongoose.model('surveys', surveySchema);
 
 module.exports = Survey;

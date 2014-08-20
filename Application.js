@@ -8,12 +8,16 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var flash = require('connect-flash');
+var session = require('express-session');
+var passport = require('passport');
 
 var mongoose = require('mongoose');
 var dbConfig = require('./config/database');
 
 var SurveyController = require('./controllers/SurveyController');
 var ViewController = require('./controllers/ViewController');
+var AuthenticationController = require('./controllers/AuthenticationController');
 
 var Application = function (serverPort) {
   this.port = serverPort;
@@ -42,10 +46,16 @@ Application.prototype = {
     this.app.use(cookieParser());
     this.app.use(require('less-middleware')(path.join(__dirname, 'public')));
     this.app.use(express.static(path.join(__dirname, 'public')));
+    this.app.use(session({
+      secret: "very9difficult8secret7key6bitches"
+    }));
+    this.app.use(passport.initialize());
+    this.app.use(passport.session());
+    this.app.use(flash());
 
     this.app.set('port', process.env.PORT || this.port);
 
-
+    require('./config/passport')(passport);
   },
 
   _connectToDatabase: function () {
@@ -67,6 +77,7 @@ Application.prototype = {
   _registerRoutes: function () {
     SurveyController.registerRoutes(this.app);
     ViewController.registerRoutes(this.app);
+    AuthenticationController.registerRoutes(this.app, passport);
 
     /// catch 404 and forward to error handler
     this.app.use(function (req, res, next) {

@@ -1,0 +1,17 @@
+//
+   Created by Marcin on 2014-08-20.
+
+extends layout
+
+block content
+  if message.length > 0
+    div
+      p= message
+  form(action="/login", method="POST")
+    div
+      label Email
+      input(type="text", name="email")
+    div
+      label Password
+      input(type="password", name="password")
+    button(type="submit") Login!

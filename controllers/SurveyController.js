@@ -50,14 +50,12 @@ function addQuestion(req, res) {
     if (err)
       MessageSender.sendDatabaseError(res, err);
     else {
-      survey.questions.push({
+      survey.addQuestion({
         number: (survey.questionCount + 1),
         type: req.body.type,
         body: req.body.body,
         possibleAnswers: req.body.possibleAnswers
-      });
-      survey.questionCount += 1;
-      survey.save(function (err, survey) {
+      }, function (err, survey) {
         if (err)
           MessageSender.sendDatabaseError(res, err);
         else
@@ -112,4 +110,12 @@ function getQuestionById(req, res) {
       MessageSender.sendJsonObject(res, question);
     }
   });
+}
+
+function updateQuestion(req, res) {
+  
+}
+
+function deleteQuestion(req, res) {
+
 }

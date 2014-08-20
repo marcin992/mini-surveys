@@ -31,5 +31,35 @@ module.exports = {
   SURVEY_REMOVED: {
     en: "Survey has been removed.",
     pl: "Ankieta została usunięta."
+  },
+
+  VALIDATION_SURVEY_TITLE: {
+    en: "Title has inappropriate length.",
+    pl: "Tytuł ma niewłaściwą długość"
+  },
+
+  VALIDATION_KEYS: {
+    en: "The object is incomplete.",
+    pl: "Obiekt jest niekompletny."
+  },
+
+  VALIDATION_QUESTION_COUNT: {
+    en: "Question count is different than real question number.",
+    pl: ""
+  },
+
+  EMAIL_TAKEN: {
+    en: "That email is already taken",
+    pl: "Podany adres email jest zajęty"
+  },
+
+  NO_USER: {
+    en: "No user found",
+    pl: "Nie znaleziono użytkownika"
+  },
+
+  WRONG_PASSWORD: {
+    en: "Wrong password",
+    pl: "Złe hasło"
   }
 };

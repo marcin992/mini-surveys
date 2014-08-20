@@ -1,0 +1,17 @@
+//
+   Created by Marcin on 2014-08-20.
+
+extends layout
+
+block content
+  h1 Profile
+  br
+  a(href="/logout") Logout
+  br
+  p
+    strong id: #{user._id}
+    br
+    strong email: #{user.local.email}
+    br
+    strong password: #{user.local.password}
+    br
