@@ -1,7 +1,10 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}. Your ip: #{ip}, dd: #{dd}
-  a(href="/login") Login
-  a(href="/signup") Sign up
+  .container
+    .jumbotron
+      h1 My surveys
+      p Welcome on my engineer project!
+      p Go to Sign up page.
+      p
+        a.btn.btn-lg.btn-primary(href='/signup') Signup

@@ -10,7 +10,8 @@ module.exports = {
     router.route('/login')
       .get(function(req, res) {
         res.render('login.jade', {
-          message: req.flash('loginMessage')
+          message: req.flash('loginMessage'),
+          title: "Login"
         });
       })
       .post(passport.authenticate('local-login', {
@@ -22,7 +23,8 @@ module.exports = {
     router.route('/signup')
       .get(function(req, res) {
         res.render('signup.jade', {
-          message: req.flash('signupMessage')
+          message: req.flash('signupMessage'),
+          title: "Sign up"
         });
       })
       .post(passport.authenticate('local-signup', {
