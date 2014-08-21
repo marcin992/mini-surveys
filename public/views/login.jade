@@ -1,21 +1,22 @@
 //
    Created by Marcin on 2014-08-20.
 
-extends layout
+extends indexLayout
 
 block content
   .container
     .col-sm-4.col-sm-offset-4
-      h1 Login
-      if message.length > 0
-        .alert.alert-danger
-          p= message
-      form(action="/login", method="POST")
-        .form-group
-          label Email
-          input(type="text", class="form-control", name="email")
-        .form-group
-          label Password
-          input(type="password", class="form-control", name="password")
-        br
-        button(type="submit", class="btn btn-warning btn-lg") Login!
+      .well.well-lg
+        h1 Login
+        if message.length > 0
+          .alert.alert-danger
+            p= message
+        form(action="/login", method="POST")
+          .form-group
+            label Email
+            input(type="text", class="form-control", name="email")
+          .form-group
+            label Password
+            input(type="password", class="form-control", name="password")
+          br
+          button(type="submit", class="btn btn-warning btn-lg") Login!
