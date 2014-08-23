@@ -12,18 +12,15 @@ var flash = require('connect-flash');
 var session = require('express-session');
 var passport = require('passport');
 
-var mongoose = require('mongoose');
-var dbConfig = require('./config/database');
-
 var SurveyController = require('./controllers/SurveyController');
 var ViewController = require('./controllers/ViewController');
 var AuthenticationController = require('./controllers/AuthenticationController');
+var MongoDataProvider = require('./database/MongoDataProvider');
 
 var Application = function (serverPort) {
   this.port = serverPort;
 
   this._init();
-  this._connectToDatabase();
   this._registerRoutes();
 };
 
@@ -31,6 +28,10 @@ Application.prototype = {
   port: null,
   app: null,
   server: null,
+  dataProvider: null,
+  surveyController: null,
+  viewController: null,
+  authenticationController: null,
 
   _init: function () {
     this.app = express();
@@ -56,28 +57,18 @@ Application.prototype = {
     this.app.set('port', process.env.PORT || this.port);
 
     require('./config/passport')(passport);
-  },
 
-  _connectToDatabase: function () {
-    var options = {
-      server: {
-        socketOptions: {
-          keepAlive: 1
-        }
-      }
-    };
-
-    var environment = this.app.get('env');
-
-    console.log(dbConfig.mongo.connectionString(environment));
-
-    mongoose.connect(dbConfig.mongo.connectionString(environment), options);
+    this.dataProvider = new MongoDataProvider(this.app.get('env'));
   },
 
   _registerRoutes: function () {
-    SurveyController.registerRoutes(this.app);
-    ViewController.registerRoutes(this.app);
-    AuthenticationController.registerRoutes(this.app, passport);
+    this.surveyController = new SurveyController(this.app, this.dataProvider);
+    this.surveyController.registerRoutes();
+
+
+//    SurveyController.registerRoutes(this.app);
+//    ViewController.registerRoutes(this.app);
+//    AuthenticationController.registerRoutes(this.app, passport);
 
     /// catch 404 and forward to error handler
     this.app.use(function (req, res, next) {

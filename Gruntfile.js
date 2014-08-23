@@ -4,6 +4,7 @@
 
 module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
+  grunt.loadNpmTasks('grunt-shell');
 
   grunt.initConfig({
     mochaTest: {
@@ -13,7 +14,12 @@ module.exports = function(grunt) {
         },
         src: ['tests/**/*.js']
       }
-    } // beautifier
+    },
+    shell: {
+      testDb: {
+        command: 'mongod --dbpath C:\\users\\marcin\\development\\testDB --port 27018 &'
+      }
+    }
   });
 
   grunt.registerTask('default', 'mochaTest');

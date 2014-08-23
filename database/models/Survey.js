@@ -5,7 +5,6 @@
 var mongoose = require('mongoose');
 
 var questionSchema = mongoose.Schema({
-  number: Number,
   type: {
     type: String,
     enum: ['oneChoice', 'multiChoice', 'boolean', 'text']
@@ -15,8 +14,8 @@ var questionSchema = mongoose.Schema({
 });
 
 var surveySchema = mongoose.Schema({
+  userId: mongoose.Schema.Types.ObjectId,
   title: String,
-  questionCount: Number,
   questions: [questionSchema]
 });
 

@@ -4,4 +4,7 @@
 extends layout
 
 block navbar
-  include profileNavbar
+  include partials/profileNavbar
+
+block append scripts
+  script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.22/angular.min.js')
