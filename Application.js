@@ -65,10 +65,11 @@ Application.prototype = {
     this.surveyController = new SurveyController(this.app, this.dataProvider);
     this.surveyController.registerRoutes();
 
+    this.viewController = new ViewController(this.app);
+    this.viewController.registerRoutes();
 
-//    SurveyController.registerRoutes(this.app);
-//    ViewController.registerRoutes(this.app);
-//    AuthenticationController.registerRoutes(this.app, passport);
+    this.authenticationController = new AuthenticationController(this.app, passport);
+    this.authenticationController.registerRoutes();
 
     /// catch 404 and forward to error handler
     this.app.use(function (req, res, next) {

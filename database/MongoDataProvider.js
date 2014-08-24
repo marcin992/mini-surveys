@@ -53,7 +53,11 @@ MongoDataProvider.prototype = {
   },
 
   deleteSurvey: function (surveyId, doneCallback) {
-    doneCallback();
+    Survey.findByIdAndRemove(surveyId, doneCallback);
+  },
+
+  getSurvey: function (filter, doneCallback) {
+    Survey.find(filter, doneCallback);
   },
 
   getQuestionById: function (surveyId, questionId, doneCallback) {

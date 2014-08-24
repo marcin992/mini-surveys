@@ -92,30 +92,17 @@ describe('MongoDataProvider tests', function () {
   var dataProvider = new MongoDataProvider('test');
 
   it('Should return survey with given id', function (done) {
-    dataProvider.getSurveyById('111111111111111111111111', function (err, survey) {
+    dataProvider.getSurveyById(MOCK_CONTENT[0]._id, function (err, survey) {
       expect(err).not.to.be.ok();
       expect(survey).to.be.ok();
-      expect(survey.toObject()).to.eql({
-        "_id": ObjectId(dummySurveyId),
-        "userId": dummyUserId,
-        "title": "aaa",
-        "questions": [
-          {
-            "type": "oneChoice",
-            "body": "aaa",
-            "possibleAnswers": [
-              "aaa", "bbb", "ccc"
-            ]
-          }
-        ]
-      });
+      expect(survey.toObject()).to.eql(MOCK_CONTENT[0]);
       done();
     });
   });
 
   it('Should insert a new survey into database and return it', function (done) {
     var dummySurvey = {
-      "userId": ObjectId('111111111111111111111111'),
+      "userId": ObjectId('444444444444444444444444'),
       "title": "aaa",
       "questions": [
         {
@@ -149,7 +136,7 @@ describe('MongoDataProvider tests', function () {
 
   it('Should update survey with given id', function (done) {
     var changedSurvey = {
-      "userId": ObjectId('111111111111111111111111'),
+      "userId": ObjectId('444444444444444444444444'),
       "title": "changedTitle",
       "questions": [
         {
@@ -185,6 +172,39 @@ describe('MongoDataProvider tests', function () {
   });
 
   it('should delete survey with given id', function (done) {
+    dataProvider.deleteSurvey(dummySurveyId, function (err, survey) {
+      expect(err).not.to.be.ok();
+      expect(survey).to.be.ok();
 
+      dataProvider.getSurveyById(dummySurveyId, function (err, survey) {
+        expect(err).not.to.be.ok();
+        expect(survey).not.to.be.ok();
+
+        done();
+      });
+    });
+  });
+
+  it('should get survey by specific filter', function (done) {
+    var filter = {
+      userId: dummyUserId,
+      title: {
+        "$in": [
+          "aaa", "ccc"
+        ]
+      }
+    };
+
+    dataProvider.getSurvey(filter, function (err, surveys) {
+      expect(err).not.to.be.ok();
+      expect(surveys).to.be.ok();
+      expect(surveys).to.have.length(2);
+
+      surveys[0] = surveys[0].toObject();
+      surveys[1] = surveys[1].toObject();
+      expect(surveys).to.eql([MOCK_CONTENT[0], MOCK_CONTENT[2]]);
+
+      done();
+    })
   })
 });
