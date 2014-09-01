@@ -3,8 +3,9 @@ var Application = require('../../Application');
 var Message = require('../../utils/Messages');
 var request = require('superagent');
 var _ = require('lodash-node');
+var mongodb = require('mongodb').MongoClient;
+var ObjectID = require('mongodb').ObjectID;
 var agent = request.agent();
-var MongoSurveyProvider = require('../../database/MongoSurveyProvider');
 
 describe('Routes tests', function() {
   var TEST_PORT = 7000;
@@ -15,27 +16,42 @@ describe('Routes tests', function() {
   };
 
   var userId = '541445d6969229b02a5f33cd';
+  var dummySurveyId = '111111111111111111111111';
   var MOCK_SURVEYS = [{
-    'metadata': {
-      'userId': userId,
-      'title': 'Mongo bongo',
-      'description': 'aaa',
-      'status': 'draft',
-      'answerCount': 0,
-      'link': ''
+    "metadata": {
+      "userId": ObjectID(userId),
+      "title": "Mongo bongo",
+      "description": "aaa",
+      "status": "draft",
+      "answerCount": 0,
+      "link": ""
     },
-    'questions': []
+    "questions": []
+  }, {
+    "metadata": {
+      "userId": ObjectID(userId),
+      "title": "No title",
+      "description": "bbb",
+      "status": "draft",
+      "answerCount": 0,
+      "link": ""
+    },
+    "_id": ObjectID(dummySurveyId),
+    "questions": []
   }];
 
   var removeDbKeys = function(survey) {
-  delete(survey['_id']);
-  delete(survey['__v']);
-  _.forEach(survey.questions, function(question) {
-    delete(question['_id']);
-  });
-};
+    delete(survey['_id']);
+    delete(survey['__v']);
+    _.forEach(survey.questions, function(question) {
+      delete(question['_id']);
+    });
+  };
 
-  var surveyProvider = new MongoSurveyProvider('test');
+  var stringifyIds = function(survey) {
+    survey._id = survey._id.toHexString();
+    survey.metadata.userId = userId;
+  };
 
   before(function(done) {
     process.env['NODE_ENV'] = 'test';
@@ -52,16 +68,27 @@ describe('Routes tests', function() {
   });
 
   beforeEach(function(done) {
-    _.each(MOCK_SURVEYS, function(survey) {
-      surveyProvider.addSurvey(survey, function(err, doc) {
-        done();
-      });
-    })
+    mongodb.connect('mongodb://localhost:27018/test', function(err, db) {
+      if (!err) {
+        db.collection('surveys').insert(MOCK_SURVEYS, function(err, doc) {
+          console.log(doc);
+          db.close();
+          done();
+        });
+      }
+    });
   });
 
   afterEach(function(done) {
-    surveyProvider.removeAllSurveys(function(err, doc) {
-      done();
+    mongodb.connect('mongodb://localhost:27018/test', function(err, db) {
+      if (!err) {
+        db.collection('surveys').remove({}, function(err) {
+          if (!err) {
+            db.close();
+            done();
+          }
+        });
+      }
     });
   });
 
@@ -75,16 +102,35 @@ describe('Routes tests', function() {
   it('should get user\'s surveys', function(done) {
     agent.get('https://localhost:7000/api/surveys')
       .end(function(err, res) {
-        expect(res.message).not.to.be.ok();
+        expect(err).not.to.be.ok();
+        var expected = [];
+        for(var i = 0; i < MOCK_SURVEYS.length; i++) {
+          expected[i] = _.clone(MOCK_SURVEYS[i]);
+          stringifyIds(expected[i]);
+        }
         var result = res.body.data;
-        _.each(result, function(survey) {
-          removeDbKeys(survey);
-        });
-        expect(result).to.eql(MOCK_SURVEYS);
+        expect(result).to.eql(expected);
         done();
       });
 
   });
+
+  it('should get survey by given id', function(done) {
+    agent.get('https://localhost:7000/api/surveys/' + MOCK_SURVEYS[1]._id)
+      .end(function(err, res) {
+        expect(err).not.to.be.ok();
+        expect(res.body.message).not.to.be.ok();
+        var result = res.body.data;
+        var expected = _.clone(MOCK_SURVEYS[1]);
+        stringifyIds(expected);
+        expect(result).to.eql(expected);
+        done();
+      })
+  });
+
+
+
+
 
 
 });

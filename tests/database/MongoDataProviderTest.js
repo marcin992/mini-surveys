@@ -1,6 +1,6 @@
 /**
- * Created by Marcin on 2014-08-23.
- */
+* Created by Marcin on 2014-08-23.
+*/
 
 var expect = require('expect.js');
 var MongoDataProvider = require('../../database/MongoSurveyProvider');
@@ -63,7 +63,6 @@ var MOCK_CONTENT = [{
   }]
 }];
 
-
 var removeDbKeys = function(survey) {
   delete(survey['_id']);
   delete(survey['__v']);
@@ -100,7 +99,7 @@ describe('MongoDataProvider tests', function() {
   var dataProvider = new MongoDataProvider('test');
 
   it('Should return survey with given id', function(done) {
-    dataProvider.getSurveyById(MOCK_CONTENT[0]._id, function(err, survey) {
+    dataProvider.getSurveyById(dummySurveyId, function(err, survey) {
       expect(err).not.to.be.ok();
       expect(survey).to.be.ok();
       expect(survey.toObject()).to.eql(MOCK_CONTENT[0]);
