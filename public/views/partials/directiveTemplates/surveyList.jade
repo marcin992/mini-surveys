@@ -1,0 +1,8 @@
+//
+   Created by Marcin on 2014-09-02.
+
+ul.list-group
+  a.list-group-item(ng-repeat='survey in surveys | filter:filter', href='#/{{ survey._id }}')
+    span.glyphicon.glyphicon-ok.pull-left(data-toggle='tooltip', title='dasdasd')
+    |  {{ survey.title }}
+    span.badge {{ survey.questionCount }}

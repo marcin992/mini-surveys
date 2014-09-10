@@ -12,10 +12,7 @@ var flash = require('connect-flash');
 var session = require('express-session');
 var passport = require('passport');
 
-var SurveyController = require('./controllers/SurveyController');
-var ViewController = require('./controllers/ViewController');
-var AuthenticationController = require('./controllers/AuthenticationController');
-var MongoDataProvider = require('./database/MongoDataProvider');
+var MongoSurveyProvider = require('./database/MongoSurveyProvider');
 
 var Application = function (serverPort) {
   this.port = serverPort;
@@ -28,10 +25,7 @@ Application.prototype = {
   port: null,
   app: null,
   server: null,
-  dataProvider: null,
-  surveyController: null,
-  viewController: null,
-  authenticationController: null,
+  surveyProvider: null,
 
   _init: function () {
     this.app = express();
@@ -56,45 +50,19 @@ Application.prototype = {
 
     this.app.set('port', process.env.PORT || this.port);
 
+    this.app.all('*', function(req, res, next) {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "X-Requested-With");
+      next();
+    });
+
     require('./config/passport')(passport);
 
-    this.dataProvider = new MongoDataProvider(this.app.get('env'));
+    this.surveyProvider = new MongoSurveyProvider(this.app.get('env'));
   },
 
   _registerRoutes: function () {
-    this.surveyController = new SurveyController(this.app, this.dataProvider);
-    this.surveyController.registerRoutes();
-
-    this.viewController = new ViewController(this.app);
-    this.viewController.registerRoutes();
-
-    this.authenticationController = new AuthenticationController(this.app, passport);
-    this.authenticationController.registerRoutes();
-
-    /// catch 404 and forward to error handler
-    this.app.use(function (req, res, next) {
-      var err = new Error('Not Found');
-      err.status = 404;
-      next(err);
-    });
-
-    if (this.app.get('env') === 'development') {
-      this.app.use(function (err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-          message: err.message,
-          error: err
-        });
-      });
-    }
-
-    this.app.use(function (err, req, res, next) {
-      res.status(err.status || 500);
-      res.render('error', {
-        message: err.message,
-        error: {}
-      });
-    });
+    var routes = require('./routes/routes')(this.app, this.surveyProvider, passport);
   },
 
   start: function () {

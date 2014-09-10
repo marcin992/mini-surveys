@@ -1,14 +1,15 @@
 doctype html
-html
+html(ng-app='surveyApp')
   head
     title= title
     block styles
-      link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
+      link(rel='stylesheet', href='lib/bootstrap/css/bootstrap.min.css')
       link(rel='stylesheet', href='/stylesheets/style.css')
   body
-    block navbar
     block content
 
     block scripts
-      script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
-      script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js')
+      script(src='lib/jquery-1.11.1.min.js')
+      script(src='lib/bootstrap/js/bootstrap.min.js')
+      script(src='lib/angular.min.js')
+      script(src='lib/angular-route.min.js')

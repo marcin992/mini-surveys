@@ -1,17 +1,38 @@
 //
    Created by Marcin on 2014-08-20.
 
-extends profileLayout
+extends layout
 
 block content
-  h1 Profile
-  br
-  a(href="/logout") Logout
-  br
-  p
-    strong id: #{user._id}
-    br
-    strong email: #{user.local.email}
-    br
-    strong password: #{user.local.password}
-    br
+  nav.navbar.navbar-inverse.navbar-fixed-top
+    .container
+      .navbar-header
+        button.navbar-toggle(type='button', data-toggle='collapse', data-target='.collapse.navbar-collapse')
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        a.navbar-brand.glyphicon.glyphicon-stats(href='#/profile')
+          span.glyphicon.glyphicon-stats
+          | Surveys
+      .collapse.navbar-collapse
+        ul.nav.navbar-nav.navbar-right
+          li
+            a(href='/logout') Logout
+        ul.nav.navbar-nav
+          li
+            a(href='#/dashboard') My surveys
+
+  .container
+    .row
+      .col-sm-8
+        div(ng-view, ng-init='user= #{JSON.stringify(user)}')
+
+block append scripts
+  script(src='javascripts/controllers/surveyControllers.js')
+  script(src='javascripts/services/surveyServices.js')
+  script(src='javascripts/directives/surveyList.js')
+  //script(src='javascripts/directives/surveyDetails.js')
+  //script(src='javascripts/directives/questionDetails.js')
+  script(src='javascripts/app.js')
+  script(src='javascripts/tooltip.js')

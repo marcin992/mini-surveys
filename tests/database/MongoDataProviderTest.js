@@ -3,7 +3,7 @@
  */
 
 var expect = require('expect.js');
-var MongoDataProvider = require('../../database/MongoDataProvider');
+var MongoDataProvider = require('../../database/MongoSurveyProvider');
 var mongodb = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectID;
 var _ = require('lodash-node');
@@ -100,91 +100,6 @@ describe('MongoDataProvider tests', function () {
     });
   });
 
-  it('Should insert a new survey into database and return it', function (done) {
-    var dummySurvey = {
-      "userId": ObjectId('444444444444444444444444'),
-      "title": "aaa",
-      "questions": [
-        {
-          "type": "oneChoice",
-          "body": "aaa",
-          "possibleAnswers": [
-            "aaa", "bbb", "ccc"
-          ]
-        }
-      ]
-    };
-
-    dataProvider.addSurvey(dummySurvey, function (err, survey) {
-      expect(err).not.to.be.ok();
-      expect(survey).to.be.ok();
-
-      survey = survey.toObject();
-
-      //removeDbKeys(survey);
-
-      dataProvider.getSurveyById(survey._id, function (err, doc) {
-        expect(err).not.to.be.ok();
-        expect(doc).to.be.ok();
-        doc = doc.toObject();
-        removeDbKeys(doc);
-        expect(doc).to.eql(dummySurvey);
-        done();
-      });
-    });
-  });
-
-  it('Should update survey with given id', function (done) {
-    var changedSurvey = {
-      "userId": ObjectId('444444444444444444444444'),
-      "title": "changedTitle",
-      "questions": [
-        {
-          "type": "multiChoice",
-          "body": "qqq",
-          "possibleAnswers": [
-            "aaa", "bbb", "ccc"
-          ]
-        }
-      ]
-    };
-
-    dataProvider.updateSurvey(dummySurveyId, changedSurvey, function (err, survey) {
-      expect(err).not.to.be.ok();
-      expect(survey).to.be.ok();
-
-      survey = survey.toObject();
-
-      // Removing database keys
-      removeDbKeys(survey);
-
-      expect(survey).to.eql(changedSurvey);
-
-      dataProvider.getSurveyById(dummySurveyId, function (err, survey) {
-        expect(err).not.to.be.ok();
-        expect(survey).to.be.ok();
-        survey = survey.toObject();
-        removeDbKeys(survey);
-        expect(survey).to.eql(changedSurvey);
-        done();
-      });
-    });
-  });
-
-  it('should delete survey with given id', function (done) {
-    dataProvider.deleteSurvey(dummySurveyId, function (err, survey) {
-      expect(err).not.to.be.ok();
-      expect(survey).to.be.ok();
-
-      dataProvider.getSurveyById(dummySurveyId, function (err, survey) {
-        expect(err).not.to.be.ok();
-        expect(survey).not.to.be.ok();
-
-        done();
-      });
-    });
-  });
-
   it('should get survey by specific filter', function (done) {
     var filter = {
       userId: dummyUserId,
@@ -195,7 +110,7 @@ describe('MongoDataProvider tests', function () {
       }
     };
 
-    dataProvider.getSurvey(filter, function (err, surveys) {
+    dataProvider.getSurveys(filter, function (err, surveys) {
       expect(err).not.to.be.ok();
       expect(surveys).to.be.ok();
       expect(surveys).to.have.length(2);
@@ -205,6 +120,35 @@ describe('MongoDataProvider tests', function () {
       expect(surveys).to.eql([MOCK_CONTENT[0], MOCK_CONTENT[2]]);
 
       done();
-    })
+    });
+  });
+
+  it('should return only given keys', function(done) {
+    var filter = {
+      userId: dummyUserId,
+      title: {
+        "$in": [
+          "aaa", "ccc"
+        ]
+      }
+    };
+
+    dataProvider.getSurveys(filter, 'title', function (err, surveys) {
+      expect(err).not.to.be.ok();
+      expect(surveys).to.be.ok();
+      expect(surveys).to.have.length(2);
+
+      surveys[0] = surveys[0].toObject();
+      surveys[1] = surveys[1].toObject();
+
+      // Mongoose always return id, so length equals 2
+      expect(_.keys(surveys[0])).to.have.length(2);
+      expect(_.keys(surveys[1])).to.have.length(2);
+
+      expect(surveys[0].title).to.equal(MOCK_CONTENT[0].title);
+      expect(surveys[1].title).to.equal(MOCK_CONTENT[2].title);
+
+      done();
+    });
   })
 });
