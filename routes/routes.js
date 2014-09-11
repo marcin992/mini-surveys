@@ -23,7 +23,8 @@ module.exports = function(app, surveyProvider, passport) {
   var auth = require('./authRoutes')(passport);
 
   router.route('/api/surveys')
-    .get(hasAccess, surveys.getSurveys);
+    .get(hasAccess, surveys.getSurveys)
+    .post(hasAccess, surveys.addSurvey);
 
   router.route('/api/surveys/:surveyId')
     .get(hasAccess, surveys.getSurveyById);

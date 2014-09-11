@@ -11,7 +11,7 @@ module.exports = function(surveyProvider) {
       surveyProvider.getSurveys({
         userId: req.session.passport.user
       }, req.query.query, function(err, surveys) {
-        if(err) {
+        if (err) {
           MessageSender.sendDatabaseError(res, err);
         } else if (surveys.length === 0) {
           MessageSender.sendMessage(res, Message.NO_SURVEY.en);
@@ -23,14 +23,30 @@ module.exports = function(surveyProvider) {
 
     getSurveyById: function(req, res) {
       surveyProvider.getSurveyById(req.params.surveyId, function(err, survey) {
-        if(err) {
+        if (err) {
           MessageSender.sendDatabaseError(res, err);
         } else if (!survey) {
           MessageSender.sendMessage(res, Message.NO_SURVEY.en);
         } else {
           MessageSender.sendJsonObject(res, survey);
         }
-      })
+      });
+    },
+
+    addSurvey: function(req, res) {
+      var survey = {
+        "title": req.body.title,
+        "userId": req.session.passport.user,
+        "questions": []
+      };
+
+      surveyProvider.addSurvey(survey, function(err, survey) {
+        if(err) {
+          MessageSender.sendDatabaseError(res, err);
+        } else {
+          MessageSender.sendJsonObject(res, survey);
+        }
+      });
     }
-  }
-}
+  };
+};

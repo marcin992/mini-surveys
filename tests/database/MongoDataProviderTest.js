@@ -12,64 +12,54 @@ var dummySurveyId = '111111111111111111111111';
 
 var dummyUserId = ObjectId('222222222222222222222222');
 
-var MOCK_CONTENT = [
-  {
-    "_id": ObjectId(dummySurveyId),
-    "userId": dummyUserId,
-    "title": "aaa",
-    "questions": [
-      {
-        "type": "oneChoice",
-        "body": "aaa",
-        "possibleAnswers": [
-          "aaa", "bbb", "ccc"
-        ]
-      }
+var MOCK_CONTENT = [{
+  "_id": ObjectId(dummySurveyId),
+  "userId": dummyUserId,
+  "title": "aaa",
+  "questions": [{
+    "type": "oneChoice",
+    "body": "aaa",
+    "possibleAnswers": [
+      "aaa", "bbb", "ccc"
     ]
-  },
-  {
-    "userId": dummyUserId,
-    "title": "bbb",
-    "questions": [
-      {
-        "type": "oneChoice",
-        "body": "bbb",
-        "possibleAnswers": [
-          "aaa", "bbb", "ccc"
-        ]
-      }
+  }]
+}, {
+  "userId": dummyUserId,
+  "title": "bbb",
+  "questions": [{
+    "type": "oneChoice",
+    "body": "bbb",
+    "possibleAnswers": [
+      "aaa", "bbb", "ccc"
     ]
-  },
-  {
-    "userId": dummyUserId,
-    "title": "ccc",
-    "questions": [
-      {
-        "type": "oneChoice",
-        "body": "ccc",
-        "possibleAnswers": [
-          "aaa", "bbb", "ccc"
-        ]
-      }
+  }]
+}, {
+  "userId": dummyUserId,
+  "title": "ccc",
+  "questions": [{
+    "type": "oneChoice",
+    "body": "ccc",
+    "possibleAnswers": [
+      "aaa", "bbb", "ccc"
     ]
-  }
-];
+  }]
+}];
 
 
-var removeDbKeys = function (survey) {
+var removeDbKeys = function(survey) {
   delete(survey['_id']);
   delete(survey['__v']);
-  _.forEach(survey.questions, function (question) {
+  _.forEach(survey.questions, function(question) {
     delete(question['_id']);
   });
 };
 
 
-describe('MongoDataProvider tests', function () {
-  beforeEach(function (done) {
-    mongodb.connect('mongodb://localhost:27018/test', function (err, db) {
+describe('MongoDataProvider tests', function() {
+  beforeEach(function(done) {
+    mongodb.connect('mongodb://localhost:27018/test', function(err, db) {
       if (!err) {
-        db.collection('surveys').insert(MOCK_CONTENT, function (err, doc) {
+        db.collection('surveys').insert(MOCK_CONTENT, function(err, doc) {
           db.close();
           done();
         });
@@ -77,22 +67,22 @@ describe('MongoDataProvider tests', function () {
     });
   });
 
-  afterEach(function (done) {
-    mongodb.connect('mongodb://localhost:27018/test', function (err, db) {
+  afterEach(function(done) {
+    mongodb.connect('mongodb://localhost:27018/test', function(err, db) {
       if (!err) {
-        db.collection('surveys').remove({}, function (err) {
+        db.collection('surveys').remove({}, function(err) {
           if (!err) {
             done();
           }
-        })
+        });
       }
     });
   });
 
   var dataProvider = new MongoDataProvider('test');
 
-  it('Should return survey with given id', function (done) {
-    dataProvider.getSurveyById(MOCK_CONTENT[0]._id, function (err, survey) {
+  it('Should return survey with given id', function(done) {
+    dataProvider.getSurveyById(MOCK_CONTENT[0]._id, function(err, survey) {
       expect(err).not.to.be.ok();
       expect(survey).to.be.ok();
       expect(survey.toObject()).to.eql(MOCK_CONTENT[0]);
@@ -100,7 +90,7 @@ describe('MongoDataProvider tests', function () {
     });
   });
 
-  it('should get survey by specific filter', function (done) {
+  it('should get survey by specific filter', function(done) {
     var filter = {
       userId: dummyUserId,
       title: {
@@ -110,7 +100,7 @@ describe('MongoDataProvider tests', function () {
       }
     };
 
-    dataProvider.getSurveys(filter, function (err, surveys) {
+    dataProvider.getSurveys(filter, function(err, surveys) {
       expect(err).not.to.be.ok();
       expect(surveys).to.be.ok();
       expect(surveys).to.have.length(2);
@@ -133,7 +123,7 @@ describe('MongoDataProvider tests', function () {
       }
     };
 
-    dataProvider.getSurveys(filter, 'title', function (err, surveys) {
+    dataProvider.getSurveys(filter, 'title', function(err, surveys) {
       expect(err).not.to.be.ok();
       expect(surveys).to.be.ok();
       expect(surveys).to.have.length(2);
@@ -150,5 +140,37 @@ describe('MongoDataProvider tests', function () {
 
       done();
     });
-  })
+  });
+
+  it('should add new survey', function(done) {
+    var newSurvey = {
+      "userId": dummyUserId,
+      "title": "ccc",
+      "questions": [{
+        "type": "oneChoice",
+        "body": "ccc",
+        "possibleAnswers": [
+          "aaa", "bbb", "ccc"
+        ]
+      }]
+    };
+
+    dataProvider.addSurvey(newSurvey, function(err, survey) {
+      expect(err).not.to.be.ok();
+      expect(survey).to.be.ok();
+
+      // Check if it is really added to db
+      var id = survey._id;
+      dataProvider.getSurveyById(id, function(err, survey) {
+        expect(err).not.to.be.ok();
+        expect(survey).to.be.ok();
+
+        // Before comparing we must delete keys added by mongoose
+        survey = survey.toObject();
+        removeDbKeys(survey);
+        expect(survey).to.eql(newSurvey);
+        done();
+      });
+    });
+  });
 });

@@ -34,6 +34,11 @@ MongoSurveyProvider.prototype = {
 
   getSurveys: function (filter, query, doneCallback) {
     Survey.find(filter, query, doneCallback);
+  },
+
+  addSurvey: function (newSurvey, doneCallback) {
+    var survey = new Survey(newSurvey);
+    survey.save(doneCallback);
   }
 };
 
