@@ -70,7 +70,7 @@ Application.prototype = {
   start: function () {
     var config = require('./config/ssl');
     var server = https.createServer(config, this.app);
-    server.listen(8080);
+    server.listen(this.app.get('port'));
     // var server = this.app.listen(this.app.get('port'), function () {
     //   console.log('Magic happens on port ' + server.address().port);
     // });
