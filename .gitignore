@@ -3,4 +3,5 @@ config/
 .*
 !/.gitignore
 public/lib/
+public/images/
 .idea/

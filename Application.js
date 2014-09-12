@@ -11,6 +11,8 @@ var bodyParser = require('body-parser');
 var flash = require('connect-flash');
 var session = require('express-session');
 var passport = require('passport');
+var https = require('https');
+var fs = require('fs');
 
 var MongoSurveyProvider = require('./database/MongoSurveyProvider');
 
@@ -66,9 +68,12 @@ Application.prototype = {
   },
 
   start: function () {
-    var server = this.app.listen(this.app.get('port'), function () {
-      console.log('Magic happens on port ' + server.address().port);
-    });
+    var config = require('./config/ssl');
+    var server = https.createServer(config, this.app);
+    server.listen(8080);
+    // var server = this.app.listen(this.app.get('port'), function () {
+    //   console.log('Magic happens on port ' + server.address().port);
+    // });
   }
 };
 
