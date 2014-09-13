@@ -10,3 +10,27 @@
         input.form-control(type='text', ng-model='search.title', placeholder='Search...')
 
   survey-list(surveys='surveys', filter='search')
+  button.btn.btn-default(type='button', data-toggle='modal', data-target='#newSurveyModal')
+    span.glyphicon.glyphicon-plus
+    |  Create survey...
+
+  .modal.fade(id='newSurveyModal', tabindex='-1', role='dialog', aria-hidden='true')
+    .modal-dialog
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal')
+            span(aria-hidden='true') &times;
+            span.sr-only Close
+          h4.modal-title Create new survey
+        form(ng-submit='createSurvey()')
+          .modal-body
+            .form-group
+              label Title
+              input.form-control(type='text', ng-model='newSurvey.title', placeholder='Enter title...')
+
+              label Description
+              textarea.form-control(ng-model='newSurvey.description', placeholder='Enter description...')
+
+          .modal-footer
+            button.btn.btn-default(type='button', data-dismiss='modal') Cancel
+            button.btn.btn-primary(type='submit') Create

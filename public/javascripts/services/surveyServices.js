@@ -20,6 +20,17 @@ surveyServices.factory('Surveys', ['$http', function($http) {
         url: '/api/surveys/' + surveyId,
         cache: true
       }).success(callback);
+    },
+
+    addSurvey: function(title, description, callback) {
+      $http({
+        method: 'POST',
+        url: '/api/surveys',
+        data: {
+          "title": title,
+          "description": description
+        }
+      }).success(callback);
     }
   }
 }]);

@@ -8,6 +8,17 @@ surveyControllers.controller('SurveyListController', ['$scope', 'Surveys', funct
   Surveys.list(function(surveys) {
     $scope.surveys = surveys.data;
   });
+
+  $scope.newSurvey = {
+    title: '',
+    description: ''
+  };
+
+  $scope.createSurvey = function() {
+    Surveys.addSurvey($scope.newSurvey.title, $scope.newSurvey.description, function(survey) {
+      $scope.surveys.push(survey);
+    });
+  }
 }]);
 
 surveyControllers.controller('SurveyDetailsController', [
