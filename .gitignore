@@ -1,8 +1,8 @@
 node_modules/
 config/database.js
 config/ssl.js
-.*
-.idea/workspace.xml
 !/.gitignore
 public/lib/
 public/images/
+/.idea/
+/.idea/workspace.xml
