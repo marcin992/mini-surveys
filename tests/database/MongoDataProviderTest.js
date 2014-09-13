@@ -18,7 +18,7 @@ var MOCK_CONTENT = [{
     "title": "aaa",
     "description": "aaa",
     "status": "draft",
-    "answerCount",
+    "answerCount": 0,
     "link": ""
   },
   "_id": ObjectId(dummySurveyId),
@@ -30,8 +30,14 @@ var MOCK_CONTENT = [{
     ]
   }]
 }, {
-  "userId": dummyUserId,
-  "title": "bbb",
+  "metadata": {
+    "userId": dummyUserId,
+    "title": "bbb",
+    "description": "bbb",
+    "status": "inProgress",
+    "answerCount": 134,
+    "link": "sratatata"
+  },
   "questions": [{
     "type": "oneChoice",
     "body": "bbb",
@@ -40,8 +46,14 @@ var MOCK_CONTENT = [{
     ]
   }]
 }, {
-  "userId": dummyUserId,
-  "title": "ccc",
+  "metadata": {
+    "userId": dummyUserId,
+    "title": "ccc",
+    "description": "ccc",
+    "status": "finished",
+    "answerCount": 1009,
+    "link": "dupadupa"
+  },
   "questions": [{
     "type": "oneChoice",
     "body": "ccc",
@@ -98,8 +110,8 @@ describe('MongoDataProvider tests', function() {
 
   it('should get survey by specific filter', function(done) {
     var filter = {
-      userId: dummyUserId,
-      title: {
+      "metadata.userId": dummyUserId,
+      "metadata.title": {
         "$in": [
           "aaa", "ccc"
         ]
@@ -121,15 +133,15 @@ describe('MongoDataProvider tests', function() {
 
   it('should return only given keys', function(done) {
     var filter = {
-      userId: dummyUserId,
-      title: {
+      "metadata.userId": dummyUserId,
+      "metadata.title": {
         "$in": [
           "aaa", "ccc"
         ]
       }
     };
 
-    dataProvider.getSurveys(filter, 'title', function(err, surveys) {
+    dataProvider.getSurveys(filter, 'metadata.title', function(err, surveys) {
       expect(err).not.to.be.ok();
       expect(surveys).to.be.ok();
       expect(surveys).to.have.length(2);
@@ -152,10 +164,12 @@ describe('MongoDataProvider tests', function() {
     var newSurvey = {
       "metadata": {
         "userId": dummyUserId,
-        "title": "ccc",
+        "title": "ddd",
+        "description": "ddd",
+        "status": "draft",
+        "answerCount": 0,
+        "link": ""
       },
-      "userId": dummyUserId,
-      "title": "ccc",
       "questions": [{
         "type": "oneChoice",
         "body": "ccc",
