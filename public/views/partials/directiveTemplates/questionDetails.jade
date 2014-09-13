@@ -1,7 +1,8 @@
 //
    Created by Marcin on 2014-09-04.
 
-h4 {{ question.body }}
+.my-panel
+  h4 {{ question.body }}
 
-ul.list-group
-  li.list-group-item(ng-repeat='answer in question.possibleAnswers') {{ answer }}
+  ul.list-group
+    li.list-group-item(ng-repeat='answer in question.possibleAnswers') {{ answer }}

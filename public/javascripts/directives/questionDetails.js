@@ -10,6 +10,17 @@ surveyDirectives.directive('questionDetails', function() {
     scope: {
       'question': '='
     },
-    templateUrl: '/partials/directiveTemplates/questionDetails'
-  }
+    templateUrl: '/partials/directiveTemplates/questionDetails',
+
+    link: function(scope, element, attrs) {
+      element.bind('mouseenter', function() {
+        element.children(1).addClass('my-panel-active');
+        console.log('enter');
+      });
+      element.bind('mouseleave', function() {
+        element.children(1).removeClass('my-panel-active');
+        console.log('leave');
+      });
+    }
+  };
 });

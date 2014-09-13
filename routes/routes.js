@@ -5,6 +5,7 @@
 var express = require('express');
 var router = express.Router();
 var MessageSender = require('../utils/MessageSender');
+var Message = require('../utils/Messages');
 
 module.exports = function(app, surveyProvider, passport) {
   function isLoggedIn(req, res, next) {
@@ -16,7 +17,7 @@ module.exports = function(app, surveyProvider, passport) {
   function hasAccess(req, res, next) {
     if(req.isAuthenticated())
       return next();
-    MessageSender.sendMessage(res, 'You have no access');
+    MessageSender.sendMessage(res, Message.NO_ACCESS.en);
   }
 
   var surveys = require('./surveyRoutes')(surveyProvider);

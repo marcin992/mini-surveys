@@ -4,7 +4,7 @@
 extends layout
 
 block content
-  nav.navbar.navbar-inverse.navbar-fixed-top
+  nav.navbar.navbar-default.navbar-fixed-top.navbar-shadow
     .container
       .navbar-header
         button.navbar-toggle(type='button', data-toggle='collapse', data-target='.collapse.navbar-collapse')
@@ -12,9 +12,7 @@ block content
           span.icon-bar
           span.icon-bar
           span.icon-bar
-        a.navbar-brand.glyphicon.glyphicon-stats(href='#/profile')
-          span.glyphicon.glyphicon-stats
-          | Surveys
+        a.navbar-brand(href='#/profile') Surveys
       .collapse.navbar-collapse
         ul.nav.navbar-nav.navbar-right
           li
@@ -27,6 +25,15 @@ block content
     .row
       .col-sm-8
         div(ng-view, ng-init='user= #{JSON.stringify(user)}')
+      .col-sm-4
+        .my-panel(data-spy='affix')
+          h3 Menu
+          ul
+            a(href='#/') dasdas
+            br
+            a(href='#/') dasdas
+            br
+            a(href='#/') dasdas
 
 block append scripts
   script(src='javascripts/controllers/surveyControllers.js')

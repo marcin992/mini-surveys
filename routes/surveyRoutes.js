@@ -9,7 +9,7 @@ module.exports = function(surveyProvider) {
   return {
     getSurveys: function(req, res) {
       surveyProvider.getSurveys({
-        userId: req.session.passport.user
+        'metadata.userId': req.session.passport.user
       }, req.query.query, function(err, surveys) {
         if (err) {
           MessageSender.sendDatabaseError(res, err);
@@ -35,8 +35,14 @@ module.exports = function(surveyProvider) {
 
     addSurvey: function(req, res) {
       var survey = {
-        "title": req.body.title,
-        "userId": req.session.passport.user,
+        "metadata": {
+          "userId": req.session.passport.user,
+          "title": req.body.title,
+          "description": req.body.description,
+          "status": "draft",
+          "answerCount": 0,
+          "link": ""
+        },
         "questions": []
       };
 

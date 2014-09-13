@@ -10,10 +10,14 @@ var User = require('./models/User');
 var Message = require('../utils/Messages');
 
 var MongoSurveyProvider = function (environment) {
+  console.log(environment);
   this._init(environment);
+  this._initCollection();
 };
 
 MongoSurveyProvider.prototype = {
+  _connection: null,
+  _model: null,
   _config: require('../config/database'),
 
   _init: function (environment) {
@@ -25,20 +29,28 @@ MongoSurveyProvider.prototype = {
       }
     };
 
-    mongoose.connect(this._config.mongo.connectionString(environment), options);
+    this._connection = mongoose.createConnection(this._config.mongo.connectionString(environment), options);
+  },
+
+  _initCollection: function() {
+    this._model = this._connection.model('surveys', Survey);
   },
 
   getSurveyById: function (surveyId, query, doneCallback) {
-    Survey.findById(surveyId, query, doneCallback);
+    this._model.findById(surveyId, query, doneCallback);
   },
 
   getSurveys: function (filter, query, doneCallback) {
-    Survey.find(filter, query, doneCallback);
+    this._model.find(filter, query, doneCallback);
   },
 
   addSurvey: function (newSurvey, doneCallback) {
-    var survey = new Survey(newSurvey);
+    var survey = new this._model(newSurvey);
     survey.save(doneCallback);
+  },
+
+  removeAllSurveys: function(doneCallback) {
+    this._model.remove({}, doneCallback);
   }
 };
 

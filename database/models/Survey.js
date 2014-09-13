@@ -14,17 +14,20 @@ var questionSchema = mongoose.Schema({
 });
 
 var surveySchema = mongoose.Schema({
-  userId: mongoose.Schema.Types.ObjectId,
-  title: String,
+  metadata: {
+    userId: mongoose.Schema.Types.ObjectId,
+    title: String,
+    description: String,
+    status: {
+      type: String,
+      enum: ['draft', 'inProgress', 'finished']
+    },
+    answerCount: Number,
+    link: String
+  },
   questions: [questionSchema]
 });
 
-surveySchema.methods.addQuestion = function(newQuestion, done) {
-  this.questions.push(newQuestion);
-  this.questionCount += 1;
-  this.save(done);
-};
+//var Survey = mongoose.model('surveys', surveySchema);
 
-var Survey = mongoose.model('surveys', surveySchema);
-
-module.exports = Survey;
+module.exports = surveySchema;

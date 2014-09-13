@@ -13,9 +13,15 @@ var dummySurveyId = '111111111111111111111111';
 var dummyUserId = ObjectId('222222222222222222222222');
 
 var MOCK_CONTENT = [{
+  "metadata": {
+    "userId": dummyUserId,
+    "title": "aaa",
+    "description": "aaa",
+    "status": "draft",
+    "answerCount",
+    "link": ""
+  },
   "_id": ObjectId(dummySurveyId),
-  "userId": dummyUserId,
-  "title": "aaa",
   "questions": [{
     "type": "oneChoice",
     "body": "aaa",
@@ -144,6 +150,10 @@ describe('MongoDataProvider tests', function() {
 
   it('should add new survey', function(done) {
     var newSurvey = {
+      "metadata": {
+        "userId": dummyUserId,
+        "title": "ccc",
+      },
       "userId": dummyUserId,
       "title": "ccc",
       "questions": [{

@@ -15,6 +15,7 @@ var https = require('https');
 var fs = require('fs');
 
 var MongoSurveyProvider = require('./database/MongoSurveyProvider');
+var MongoUserProvider = require('./database/MongoUserProvider');
 
 var Application = function (serverPort) {
   this.port = serverPort;
@@ -28,6 +29,7 @@ Application.prototype = {
   app: null,
   server: null,
   surveyProvider: null,
+  userProvider: null,
 
   _init: function () {
     this.app = express();
@@ -58,7 +60,8 @@ Application.prototype = {
       next();
     });
 
-    require('./config/passport')(passport);
+    this.userProvider = new MongoUserProvider(this.app.get('env'));
+    require('./config/passport')(passport, this.userProvider);
 
     this.surveyProvider = new MongoSurveyProvider(this.app.get('env'));
   },
@@ -67,13 +70,14 @@ Application.prototype = {
     var routes = require('./routes/routes')(this.app, this.surveyProvider, passport);
   },
 
-  start: function () {
+  start: function (done) {
     var config = require('./config/ssl');
-    var server = https.createServer(config, this.app);
-    server.listen(this.app.get('port'));
-    // var server = this.app.listen(this.app.get('port'), function () {
-    //   console.log('Magic happens on port ' + server.address().port);
-    // });
+    this.server = https.createServer(config, this.app);
+    this.server.listen(this.app.get('port'), done);
+  },
+
+  stop: function(done) {
+    this.server.close(done);
   }
 };
 

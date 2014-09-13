@@ -61,5 +61,10 @@ module.exports = {
   WRONG_PASSWORD: {
     en: "Wrong password",
     pl: "Złe hasło"
+  },
+
+  NO_ACCESS: {
+    en: "You don't have access",
+    pl: "Brak dostępu"
   }
 };

@@ -23,7 +23,9 @@
     "bcrypt-nodejs": "*",
     "q": "*",
     "lodash-node": "*",
-    "mongodb": "^1.4.8"
+    "mongodb": "^1.4.8",
+    "superagent": "*",
+    "supertest": "*"
   },
   "devDependencies": {
     "grunt": "^0.4.5",

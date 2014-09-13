@@ -12,7 +12,7 @@ surveyDirectives.directive('surveyList', function() {
       'filter': '='
     },
     templateUrl: '/partials/directiveTemplates/surveyList'
-  }
+  };
 });
 
 surveyDirectives.directive('questionDetails', function() {
@@ -21,8 +21,19 @@ surveyDirectives.directive('questionDetails', function() {
     scope: {
       'question': '='
     },
-    templateUrl: '/partials/directiveTemplates/questionDetails'
-  }
+    templateUrl: '/partials/directiveTemplates/questionDetails',
+
+    link: function(scope, element, attrs) {
+      element.bind('mouseenter', function() {
+        element.children(0).addClass('my-panel-active');
+        console.log('enter');
+      });
+      element.bind('mouseleave', function() {
+        element.children(0).removeClass('my-panel-active');
+        console.log('leave');
+      });
+    }
+  };
 });
 
 surveyDirectives.directive('surveyDetails', function() {
@@ -32,5 +43,5 @@ surveyDirectives.directive('surveyDetails', function() {
       'survey': '='
     },
     templateUrl: '/partials/directiveTemplates/surveyDetails'
-  }
+  };
 });

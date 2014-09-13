@@ -9,7 +9,7 @@ surveyServices.factory('Surveys', ['$http', function($http) {
     list: function(callback) {
       $http({
         method: 'GET',
-        url: '/api/surveys?query=title questionCount',
+        url: '/api/surveys?query=metadata.title metadata.answerCount',
         cache: true
       }).success(callback);
     },
