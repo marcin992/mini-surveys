@@ -7,7 +7,7 @@
       .col-sm-6
         h3 My surveys
       .col-sm-6
-        input.form-control(type='text', ng-model='search.title', placeholder='Search...')
+        input.form-control(type='text', ng-model='search.metadata.title', placeholder='Search...')
 
   survey-list(surveys='surveys', filter='search')
   button.btn.btn-default(type='button', data-toggle='modal', data-target='#newSurveyModal')

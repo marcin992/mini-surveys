@@ -16,7 +16,7 @@ surveyControllers.controller('SurveyListController', ['$scope', 'Surveys', funct
 
   $scope.createSurvey = function() {
     Surveys.addSurvey($scope.newSurvey.title, $scope.newSurvey.description, function(survey) {
-      $scope.surveys.push(survey);
+      $scope.surveys.push(survey.data);
     });
   }
 }]);
