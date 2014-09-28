@@ -1,16 +1,21 @@
 body {
   padding: 70px 50px 50px 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-image: url('../images/background.jpg');
+  background-color: #dedede;
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
+  min-height: 100%;
 
   //background-color: #f8f8f8;
 }
 
+html {
+  height: 100%;
+}
+
 .navbar-shadow {
-  box-shadow: 0px 1px 2px #d6d6d6;
+  box-shadow: 0px 1px 4px #696969;
 }
 
 .my-panel-active {
@@ -24,7 +29,7 @@ body {
   border: solid 1px;
   border-color: #e7e7e7;
   margin-top: 20px;
-  box-shadow: 1px 1px 4px #E0E0E0;
+  box-shadow: 1px 1px 4px #696969;
 
   
 
@@ -40,7 +45,46 @@ body {
       table-layout: fixed;
       td {
         overflow: hidden;
+        width: 50%;
       }
     }
+  }
+}
+
+.sidebar {
+  @media screen {
+    @media (max-width: 768px) {
+      display: none;
+    }
+
+    margin-left: -65px;
+    margin-top: -20px;
+    position: fixed;
+    width: inherit;
+    height: 100vh;
+  }
+
+
+
+}
+
+.my-menu {
+  padding-left: 0;
+  margin-bottom: 20px;
+
+  .menu-item {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    margin-left: -31px;
+    margin-right: -31px;
+  }
+  a.menu-item {
+    color: #555;
+  }
+  a.menu-item:hover {
+    color: #fff;
+    text-decoration: none;
+    background-color: #2C3446;
   }
 }

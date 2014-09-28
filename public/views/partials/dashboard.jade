@@ -1,36 +1,49 @@
 //
    Created by Marcin on 2014-08-25.
 
-.my-panel
-  .my-panel-header
-    .row
-      .col-sm-6
-        h3 My surveys
-      .col-sm-6
-        input.form-control(type='text', ng-model='search.metadata.title', placeholder='Search...')
+.container-fluid
+  .row
+    .col-sm-2
+      .my-panel.sidebar
+        action-menu(items="contextMenu", action="dispatchMenuAction(index)")
+    .col-sm-7
+      .my-panel
+        .my-panel-header
+          .row
+            .col-sm-6
+              h3 My surveys
+            .col-sm-6
+              input.form-control(type='text', ng-model='filter.metadata.title', placeholder='Search...')
 
-  survey-list(surveys='surveys', filter='search')
-  button.btn.btn-default(type='button', data-toggle='modal', data-target='#newSurveyModal')
-    span.glyphicon.glyphicon-plus
-    |  Create survey...
+        survey-list
+        button.btn.btn-default(type='button', data-toggle='modal', data-target='#newSurveyModal')
+          span.glyphicon.glyphicon-plus
+          |  Create survey...
 
-  .modal.fade(id='newSurveyModal', tabindex='-1', role='dialog', aria-hidden='true')
-    .modal-dialog
-      .modal-content
-        .modal-header
-          button.close(type='button', data-dismiss='modal')
-            span(aria-hidden='true') &times;
-            span.sr-only Close
-          h4.modal-title Create new survey
-        form(ng-submit='createSurvey()')
-          .modal-body
-            .form-group
-              label Title
-              input.form-control(type='text', ng-model='newSurvey.title', placeholder='Enter title...')
+        .modal.fade(id='newSurveyModal', tabindex='-1', role='dialog', aria-hidden='true')
+          .modal-dialog
+            .modal-content
+              .modal-header
+                button.close(type='button', data-dismiss='modal')
+                  span(aria-hidden='true') &times;
+                  span.sr-only Close
+                h4.modal-title Create new survey
+              form(ng-submit='createSurvey()')
+                .modal-body
+                  .form-group
+                    label Title
+                    input.form-control(type='text', ng-model='newSurvey.title', placeholder='Enter title...')
 
-              label Description
-              textarea.form-control(ng-model='newSurvey.description', placeholder='Enter description...')
+                    label Description
+                    textarea.form-control(ng-model='newSurvey.description', placeholder='Enter description...')
 
-          .modal-footer
-            button.btn.btn-default(type='button', data-dismiss='modal') Cancel
-            button.btn.btn-primary(type='submit') Create
+                .modal-footer
+                  button.btn.btn-default(type='button', data-dismiss='modal') Cancel
+                  button.btn.btn-primary(type='submit') Create
+    .col-sm-3
+      .my-panel
+        ul.list-group
+          li.list-group-item {{ selectedSurvey.metadata.title }}
+          li.list-group-item {{ selectedSurvey.metadata.status }}
+          li.list-group-item {{ selectedSurvey.metadata.answerCount }}
+          li.list-group-item {{ selectedSurvey.metadata.description }}

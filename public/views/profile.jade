@@ -5,41 +5,33 @@ extends layout
 
 block content
   nav.navbar.navbar-default.navbar-fixed-top.navbar-shadow
-    .container
+    .container-fluid
       .navbar-header
         button.navbar-toggle(type='button', data-toggle='collapse', data-target='.collapse.navbar-collapse')
           span.sr-only Toggle navigation
           span.icon-bar
           span.icon-bar
           span.icon-bar
-        a.navbar-brand(href='#/profile') Surveys
+        a.navbar-brand(ui-sref='dashboard') Surveys
       .collapse.navbar-collapse
         ul.nav.navbar-nav.navbar-right
           li
             a(href='/logout') Logout
         ul.nav.navbar-nav
           li
-            a(href='#/dashboard') My surveys
+            a(ui-sref='dashboard') My surveys
 
-  .container
-    .row
-      .col-sm-8
-        div(ng-view, ng-init='user= #{JSON.stringify(user)}')
-      .col-sm-4
-        .my-panel(data-spy='affix')
-          h3 Menu
-          ul
-            a(href='#/') dasdas
-            br
-            a(href='#/') dasdas
-            br
-            a(href='#/') dasdas
+
+  div(ui-view, ng-init='user= #{JSON.stringify(user)}')
+
 
 block append scripts
-  script(src='javascripts/controllers/surveyControllers.js')
-  script(src='javascripts/services/surveyServices.js')
-  script(src='javascripts/directives/surveyList.js')
-  //script(src='javascripts/directives/surveyDetails.js')
-  //script(src='javascripts/directives/questionDetails.js')
+  script(src='javascripts/common/main.js')
+  script(src='javascripts/common/directives/actionMenu.js')
+  script(src='javascripts/surveys/main.js')
+  script(src='javascripts/surveys/services/Surveys.js')
+  script(src='javascripts/surveys/controllers/DashboardController.js')
+  script(src='javascripts/surveys/controllers/SurveyDetailsController.js')
+  script(src='javascripts/surveys/directives/surveyRow.js')
+  script(src='javascripts/surveys/directives/surveyList.js')
   script(src='javascripts/app.js')
-  script(src='javascripts/tooltip.js')

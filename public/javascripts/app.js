@@ -3,27 +3,25 @@
  */
 
 var app = angular.module('surveyApp', [
-  'ngRoute',
-  'surveyControllers',
-  'surveyServices',
-  'surveyDirectives'
+  'ui.router',
+  'surveys'
 ]);
 
-app.config(['$routeProvider', function ($routeProvider) {
-  $routeProvider
-    .when('/', {
-      controller: 'SurveyListController',
-      templateUrl: 'partials/profile'
-    })
-    .when('/dashboard', {
-      controller: 'SurveyListController',
-      templateUrl: 'partials/dashboard'
-    })
-    .when('/:surveyId', {
-      controller: 'SurveyDetailsController',
-      templateUrl: 'partials/details'
-    })
-    .otherwise({
-      redirectTo: '/'
-    });
-}]);
+app.config([
+  '$stateProvider',
+  '$urlRouterProvider',
+  function ($stateProvider, $urlRouterProvider) {
+    $urlRouterProvider.otherwise('/');
+
+    $stateProvider
+      .state('dashboard', {
+        url: '/',
+        templateUrl: 'partials/dashboard',
+        controller: 'DashboardController'
+      })
+      .state('surveyDetails', {
+        url: '/:surveyId',
+        templateUrl: 'partials/details',
+        controller: 'SurveyDetailsController'
+      });
+  }]);
