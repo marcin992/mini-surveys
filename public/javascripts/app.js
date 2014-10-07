@@ -19,6 +19,11 @@ app.config([
         templateUrl: 'partials/dashboard',
         controller: 'DashboardController'
       })
+      .state('newSurvey', {
+        url: '/newSurvey',
+        templateUrl: 'partials/addSurvey',
+        controller: 'NewSurveyController'
+      })
       .state('surveyDetails', {
         url: '/:surveyId',
         templateUrl: 'partials/details',
