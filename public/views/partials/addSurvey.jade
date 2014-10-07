@@ -1,0 +1,17 @@
+.container-fluid
+  .row
+    .col-sm-2
+      .my-panel.sidebar
+        action-menu(items="contextMenu", action="dispatchMenuAction(index)")
+    .col-sm-7
+      .my-panel
+        .my-panel-header
+          h3 New Survey
+        form(role="form")
+          .form-group
+            label(for="titleInput") Title
+            input.form-control(ng-model="title", type="text", id="titleInput", placeholder="Enter title...")
+          .form-group
+            label(for="descriptionInput") Description
+            textarea.form-control(ng-model="description", id="descriptionInput", placeholder="Enter descrition...")
+          button.btn.btn-success(ng-click="addSurvey()") Create survey!

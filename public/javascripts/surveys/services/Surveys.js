@@ -15,7 +15,7 @@ surveys.factory('Surveys', [
       list: function (callback) {
         $http({
           method: 'GET',
-          url: '/api/surveys?query=metadata.title metadata.answerCount',
+          url: '/api/surveys?query=metadata',
           cache: true
         }).success(callback);
       },
@@ -30,6 +30,17 @@ surveys.factory('Surveys', [
           method: 'GET',
           url: '/api/surveys/' + surveyId,
           cache: true
+        }).success(callback);
+      },
+
+      addSurvey: function(title, description, callback) {
+        $http({
+          method: 'POST',
+          url: '/api/surveys',
+          data: {
+            title: title,
+            description: description
+          }
         }).success(callback);
       }
     }

@@ -8,8 +8,8 @@ surveys.directive('surveyList', function() {
   return {
     restrict: 'E',
     scope: false,
-    template: '<table class="table table-hover table-bordered">' +
-                '<tr survey-row survey="survey" select-survey="selectSurvey(survey)" ng-repeat="survey in surveys | filter:filter">' +
+    template: '<table class="table">' +
+                '<tr ng-class="{selectedRow:survey.isSelected}" ng-click="selectSurvey(survey)" ng-mouseover="hoverSurvey(survey)" ng-mouseleave="hoverSurvey(null)" ng-repeat="survey in surveys | filter:filter">' +
                   '<td width="80%">' +
                     '<a ng-href="#/{{survey._id}}">{{survey.metadata.title}}</a>' +
                   '</td>' +

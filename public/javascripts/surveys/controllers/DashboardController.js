@@ -8,10 +8,29 @@ surveys.controller('DashboardController', [
   '$scope',
   'Surveys',
   function($scope, Surveys) {
-    $scope.surveys = [];
+    $scope.surveys = [{
+      isSelected: false
+    }];
+
+    $scope.contextMenu = [{
+      "text": "Add new survey...",
+      "function": $scope.addSurvey,
+      "href": "#/newSurvey"
+    }];
+
+    $scope.addSurvey = function() {
+      console.log('dashboard');
+    };
+
 
     Surveys.list(function(surveys) {
-      $scope.surveys = surveys.data;
+      $scope.surveys = _.map(surveys.data, function(survey) {
+        return _.extend(survey, {
+          isSelected: false
+        });
+      });
+
+
     });
 
     $scope.dispatchMenuAction = function(index) {
@@ -21,32 +40,44 @@ surveys.controller('DashboardController', [
       }
     };
 
+    $scope.hoverSurvey = function(survey) {
+      $scope.hoveredSurvey = survey;
+    };
+
     $scope.selectSurvey = function(survey) {
-      $scope.selectedSurvey = survey;
-      $scope.$digest();
+      var currentStatus = survey.isSelected;
+      _.forEach($scope.surveys, function(survey) {
+        survey.isSelected = false;
+      });
+      $scope.selectedSurvey = !currentStatus ? survey : null;
+      survey.isSelected = !currentStatus;
+
+      if($scope.selectedSurvey) {
+        $scope.contextMenu = [{
+          "text": "Delete survey",
+          "function": $scope.openModal,
+          "href": "#/"
+        }, {
+          "text": "Add new survey...",
+          "function": $scope.addSurvey,
+          "href": "#/newSurvey"
+        }];
+      } else {
+        $scope.contextMenu = [{
+          "text": "Add new survey...",
+          "function": $scope.addSurvey,
+          "href": "#/"
+        }];
+      }
+
     };
 
     $scope.selectedSurvey = {};
 
-    $scope.addSurvey = function() {
-      console.log("add Survey");
-    };
 
     $scope.deleteSurvey = function() {
       console.log('delete survey');
     };
 
-    $scope.contextMenu = [{
-      "text": "Add new survey...",
-      "function": $scope.addSurvey,
-      "href": "#/"
-    }, {
-      "text": "Delete survey",
-      "function": $scope.deleteSurvey,
-      "href": "#/"
-    }, {
-      "text": "Gdsfjsdfkj",
-      "href": "#/"
-    }];
   }
 ]);
