@@ -53,6 +53,16 @@ module.exports = function(surveyProvider) {
           MessageSender.sendJsonObject(res, survey);
         }
       });
+    },
+
+    deleteSurvey: function(req, res) {
+      surveyProvider.deleteSurvey(req.params.surveyId, function(err, survey) {
+        if(err) {
+          MessageSender.sendDatabaseError(res, err);
+        } else {
+          MessageSender.sendJsonObject(res, survey);
+        }
+      })
     }
   };
 };

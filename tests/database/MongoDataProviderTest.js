@@ -196,4 +196,17 @@ describe('MongoDataProvider tests', function() {
       });
     });
   });
+
+  it('should delete survey', function(done) {
+    dataProvider.deleteSurvey(dummySurveyId, function(err, survey) {
+      expect(err).not.to.be.ok();
+      expect(survey).to.be.ok();
+
+      dataProvider.getSurveyById(survey._id, function(err, survey) {
+        expect(err).not.to.be.ok();
+        expect(survey).not.to.be.ok();
+        done();
+      });
+    });
+  })
 });

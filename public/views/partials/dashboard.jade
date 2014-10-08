@@ -5,7 +5,14 @@
   .row
     .col-sm-2
       .my-panel.sidebar
-        action-menu(items="contextMenu", action="dispatchMenuAction(index)")
+        ul.my-menu
+          a.menu-item(ng-show="selectedSurvey", data-toggle="modal", data-target="#confirmationModal", href="#") Delete survey
+
+          a.menu-item(ui-sref="newSurvey") Add survey
+
+
+
+        //action-menu(items="contextMenu", action="dispatchMenuAction(index)")
     .col-sm-7
       .my-panel
         .my-panel-header
@@ -31,3 +38,17 @@
         p {{ hoveredSurvey.metadata.status || selectedSurvey.metadata.status || ""}}
         h3 Answer count
         p {{ hoveredSurvey.metadata.answerCount || selectedSurvey.metadata.answerCount || "" }}
+
+.modal.fade(id="confirmationModal", tabindex="-1", role="dialog", aria-hidden="true")
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close(type="button", data-dismiss="modal")
+          span(aria-hidden="true") &times;
+          span.sr-only Close
+        h4.modal-title Are you sure?
+      .modal-body
+        p Do you really want to hurt me??? Do U really want to make me cryyy...
+      .modal-footer
+        button.btn.btn-default(type="button", data-dismiss="modal") No
+        button.btn.btn-primary(type="button", data-dismiss="modal", ng-click="deleteSurvey()") Yes

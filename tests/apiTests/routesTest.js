@@ -165,6 +165,19 @@ describe('Routes tests', function() {
       });
   });
 
+  it('should delete survey', function(done) {
+    agent.del('https://localhost:7000/api/surveys/' + MOCK_SURVEYS[1]._id)
+      .end(function(err, res) {
+        expect(err).not.to.be.ok();
+        expect(res.body.data).to.be.ok();
 
+        agent.get('https://localhost:7000/api/surveys/' + MOCK_SURVEYS[1]._id)
+          .end(function(err, res) {
+            expect(err).not.to.be.ok();
+            expect(res.data).not.to.be.ok();
+            done();
+          });
+      });
+  });
 
 });

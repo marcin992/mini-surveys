@@ -16,7 +16,7 @@ surveys.factory('Surveys', [
         $http({
           method: 'GET',
           url: '/api/surveys?query=metadata',
-          cache: true
+          cache: false
         }).success(callback);
       },
 
@@ -41,6 +41,13 @@ surveys.factory('Surveys', [
             title: title,
             description: description
           }
+        }).success(callback);
+      },
+
+      deleteSurvey: function(surveyId, callback) {
+        $http({
+          method: 'DELETE',
+          url: '/api/surveys/' + surveyId
         }).success(callback);
       }
     }

@@ -52,31 +52,19 @@ surveys.controller('DashboardController', [
       $scope.selectedSurvey = !currentStatus ? survey : null;
       survey.isSelected = !currentStatus;
 
-      if($scope.selectedSurvey) {
-        $scope.contextMenu = [{
-          "text": "Delete survey",
-          "function": $scope.openModal,
-          "href": "#/"
-        }, {
-          "text": "Add new survey...",
-          "function": $scope.addSurvey,
-          "href": "#/newSurvey"
-        }];
-      } else {
-        $scope.contextMenu = [{
-          "text": "Add new survey...",
-          "function": $scope.addSurvey,
-          "href": "#/"
-        }];
-      }
+
 
     };
 
-    $scope.selectedSurvey = {};
+    $scope.selectedSurvey = null;
 
 
     $scope.deleteSurvey = function() {
-      console.log('delete survey');
+      Surveys.deleteSurvey($scope.selectedSurvey._id, function(result) {
+        _.remove($scope.surveys, function(survey) {
+          return survey._id === $scope.selectedSurvey._id;
+        });
+      });
     };
 
   }

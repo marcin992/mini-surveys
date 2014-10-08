@@ -14,7 +14,7 @@ surveys.directive('surveyList', function() {
                     '<a ng-href="#/{{survey._id}}">{{survey.metadata.title}}</a>' +
                   '</td>' +
                   '<td width="20%">' +
-                    '<label class="glyphicon glyphicon-arrow-left pull-right"></label>' +
+                    '<label class="glyphicon glyphicon-remove pull-right"></label>' +
                   '</td>' +
                 '</tr>' +
               '</table>'

@@ -51,6 +51,10 @@ MongoSurveyProvider.prototype = {
 
   removeAllSurveys: function(doneCallback) {
     this._model.remove({}, doneCallback);
+  },
+
+  deleteSurvey: function(surveyId, doneCallback) {
+    this._model.findByIdAndRemove(surveyId, doneCallback);
   }
 };
 
