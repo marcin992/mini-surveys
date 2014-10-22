@@ -33,6 +33,12 @@ surveys.factory('Surveys', [
         }).success(callback);
       },
 
+      /**
+       *
+       * @param {String} title
+       * @param {String} description
+       * @param {Function} callback
+       */
       addSurvey: function(title, description, callback) {
         $http({
           method: 'POST',
@@ -44,6 +50,11 @@ surveys.factory('Surveys', [
         }).success(callback);
       },
 
+      /**
+       *
+       * @param surveyId
+       * @param callback
+       */
       deleteSurvey: function(surveyId, callback) {
         $http({
           method: 'DELETE',

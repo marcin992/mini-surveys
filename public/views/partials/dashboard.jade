@@ -31,13 +31,13 @@
     .col-sm-3
       .my-panel
         h3 Title
-        p {{ hoveredSurvey.metadata.title || selectedSurvey.metadata.title || ""}}
+        p {{ surveys[hoveredSurvey].metadata.title || surveys[selectedSurvey].metadata.title || ""}}
         h3 Description
-        p {{ hoveredSurvey.metadata.description || selectedSurvey.metadata.description || "" }}
+        p {{ surveys[hoveredSurvey].metadata.description || surveys[selectedSurvey].metadata.description || "" }}
         h3 Status
-        p {{ hoveredSurvey.metadata.status || selectedSurvey.metadata.status || ""}}
+        p {{ surveys[hoveredSurvey].metadata.status || surveys[selectedSurvey].metadata.status || ""}}
         h3 Answer count
-        p {{ hoveredSurvey.metadata.answerCount || selectedSurvey.metadata.answerCount || "" }}
+        p {{ surveys[hoveredSurvey].metadata.answerCount || surveys[selectedSurvey].metadata.answerCount || "" }}
 
 .modal.fade(id="confirmationModal", tabindex="-1", role="dialog", aria-hidden="true")
   .modal-dialog
