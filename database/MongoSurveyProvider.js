@@ -1,7 +1,3 @@
-/**
- * Created by Marcin on 2014-08-23.
- */
-
 var mongoose = require('mongoose');
 
 var Survey = require('./models/Survey');

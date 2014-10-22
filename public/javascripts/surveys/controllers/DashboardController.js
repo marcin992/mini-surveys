@@ -8,64 +8,37 @@ surveys.controller('DashboardController', [
   '$scope',
   'Surveys',
   function($scope, Surveys) {
-    $scope.surveys = [{
-      isSelected: false
-    }];
+    _.extend($scope, {
+      surveys: [],
+      selectedSurvey: -1,
+      hoveredSurvey: -1,
 
-    $scope.contextMenu = [{
-      "text": "Add new survey...",
-      "function": $scope.addSurvey,
-      "href": "#/newSurvey"
-    }];
+      /**
+       *
+       */
+      deleteSurvey: function() {
+        Surveys.deleteSurvey($scope.surveys[$scope.selectedSurvey]._id, function(survey) {
+          _.remove($scope.surveys, function(survey) {
+            return survey._id === $scope.surveys[$scope.selectedSurvey]._id;
+          });
 
-    $scope.addSurvey = function() {
-      console.log('dashboard');
-    };
+          $scope.selectedSurvey = -1;
+        })
+      },
 
-
-    Surveys.list(function(surveys) {
-      $scope.surveys = _.map(surveys.data, function(survey) {
-        return _.extend(survey, {
-          isSelected: false
-        });
-      });
-
-
+      /**
+       *
+       * @param {Number} index
+       */
+      selectSurvey: function(index) {
+        $scope.selectedSurvey = ($scope.selectedSurvey === index) ? -1 : index;
+      }
     });
 
-    $scope.dispatchMenuAction = function(index) {
-      var fn = $scope.contextMenu[index];
-      if(fn.function) {
-        fn.function();
-      }
-    };
+    Surveys.list(function(result) {
+      $scope.surveys = result.data;
+    });
 
-    $scope.hoverSurvey = function(survey) {
-      $scope.hoveredSurvey = survey;
-    };
-
-    $scope.selectSurvey = function(survey) {
-      var currentStatus = survey.isSelected;
-      _.forEach($scope.surveys, function(survey) {
-        survey.isSelected = false;
-      });
-      $scope.selectedSurvey = !currentStatus ? survey : null;
-      survey.isSelected = !currentStatus;
-
-
-
-    };
-
-    $scope.selectedSurvey = null;
-
-
-    $scope.deleteSurvey = function() {
-      Surveys.deleteSurvey($scope.selectedSurvey._id, function(result) {
-        _.remove($scope.surveys, function(survey) {
-          return survey._id === $scope.selectedSurvey._id;
-        });
-      });
-    };
 
   }
 ]);

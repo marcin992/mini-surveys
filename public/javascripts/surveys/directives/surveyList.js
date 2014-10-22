@@ -8,13 +8,13 @@ surveys.directive('surveyList', function() {
   return {
     restrict: 'E',
     scope: false,
-    template: '<table class="table">' +
-                '<tr ng-class="{selectedRow:survey.isSelected}" ng-click="selectSurvey(survey)" ng-mouseover="hoverSurvey(survey)" ng-mouseleave="hoverSurvey(null)" ng-repeat="survey in surveys | filter:filter">' +
+    template: '<table class="table table-hover">' +
+                '<tr class="selectable-row" ng-class="{active:selectedSurvey == $index}" ng-click="selectSurvey($index)" ng-mouseover="hoveredSurvey = $index" ng-mouseleave="hoveredSurvey = -1" ng-repeat="survey in surveys | filter:filter">' +
                   '<td width="80%">' +
                     '<a ng-href="#/{{survey._id}}">{{survey.metadata.title}}</a>' +
                   '</td>' +
                   '<td width="20%">' +
-                    '<label class="glyphicon glyphicon-remove pull-right"></label>' +
+                    '<label ng-show="$index == hoveredSurvey || $index == selectedSurvey" class="glyphicon glyphicon-remove pull-right"></label>' +
                   '</td>' +
                 '</tr>' +
               '</table>'

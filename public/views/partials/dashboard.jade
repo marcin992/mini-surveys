@@ -6,7 +6,7 @@
     .col-sm-2
       .my-panel.sidebar
         ul.my-menu
-          a.menu-item(ng-show="selectedSurvey", data-toggle="modal", data-target="#confirmationModal", href="#") Delete survey
+          a.menu-item(ng-show="selectedSurvey !== -1", data-toggle="modal", data-target="#confirmationModal", href="#") Delete survey
 
           a.menu-item(ui-sref="newSurvey") Add survey
 
@@ -48,7 +48,7 @@
           span.sr-only Close
         h4.modal-title Are you sure?
       .modal-body
-        p Do you really want to hurt me??? Do U really want to make me cryyy...
+        p Do you really want to remove this survey? This operation is irreversible
       .modal-footer
         button.btn.btn-default(type="button", data-dismiss="modal") No
         button.btn.btn-primary(type="button", data-dismiss="modal", ng-click="deleteSurvey()") Yes
