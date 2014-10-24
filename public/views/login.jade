@@ -4,8 +4,8 @@
 extends layout
 
 block content
-  nav.navbar.navbar-default.navbar-fixed-top.navbar-shadow
-    .container
+  nav.navbar.navbar-default.navbar-fixed-top
+    .container-fluid
       .navbar-header
         button.navbar-toggle(type='button', data-toggle='collapse', data-target='.collapse.navbar-collapse')
           span.sr-only Toggle navigation
@@ -20,7 +20,7 @@ block content
           li
             a(href='/signup') Sign up
 
-  .container
+  .container-fluid
     .col-sm-4.col-sm-offset-4
       .my-panel
         .my-panel-header

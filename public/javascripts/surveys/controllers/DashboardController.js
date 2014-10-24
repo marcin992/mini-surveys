@@ -18,8 +18,9 @@ surveys.controller('DashboardController', [
        */
       deleteSurvey: function() {
         Surveys.deleteSurvey($scope.surveys[$scope.selectedSurvey]._id, function(survey) {
+          var id = $scope.surveys[$scope.selectedSurvey]._id;
           _.remove($scope.surveys, function(survey) {
-            return survey._id === $scope.surveys[$scope.selectedSurvey]._id;
+            return survey._id === id;
           });
 
           $scope.selectedSurvey = -1;
@@ -29,9 +30,18 @@ surveys.controller('DashboardController', [
       /**
        *
        * @param {Number} index
+       * @param {Boolean} forceSelect
        */
-      selectSurvey: function(index) {
-        $scope.selectedSurvey = ($scope.selectedSurvey === index) ? -1 : index;
+      selectSurvey: function(index, forceSelect) {
+        $scope.selectedSurvey = ($scope.selectedSurvey === index && !forceSelect) ? -1 : index;
+      },
+
+      /**
+       *
+       * @param {Number} index
+       */
+      hoverSurvey: function(index) {
+        $scope.hoveredSurvey = index;
       }
     });
 

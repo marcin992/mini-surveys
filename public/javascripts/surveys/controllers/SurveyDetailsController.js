@@ -9,7 +9,9 @@ surveys.controller('SurveyDetailsController', [
   '$stateParams',
   'Surveys',
   function($scope, $stateParams, Surveys) {
-    $scope.surveys = [];
+    _.extend($scope, {
+      survey: {}
+    });
 
     Surveys.getSurveyById($stateParams.surveyId, function(survey) {
       $scope.survey = survey.data;

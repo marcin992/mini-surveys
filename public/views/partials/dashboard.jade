@@ -4,40 +4,46 @@
 .container-fluid
   .row
     .col-sm-2
-      .my-panel.sidebar
-        ul.my-menu
-          a.menu-item(ng-show="selectedSurvey !== -1", data-toggle="modal", data-target="#confirmationModal", href="#") Delete survey
+      .panel.panel-default.sidebar
+        .panel-heading
+          h4 Actions
+        ul.list-group
+          a.list-group-item(ng-show="selectedSurvey !== -1", data-toggle="modal", data-target="#confirmationModal", href="#") Delete survey
 
-          a.menu-item(ui-sref="newSurvey") Add survey
+          a.list-group-item(ui-sref="newSurvey") Add survey
 
 
 
         //action-menu(items="contextMenu", action="dispatchMenuAction(index)")
     .col-sm-7
-      .my-panel
-        .my-panel-header
+      .panel.panel-primary
+        .panel-heading
           .row
             .col-sm-6
-              h3 My surveys
+              h4 My surveys
             .col-sm-6
               input.form-control(type='text', ng-model='filter.metadata.title', placeholder='Search...')
 
-        survey-list
-        a.btn.btn-default(type='button', ui-sref="newSurvey")
-          span.glyphicon.glyphicon-plus
-          |  Create survey...
+        .panel-body
+          survey-list
+          a.btn.btn-success(type='button', ui-sref="newSurvey")
+            span.glyphicon.glyphicon-plus
+            |  Create survey...
 
 
     .col-sm-3
-      .my-panel
-        h3 Title
-        p {{ surveys[hoveredSurvey].metadata.title || surveys[selectedSurvey].metadata.title || ""}}
-        h3 Description
-        p {{ surveys[hoveredSurvey].metadata.description || surveys[selectedSurvey].metadata.description || "" }}
-        h3 Status
-        p {{ surveys[hoveredSurvey].metadata.status || surveys[selectedSurvey].metadata.status || ""}}
-        h3 Answer count
-        p {{ surveys[hoveredSurvey].metadata.answerCount || surveys[selectedSurvey].metadata.answerCount || "" }}
+      .panel.panel-default
+        .panel-heading
+          h4 Preview
+        .panel-body
+          h4 Title
+          p {{ surveys[hoveredSurvey].metadata.title || surveys[selectedSurvey].metadata.title || ""}}
+          h4 Description
+          p {{ surveys[hoveredSurvey].metadata.description || surveys[selectedSurvey].metadata.description || "" }}
+          h4 Status
+          p {{ surveys[hoveredSurvey].metadata.status || surveys[selectedSurvey].metadata.status || ""}}
+          h4 Answer count
+          p {{ surveys[hoveredSurvey].metadata.answerCount.toString() || surveys[selectedSurvey].metadata.answerCount.toString() || "" }}
 
 .modal.fade(id="confirmationModal", tabindex="-1", role="dialog", aria-hidden="true")
   .modal-dialog

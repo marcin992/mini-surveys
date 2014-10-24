@@ -1,6 +1,4 @@
 node_modules/
-config/database.js
-config/ssl.js
 !/.gitignore
 public/lib/
 public/images/

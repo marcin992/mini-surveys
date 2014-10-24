@@ -9,20 +9,18 @@ surveys.controller('NewSurveyController', [
   '$state',
   'Surveys',
   function($scope, $state, Surveys) {
-    $scope.title = '';
-    $scope.description = '';
-    $scope.contextMenu = [{
-      "text": "Back",
-      "href": "#/"
-    }];
+    _.extend($scope, {
+      title: '',
+      description: '',
 
-    $scope.addSurvey = function() {
-      Surveys.addSurvey($scope.title, $scope.description, function(result) {
-        console.log(result.data);
-        $state.go('surveyDetails', {
-          surveyId: result.data._id
+      addSurvey: function() {
+        Surveys.addSurvey($scope.title, $scope.description, function(result) {
+          console.log(result.data);
+          $state.go('surveyDetails', {
+            surveyId: result.data._id
+          });
         });
-      });
-    }
+      }
+    });
   }
 ]);

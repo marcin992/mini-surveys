@@ -4,8 +4,8 @@
 extends layout
 
 block content
-  nav.navbar.navbar-default.navbar-fixed-top.navbar-shadow
-    .container
+  nav.navbar.navbar-default.navbar-fixed-top
+    .container-fluid
       .navbar-header
         button.navbar-toggle(type='button', data-toggle='collapse', data-target='.collapse.navbar-collapse')
           span.sr-only Toggle navigation
@@ -20,20 +20,23 @@ block content
           li
             a(href='/signup') Sign up
 
-  .container
+  .container-fluid
     .col-sm-4.col-sm-offset-4
-      .well.well-lg
-        h1 Signup
-        if message.length > 0
-          .alert.alert-danger
-            p #{message}
+      .panel.panel-primary
+        .panel-heading
+          h1 Signup
 
-        form(action="/signup", method="POST")
-          .form-group
-            label Email
-            input(type="text", class="form-control", name="email")
-          .form-group
-            label Password
-            input(type="password", class="form-control", name="password")
-          br
-          button(type="submit", class="btn btn-warning btn-lg") Sign up!
+        .panel-body
+          if message.length > 0
+            .alert.alert-danger
+              p #{message}
+
+          form(action="/signup", method="POST")
+            .form-group
+              label Email
+              input(type="text", class="form-control", name="email")
+            .form-group
+              label Password
+              input(type="password", class="form-control", name="password")
+            br
+            button(type="submit", class="btn btn-warning btn-lg") Sign up!
