@@ -71,7 +71,6 @@ Application.prototype = {
   },
 
   start: function (done) {
-    var config = require('./config/ssl');
     this.server = this.app.listen(this.app.get('port'), done);
   },
 
