@@ -72,8 +72,7 @@ Application.prototype = {
 
   start: function (done) {
     var config = require('./config/ssl');
-    this.server = https.createServer(config, this.app);
-    this.server.listen(this.app.get('port'), done);
+    this.server = this.app.listen(this.app.get('port'), done);
   },
 
   stop: function(done) {
