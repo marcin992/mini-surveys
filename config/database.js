@@ -5,11 +5,11 @@
 var config = {
   mongo: {
     development: {
-      host: "ds029960.mongolab.com",
-      port: 29960,
-      user: "admin",
-      password: "njtcmttcr",
-      databaseName: "pico-survey"
+      host: "127.0.0.1",
+      port: 27017,
+      user: "",
+      password: "",
+      databaseName: "surveyDb"
     },
     production: {
       host: 'ds029960.mongolab.com',
