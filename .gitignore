@@ -1,6 +1,5 @@
 node_modules/
 !/.gitignore
-public/lib/
 public/images/
 /.idea/
 /.idea/workspace.xml
