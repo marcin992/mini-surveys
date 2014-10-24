@@ -1,8 +1,21 @@
 //
    Created by Marcin on 2014-09-04.
+.container-fluid
+  .row
+    .col-sm-2
+      .panel.panel-default.sidebar
+        .panel-heading
+          h4 Actions
+        ul.list-group
+          a.list-group-item(ui-sref="dashboard") Back
 
-.my-panel
-  survey-details(survey='survey')
 
-div(ng-repeat='question in survey.questions')
-  question-details(question='question')
+
+        //action-menu(items="contextMenu", action="dispatchMenuAction(index)")
+    .col-sm-7
+      .panel.panel-primary
+        .panel-heading
+          h4 Survey details
+
+        .panel-body
+          survey-details(survey='survey')

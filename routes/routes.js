@@ -58,7 +58,8 @@ module.exports = function(app, surveyProvider, passport) {
   router.route('/profile')
     .get(isLoggedIn, function(req, res) {
       res.render('profile.jade', {
-        user: req.user
+        user: req.user,
+        title: 'Surveys'
       });
     });
 
