@@ -28,8 +28,7 @@ surveys.factory('Surveys', [
       getSurveyById: function (surveyId, callback) {
         $http({
           method: 'GET',
-          url: '/api/surveys/' + surveyId,
-          cache: true
+          url: '/api/surveys/' + surveyId
         }).success(callback);
       },
 
@@ -60,6 +59,22 @@ surveys.factory('Surveys', [
           method: 'DELETE',
           url: '/api/surveys/' + surveyId
         }).success(callback);
+      },
+
+      /**
+       *
+       * @param {String} surveyId
+       * @param {Object} updatingSurvey
+       * @returns {Promise}
+       */
+      updateSurvey: function(surveyId, updatingSurvey) {
+        return $http({
+          method: 'PUT',
+          url: '/api/surveys/' + surveyId,
+          data: {
+            survey: updatingSurvey
+          }
+        });
       }
     }
   }

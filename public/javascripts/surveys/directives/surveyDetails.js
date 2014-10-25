@@ -4,19 +4,18 @@ surveys.directive('surveyDetails', function() {
   return {
     restrict: 'E',
     scope: {
-      'survey': '.'
+      'survey': '=',
+      'updateSurvey': '&'
     },
-    template: '<table class="table table-hover table-bordered">' +
-                '<tr ng-class="{success:selectedSurvey == $index}" ng-mouseover="hoverSurvey($index)" ng-mouseleave="hoverSurvey(-1)" ng-repeat="survey in surveys | filter:filter">' +
-                  '<td ng-click="selectSurvey($index)" class="selectable-row" width="90%">' +
-                    '<a ng-href="#/{{survey._id}}">{{survey.metadata.title}}</a>' +
-                  '</td>' +
-                  '<td width="10%">' +
-                    '<a ng-click="selectSurvey($index, true)" href="#" data-toggle="modal" data-target="#confirmationModal" ng-show="$index == hoveredSurvey || $index == selectedSurvey">' +
-                    '<span class="glyphicon glyphicon-remove pull-right"></label>' +
-                  '</a>' +
-                  '</td>' +
-                '</tr>' +
-              '</table>'
+    template: '<dl class="dl-horizontal">' +
+                '<dt><h4>Title:</h4></dt>' +
+                '<dd>' +
+                  '<a href="#" editable-text="survey.metadata.title" onbeforesave="updateSurvey()"><h4>{{survey.metadata.title || ""}}</h4></a>' +
+                '</dd>' +
+                '<dt><h4>Description:</h4></dt>' +
+                '<dd>' +
+                  '<a href="#" editable-textarea="survey.metadata.description" onbeforesave="updateSurvey()"><h4><span class="line-breakable">{{survey.metadata.description || ""}}</span></h4></a>' +
+                '</dd>' +
+              '</dl>'
   };
 });

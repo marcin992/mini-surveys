@@ -1,10 +1,7 @@
-/**
- * Created by Marcin on 2014-08-25.
- */
-
 var app = angular.module('surveyApp', [
   'ui.router',
-  'surveys'
+  'surveys',
+  'xeditable'
 ]);
 
 app.config([
@@ -30,3 +27,7 @@ app.config([
         controller: 'SurveyDetailsController'
       });
   }]);
+
+app.run(function(editableOptions) {
+  editableOptions.theme = 'bs3';
+});

@@ -10,7 +10,14 @@ surveys.controller('SurveyDetailsController', [
   'Surveys',
   function($scope, $stateParams, Surveys) {
     _.extend($scope, {
-      survey: {}
+      survey: {},
+
+      updateSurvey: function(data) {
+        Surveys.updateSurvey($scope.survey._id, $scope.survey)
+          .then(function(survey) {
+            console.log(survey);
+          });
+      }
     });
 
     Surveys.getSurveyById($stateParams.surveyId, function(survey) {
