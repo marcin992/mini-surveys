@@ -3,6 +3,7 @@
 */
 
 var expect = require('expect.js');
+var Q = require('q');
 var MongoDataProvider = require('../../database/MongoSurveyProvider');
 var mongodb = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectID;
@@ -208,5 +209,64 @@ describe('MongoDataProvider tests', function() {
         done();
       });
     });
-  })
+  });
+
+  it('should update survey', function(done) {
+    var updatingSurvey = {
+      "metadata": {
+        "userId": dummyUserId,
+        "title": "bbb",
+        "description": "ccc",
+        "status": "inProgress",
+        "answerCount": 4,
+        "link": ""
+      },
+      "questions": [{
+        "type": "oneChoice",
+        "body": "aaa",
+        "possibleAnswers": [
+          "aaa", "bbb", "ccc"
+        ]
+      }]
+    };
+
+    dataProvider.updateSurvey(dummySurveyId, updatingSurvey)
+      .then(function(survey) {
+        survey = survey.toObject();
+        removeDbKeys(survey);
+        expect(survey).to.eql(updatingSurvey);
+        done();
+      });
+  });
+
+  it('shouldn\'update survey due to validation error', function(done) {
+    var updatingSurvey = {
+      "metadata": {
+        "userId": dummyUserId,
+        "title": "bbb",
+        "description": "ccc",
+        "status": "dupadupa",
+        "answerCount": 4,
+        "link": ""
+      },
+      "questions": [{
+        "type": "sratatata",
+        "body": "aaa",
+        "possibleAnswers": [
+          "aaa", "bbb", "ccc"
+        ]
+      }]
+    };
+
+    dataProvider.updateSurvey(dummySurveyId, updatingSurvey)
+      .then(function(doc) {
+        expect(doc._doc).not.to.be.ok();
+        done();
+      }, function(err) {
+        expect(err).to.be.ok();
+        expect(err.name).to.equal('ValidationError');
+        expect(err.message).to.equal('Validation failed');
+        done();
+      });
+  });
 });
