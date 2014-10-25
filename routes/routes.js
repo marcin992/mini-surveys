@@ -29,6 +29,7 @@ module.exports = function(app, surveyProvider, passport) {
 
   router.route('/api/surveys/:surveyId')
     .get(hasAccess, surveys.getSurveyById)
+    .put(hasAccess, surveys.updateSurvey)
     .delete(hasAccess, surveys.deleteSurvey);
 
   router.route('/')

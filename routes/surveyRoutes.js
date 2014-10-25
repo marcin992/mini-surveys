@@ -63,6 +63,15 @@ module.exports = function(surveyProvider) {
           MessageSender.sendJsonObject(res, survey);
         }
       })
+    },
+
+    updateSurvey: function(req, res) {
+      surveyProvider.updateSurvey(req.params.surveyId, req.body.survey)
+        .then(function(survey) {
+          MessageSender.sendJsonObject(res, survey);
+        }, function(err) {
+          MessageSender.sendDatabaseError(res, err);
+        });
     }
   };
 };

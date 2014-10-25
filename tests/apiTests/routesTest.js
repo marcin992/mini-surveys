@@ -59,7 +59,7 @@ describe('Routes tests', function() {
     application = new Application(TEST_PORT);
     application.start(function() {
       console.log('Test server starts on port ' + TEST_PORT);
-      agent.post('https://localhost:7000/login')
+      agent.post('http://localhost:7000/login')
         .send(credentials)
         .end(function(err, res) {
           done();
@@ -99,7 +99,7 @@ describe('Routes tests', function() {
   });
 
   it('should get user\'s surveys', function(done) {
-    agent.get('https://localhost:7000/api/surveys')
+    agent.get('http://localhost:7000/api/surveys')
       .end(function(err, res) {
         expect(err).not.to.be.ok();
         var expected = [];
@@ -115,7 +115,7 @@ describe('Routes tests', function() {
   });
 
   it('should get survey by given id', function(done) {
-    agent.get('https://localhost:7000/api/surveys/' + MOCK_SURVEYS[1]._id)
+    agent.get('http://localhost:7000/api/surveys/' + MOCK_SURVEYS[1]._id)
       .end(function(err, res) {
         expect(err).not.to.be.ok();
         expect(res.body.message).not.to.be.ok();
@@ -130,7 +130,7 @@ describe('Routes tests', function() {
   it('should add new survey and then return it', function(done) {
     var title = "Awesome survey";
     var description = "awesome";
-    agent.post('https://localhost:7000/api/surveys/')
+    agent.post('http://localhost:7000/api/surveys/')
       .send({
         "title": title,
         "description": description
@@ -154,7 +154,7 @@ describe('Routes tests', function() {
 
         // Check if it is really in db
 
-        agent.get('https://localhost:7000/api/surveys/' + result._id)
+        agent.get('http://localhost:7000/api/surveys/' + result._id)
           .end(function(err, res) {
             expect(err).not.to.be.ok();
             expect(res.body.message).not.to.be.ok();
@@ -166,17 +166,44 @@ describe('Routes tests', function() {
   });
 
   it('should delete survey', function(done) {
-    agent.del('https://localhost:7000/api/surveys/' + MOCK_SURVEYS[1]._id)
+    agent.del('http://localhost:7000/api/surveys/' + MOCK_SURVEYS[1]._id)
       .end(function(err, res) {
         expect(err).not.to.be.ok();
         expect(res.body.data).to.be.ok();
 
-        agent.get('https://localhost:7000/api/surveys/' + MOCK_SURVEYS[1]._id)
+        agent.get('http://localhost:7000/api/surveys/' + MOCK_SURVEYS[1]._id)
           .end(function(err, res) {
             expect(err).not.to.be.ok();
             expect(res.data).not.to.be.ok();
             done();
           });
+      });
+  });
+
+  it('should update survey', function(done) {
+    var updatingSurvey = {
+      "metadata": {
+        "userId": userId,
+        "title": "new title",
+        "description": "www",
+        "status": "inProgress",
+        "answerCount": 12,
+        "link": ""
+      },
+      "_id": dummySurveyId,
+      "questions": []
+    };
+
+    agent.put('http://localhost:7000/api/surveys/' + dummySurveyId)
+      .send({
+        survey: updatingSurvey
+      })
+      .end(function(err, res) {
+        expect(err).not.to.be.ok();
+        var result = res.body.data;
+        expect(result).to.be.ok();
+        expect(result).to.eql(updatingSurvey);
+        done();
       });
   });
 
