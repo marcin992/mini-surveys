@@ -23,7 +23,12 @@ app.config([
       })
       .state('surveyDetails', {
         url: '/:surveyId',
-        templateUrl: 'partials/details',
+        templateUrl: 'partials/surveyView',
+        abstract: true
+      })
+      .state('surveyDetails.edit', {
+        url: '',
+        templateUrl: 'partials/editSurvey',
         controller: 'SurveyDetailsController'
       });
   }]);

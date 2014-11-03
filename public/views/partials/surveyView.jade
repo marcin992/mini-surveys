@@ -7,15 +7,13 @@
         .panel-heading
           h4 Actions
         ul.list-group
-          a.list-group-item(ui-sref="dashboard") Back
-
+          a.list-group-item() Basic info
+          a.list-group-item(ui-sref=".edit", ui-sref-active="active") Edit description
+          a.list-group-item() Edit questions
+          a.list-group-item() Sharing
+          a.list-group-item() Analysis
 
 
         //action-menu(items="contextMenu", action="dispatchMenuAction(index)")
     .col-sm-7
-      .panel.panel-primary
-        .panel-heading
-          h4 Survey details
-
-        .panel-body
-          survey-details(survey='survey', update-survey="updateSurvey()")
+      div(ui-view="")

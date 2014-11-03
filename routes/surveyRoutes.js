@@ -62,7 +62,7 @@ module.exports = function(surveyProvider) {
         } else {
           MessageSender.sendJsonObject(res, survey);
         }
-      })
+      });
     },
 
     updateSurvey: function(req, res) {
