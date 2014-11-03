@@ -10,6 +10,22 @@ surveys.controller('SurveyDetailsController', [
   'Surveys',
   function($scope, $stateParams, Surveys) {
     _.extend($scope, {
+      selectedQuestion: -1,
+      sortableOptions: {
+        start: function(e, ui) {
+          ui.placeholder.height(50);
+          $scope.selectedQuestion = -1;
+        },
+        update: function(e, ui) {
+          console.log($scope.survey);
+          $scope.updateSurvey();
+        },
+        axis: 'y',
+        cursor: 'move',
+        delay: 200,
+        opacity: 0.7,
+        scroll: true
+      },
       survey: {},
 
       updateSurvey: function(data) {
@@ -17,6 +33,10 @@ surveys.controller('SurveyDetailsController', [
           .then(function(survey) {
             console.log(survey);
           });
+      },
+
+      selectQuestion: function(index) {
+        $scope.selectedQuestion = index;
       }
     });
 

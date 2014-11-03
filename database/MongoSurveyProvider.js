@@ -7,6 +7,11 @@ var Answer = require('./models/Answer');
 var User = require('./models/User');
 var Message = require('../utils/Messages');
 
+/**
+ *
+ * @param {String} environment
+ * @constructor
+ */
 var MongoSurveyProvider = function (environment) {
   console.log(environment);
   this._init(environment);

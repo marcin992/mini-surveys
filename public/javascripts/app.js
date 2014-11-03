@@ -1,7 +1,8 @@
 var app = angular.module('surveyApp', [
   'ui.router',
   'surveys',
-  'xeditable'
+  'xeditable',
+  'ui.sortable'
 ]);
 
 app.config([
@@ -29,6 +30,11 @@ app.config([
       .state('surveyDetails.edit', {
         url: '',
         templateUrl: 'partials/editSurvey',
+        controller: 'SurveyDetailsController'
+      })
+      .state('surveyDetails.editQuestions', {
+        url: '/questions',
+        templateUrl: 'partials/editQuestions',
         controller: 'SurveyDetailsController'
       });
   }]);
