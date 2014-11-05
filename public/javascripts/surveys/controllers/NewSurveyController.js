@@ -16,7 +16,7 @@ surveys.controller('NewSurveyController', [
       addSurvey: function() {
         Surveys.addSurvey($scope.title, $scope.description, function(result) {
           console.log(result.data);
-          $state.go('surveyDetails', {
+          $state.go('surveyDetails.edit', {
             surveyId: result.data._id
           });
         });

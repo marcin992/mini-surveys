@@ -16,10 +16,6 @@ surveys.controller('SurveyDetailsController', [
           ui.placeholder.height(50);
           $scope.selectedQuestion = -1;
         },
-        update: function(e, ui) {
-          console.log($scope.survey);
-          $scope.updateSurvey();
-        },
         axis: 'y',
         cursor: 'move',
         delay: 200,
@@ -37,6 +33,12 @@ surveys.controller('SurveyDetailsController', [
 
       selectQuestion: function(index) {
         $scope.selectedQuestion = index;
+      },
+
+      addQuestion: function() {
+        $scope.survey.questions.push({
+          body: "New question"
+        });
       }
     });
 
