@@ -87,7 +87,8 @@ MongoSurveyProvider.prototype = {
       } else if(!survey) {
         deferred.reject();
       } else {
-        survey = _.extend(survey, updatingSurvey);
+        survey.metadata = updatingSurvey.metadata;
+        survey.questions = updatingSurvey.questions;
         survey.save(function(err, survey) {
           if(err) {
             deferred.reject(err);

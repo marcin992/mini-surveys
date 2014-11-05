@@ -16,6 +16,9 @@ surveys.controller('SurveyDetailsController', [
           ui.placeholder.height(50);
           $scope.selectedQuestion = -1;
         },
+        update: function(e, ui) {
+          $scope.updateSurvey();
+        },
         axis: 'y',
         cursor: 'move',
         delay: 200,
