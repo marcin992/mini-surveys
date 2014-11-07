@@ -1,0 +1,13 @@
+dl.dl-horizontal
+   dt
+      h4 Title:
+   dd
+      a(href="#", editable-text="survey.metadata.title", onbeforesave="updateSurvey()")
+         h4 {{survey.metadata.title || ""}}
+
+   dt
+      h4 Description:
+   dd
+      a(href="#", editable-text="survey.metadata.description", onbeforesave="updateSurvey()")
+         h4
+            span.line-breakable {{ survey.metadata.description || "" }}

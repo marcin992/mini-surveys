@@ -71,9 +71,9 @@ module.exports = function(app, surveyProvider, passport) {
       });
     });
 
-  router.route('/partials/directiveTemplates/:filename')
+  router.route('/partials/directives/:filename')
     .get(isLoggedIn, function(req, res) {
-      res.render('partials/directiveTemplates/' + req.params.filename, {
+      res.render('partials/directives/' + req.params.filename, {
         user: req.user
       });
     });
