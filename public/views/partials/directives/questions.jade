@@ -1,0 +1,6 @@
+ul.list-group(ui-sortable="sortableOptions", ng-model="survey.questions")
+   li.list-group-item.selectable-row(ng-repeat="question in survey.questions", ng-click="selectQuestion($index)")
+      a(href="#", editable-text="question.body", onbeforesave="updateSurvey()")
+         h4 {{ question.body }}
+      div(ng-hide="selectedQuestion !== $index")
+         p dupadupa
