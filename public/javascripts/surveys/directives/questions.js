@@ -11,6 +11,7 @@ app.directive('questions', function() {
     controller: function($scope) {
       _.extend($scope, {
         selectedQuestion: -1,
+        types: ['oneChoice', 'multiChoice', 'text'],
         selectQuestion: function(index) {
           $scope.selectedQuestion = index;
         }

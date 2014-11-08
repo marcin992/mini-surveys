@@ -1,7 +1,7 @@
 table.table.table-hover
    tr(ng-repeat="survey in surveys | filter:filter", ng-class="{success:selectedSurvey === $index}",
    ng-mouseover="hoverSurvey($index)", ng-mouseleave="hoverSurvey(-1)")
-      td.selectable-row(ng-click="selectSurvey($index)", width="90%")
+      td.selectable(ng-click="selectSurvey($index)", width="90%")
          a(ng-href="#/{{survey._id}}") {{ survey.metadata.title }}
       td(width="10%")
          a(ng-click="selectSurvey($index, true)", href="#", data-toggle="modal", data-target="#confirmationModal",

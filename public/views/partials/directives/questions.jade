@@ -1,6 +1,11 @@
 ul.list-group(ui-sortable="sortableOptions", ng-model="survey.questions")
-   li.list-group-item.selectable-row(ng-repeat="question in survey.questions", ng-click="selectQuestion($index)")
+   li.list-group-item(ng-repeat="question in survey.questions", ng-click="selectQuestion($index)", ng-class="{selectable:selectedQuestion !== $index}")
       a(href="#", editable-text="question.body", onbeforesave="updateSurvey()")
          h4 {{ question.body }}
+      br
       div(ng-hide="selectedQuestion !== $index")
-         p dupadupa
+         dl.dl-horizontal
+            dt
+               p Question type
+            dd
+               select(ng-model="question.type", ng-options="type for type in types", ng-change="updateSurvey()")
