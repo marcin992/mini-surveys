@@ -7,15 +7,12 @@
         ul.list-group
           a.list-group-item(ui-sref="dashboard") Back
     .col-sm-7
-      .panel.panel-primary
-        .panel-heading
-          h4 New Survey
-        .panel-body
-          form(role="form")
-            .form-group
-              label(for="titleInput") Title
-              input.form-control(ng-model="title", type="text", id="titleInput", placeholder="Enter title...")
-            .form-group
-              label(for="descriptionInput") Description
-              textarea.form-control(ng-model="description", id="descriptionInput", placeholder="Enter descrition...")
-            button.btn.btn-success(ng-click="addSurvey()") Create survey!
+      h3 New Survey
+      form(role="form")
+        .form-group
+          label(for="titleInput") Title
+          input.form-control(ng-model="title", type="text", id="titleInput", placeholder="Enter title...")
+        .form-group
+          label(for="descriptionInput") Description
+          textarea.form-control(ng-model="description", id="descriptionInput", placeholder="Enter descrition...")
+        button.btn.btn-success(ng-click="addSurvey()") Create survey!

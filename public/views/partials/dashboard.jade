@@ -16,19 +16,16 @@
 
         //action-menu(items="contextMenu", action="dispatchMenuAction(index)")
     .col-sm-7
-      .panel.panel-primary
-        .panel-heading
-          .row
-            .col-sm-6
-              h4 My surveys
-            .col-sm-6
-              input.form-control(type='text', ng-model='filter.metadata.title', placeholder='Search...')
+      .row
+        .col-sm-6
+          h3 My surveys
+        .col-sm-6
+          input.form-control.filter-input(type='text', ng-model='filter.metadata.title', placeholder='Search...')
 
-        .panel-body
-          survey-list
-          a.btn.btn-success(type='button', ui-sref="newSurvey")
-            span.glyphicon.glyphicon-plus
-            |  Create survey...
+      survey-list
+      a.btn.btn-success(type='button', ui-sref="newSurvey")
+        span.glyphicon.glyphicon-plus
+        |  Create survey...
 
 
     .col-sm-3
