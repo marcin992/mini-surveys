@@ -11,9 +11,15 @@ app.directive('questions', function() {
     controller: function($scope) {
       _.extend($scope, {
         selectedQuestion: -1,
+        hoveredQuestion: -1,
         types: ['oneChoice', 'multiChoice', 'text'],
+
         selectQuestion: function(index) {
           $scope.selectedQuestion = index;
+        },
+
+        hoverQuestion: function(index) {
+          $scope.hoveredSurvey = index;
         }
       });
     },

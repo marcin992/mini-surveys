@@ -1,7 +1,9 @@
 ul.list-group(ui-sortable="sortableOptions", ng-model="survey.questions")
    li.list-group-item(ng-repeat="question in survey.questions", ng-click="selectQuestion($index)", ng-class="{selectable:selectedQuestion !== $index}")
-      a(href="#", editable-text="question.body", onbeforesave="updateSurvey()")
+      a(href="#", editable-text="question.body", onbeforesave="updateSurvey()", ng-mouseenter="hoverQuestion($index)",
+      ng-mouseleave="hoverQuestion(-1)")
          h4 {{ question.body }}
+            span.glyphicon.glyphicon-pencil(ng-show="hoveredSurvey === $index")
       br
       div(ng-hide="selectedQuestion !== $index")
          dl.dl-horizontal
