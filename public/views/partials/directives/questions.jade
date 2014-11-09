@@ -1,5 +1,6 @@
 ul.list-group(ui-sortable="sortableOptions", ng-model="survey.questions")
-   li.list-group-item(ng-repeat="question in survey.questions", ng-click="selectQuestion($index)", ng-class="{selectable:selectedQuestion !== $index}")
+   li.list-group-item(ng-repeat="question in survey.questions", ng-click="selectQuestion($index)",
+   ng-class="{selectable:selectedQuestion !== $index, 'selected-question':selectedQuestion === $index}")
       .row
          .col-sm-10
             a(href="#", editable-text="question.body", onbeforesave="updateSurvey()", ng-mouseenter="hoverQuestion($index)",
@@ -22,7 +23,7 @@ ul.list-group(ui-sortable="sortableOptions", ng-model="survey.questions")
                   p Possible answers
                dd
                   ul.list-group
-                     li.list-group-item(ng-repeat="answer in question.possibleAnswers")
+                     li.list-group-item(ng-repeat="answer in question.possibleAnswers track by $index")
                         .row
                            .col-sm-10
                               h5 {{ answer }}

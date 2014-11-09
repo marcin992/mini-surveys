@@ -4,7 +4,6 @@ app.directive('questions', function() {
   return {
     restrict: 'E',
     scope: {
-      sortableOptions: '=',
       survey: '=',
       updateSurvey: '&'
     },
@@ -13,6 +12,20 @@ app.directive('questions', function() {
         selectedQuestion: -1,
         hoveredQuestion: -1,
         types: ['oneChoice', 'multiChoice', 'text'],
+        sortableOptions: {
+          start: function(e, ui) {
+            ui.placeholder.height(50);
+            $scope.selectedQuestion = -1;
+          },
+          update: function(e, ui) {
+            $scope.updateSurvey();
+          },
+          axis: 'y',
+          cursor: 'move',
+          delay: 200,
+          opacity: 0.7,
+          scroll: true
+        },
 
         selectQuestion: function(index) {
           $scope.selectedQuestion = index;

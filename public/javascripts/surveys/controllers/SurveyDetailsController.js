@@ -11,20 +11,6 @@ surveys.controller('SurveyDetailsController', [
   function($scope, $stateParams, Surveys) {
     _.extend($scope, {
       selectedQuestion: -1,
-      sortableOptions: {
-        start: function(e, ui) {
-          ui.placeholder.height(50);
-          $scope.selectedQuestion = -1;
-        },
-        update: function(e, ui) {
-          $scope.updateSurvey();
-        },
-        axis: 'y',
-        cursor: 'move',
-        delay: 200,
-        opacity: 0.7,
-        scroll: true
-      },
       survey: {},
 
       updateSurvey: function(data) {
@@ -40,7 +26,9 @@ surveys.controller('SurveyDetailsController', [
 
       addQuestion: function() {
         $scope.survey.questions.push({
-          body: "New question"
+          body: "New question",
+          type: 'oneChoice',
+          possibleAnswers: []
         });
       }
     });
