@@ -26,7 +26,8 @@ ul.list-group(ui-sortable="sortableOptions", ng-model="survey.questions")
                      li.list-group-item(ng-repeat="answer in question.possibleAnswers track by $index")
                         .row
                            .col-sm-10
-                              h5 {{ answer }}
+                              a(href="#", editable-text="question.possibleAnswers[$index]", onbeforesave="updateSurvey()")
+                                 h5 {{ answer }}
                            .col-sm-2
                               a.selectable(ng-click="deleteAnswer($parent.$index, $index)")
                                  h5
