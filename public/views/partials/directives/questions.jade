@@ -9,7 +9,7 @@ ul.list-group(ui-sortable="sortableOptions", ng-model="survey.questions")
          .col-sm-2
             a.selectable(ng-click="deleteQuestion($index)")
                h4
-                  span.glyphicon.glyphicon-remove
+                  span.glyphicon.glyphicon-remove.pull-right
       br
       div(ng-hide="selectedQuestion !== $index")
          dl.dl-horizontal
@@ -17,3 +17,8 @@ ul.list-group(ui-sortable="sortableOptions", ng-model="survey.questions")
                p Question type
             dd
                select(ng-model="question.type", ng-options="type for type in types", ng-change="updateSurvey()")
+            dt(ng-hide="question.type === 'text' || question.type === 'boolean'")
+               p Possible answers
+            dd(ng-hide="question.type === 'text' || question.type === 'boolean'")
+               ul.list-group
+                  li.list-group-item(ng-repeat="answer in question.possibleAnswers") {{ answer }}
