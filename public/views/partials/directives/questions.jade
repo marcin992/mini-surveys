@@ -1,9 +1,15 @@
 ul.list-group(ui-sortable="sortableOptions", ng-model="survey.questions")
    li.list-group-item(ng-repeat="question in survey.questions", ng-click="selectQuestion($index)", ng-class="{selectable:selectedQuestion !== $index}")
-      a(href="#", editable-text="question.body", onbeforesave="updateSurvey()", ng-mouseenter="hoverQuestion($index)",
-      ng-mouseleave="hoverQuestion(-1)")
-         h4 {{ question.body }}
-            span.glyphicon.glyphicon-pencil(ng-show="hoveredSurvey === $index")
+      .row
+         .col-sm-10
+            a(href="#", editable-text="question.body", onbeforesave="updateSurvey()", ng-mouseenter="hoverQuestion($index)",
+            ng-mouseleave="hoverQuestion(-1)")
+               h4 {{ question.body }}
+                  span.glyphicon.glyphicon-pencil(ng-show="hoveredSurvey === $index")
+         .col-sm-2
+            a.selectable(ng-click="deleteQuestion($index)")
+               h4
+                  span.glyphicon.glyphicon-remove
       br
       div(ng-hide="selectedQuestion !== $index")
          dl.dl-horizontal

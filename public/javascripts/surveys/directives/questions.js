@@ -20,6 +20,11 @@ app.directive('questions', function() {
 
         hoverQuestion: function(index) {
           $scope.hoveredSurvey = index;
+        },
+
+        deleteQuestion: function(index) {
+          $scope.survey.questions.splice(index, 1);
+          $scope.updateSurvey();
         }
       });
     },
