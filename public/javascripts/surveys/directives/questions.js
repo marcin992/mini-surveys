@@ -25,6 +25,20 @@ app.directive('questions', function() {
         deleteQuestion: function(index) {
           $scope.survey.questions.splice(index, 1);
           $scope.updateSurvey();
+        },
+
+        addAnswer: function(questionIndex) {
+          var possibleAnswers = $scope.survey.questions[questionIndex].possibleAnswers;
+          possibleAnswers.push('Answer ' + possibleAnswers.length);
+
+          $scope.updateSurvey();
+        },
+
+        deleteAnswer: function(questionIndex, answerIndex) {
+          var possibleAnswers = $scope.survey.questions[questionIndex].possibleAnswers;
+          possibleAnswers.splice(answerIndex, 1);
+
+          $scope.updateSurvey();
         }
       });
     },
