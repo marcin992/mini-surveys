@@ -8,7 +8,7 @@ ul.list-group(ui-sortable="sortableOptions", ng-model="survey.questions")
                h4 {{ question.body }}
                   span.glyphicon.glyphicon-pencil(ng-show="hoveredSurvey === $index")
          .col-sm-2
-            a.selectable(ng-click="deleteQuestion($index)")
+            a.selectable(data-toggle="modal", data-target="#confirmationModal")
                h4
                   span.glyphicon.glyphicon-remove.pull-right
       br
@@ -26,11 +26,29 @@ ul.list-group(ui-sortable="sortableOptions", ng-model="survey.questions")
                      li.list-group-item(ng-repeat="answer in question.possibleAnswers track by $index")
                         .row
                            .col-sm-10
-                              a(href="#", editable-text="question.possibleAnswers[$index]", onbeforesave="updateSurvey()")
+                              a(href="#", editable-text="question.possibleAnswers[$index]", onbeforesave="updateSurvey()",
+                              ng-mouseenter="hoverAnswer($index)", ng-mouseleave="hoverAnswer(-1)")
                                  h5 {{ answer }}
+                                    span.glyphicon.glyphicon-pencil(ng-show="hoveredAnswer === $index")
                            .col-sm-2
                               a.selectable(ng-click="deleteAnswer($parent.$index, $index)")
                                  h5
                                     span.glyphicon.glyphicon-remove.pull-right
 
                   button.btn.btn-default(ng-click="addAnswer($index)") Add answer
+
+button.btn.btn-default(ng-click="addQuestion()") Add new question
+
+.modal.fade(id="confirmationModal", tabindex="-1", role="dialog", aria-hidden="true")
+   .modal-dialog
+      .modal-content
+         .modal-header
+            button.close(type="button", data-dismiss="modal")
+               span(aria-hidden="true") &times;
+               span.sr-only Close
+            h4.modal-title Are you sure?
+         .modal-body
+            p Do you really want to do it? This operation is irreversible
+         .modal-footer
+            button.btn.btn-default(type="button", data-dismiss="modal") No
+            button.btn.btn-primary(type="button", data-dismiss="modal", ng-click="deleteQuestion()") Yes

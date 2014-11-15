@@ -11,6 +11,7 @@ app.directive('questions', function() {
       _.extend($scope, {
         selectedQuestion: -1,
         hoveredQuestion: -1,
+        hoveredAnswer: -1,
         types: ['oneChoice', 'multiChoice', 'text'],
         sortableOptions: {
           start: function(e, ui) {
@@ -27,6 +28,16 @@ app.directive('questions', function() {
           scroll: true
         },
 
+        addQuestion: function() {
+          $scope.survey.questions.push({
+            body: "New question",
+            type: 'oneChoice',
+            possibleAnswers: []
+          });
+
+          questionForm.$show();
+        },
+
         selectQuestion: function(index) {
           $scope.selectedQuestion = index;
         },
@@ -35,8 +46,12 @@ app.directive('questions', function() {
           $scope.hoveredSurvey = index;
         },
 
-        deleteQuestion: function(index) {
-          $scope.survey.questions.splice(index, 1);
+        hoverAnswer: function(index) {
+          $scope.hoveredAnswer = index;
+        },
+
+        deleteQuestion: function() {
+          $scope.survey.questions.splice($scope.selectedQuestion, 1);
           $scope.updateSurvey();
         },
 
