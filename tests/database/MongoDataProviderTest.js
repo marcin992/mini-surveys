@@ -1,6 +1,6 @@
 /**
-* Created by Marcin on 2014-08-23.
-*/
+ * Created by Marcin on 2014-08-23.
+ */
 
 var expect = require('expect.js');
 var Q = require('q');
@@ -20,7 +20,7 @@ var MOCK_CONTENT = [{
     "description": "aaa",
     "status": "draft",
     "answerCount": 0,
-    "link": ""
+    "surveyCode": ""
   },
   "_id": ObjectId(dummySurveyId),
   "questions": [{
@@ -37,7 +37,7 @@ var MOCK_CONTENT = [{
     "description": "bbb",
     "status": "inProgress",
     "answerCount": 134,
-    "link": "sratatata"
+    "surveyCode": "sratatata"
   },
   "questions": [{
     "type": "oneChoice",
@@ -53,7 +53,7 @@ var MOCK_CONTENT = [{
     "description": "ccc",
     "status": "finished",
     "answerCount": 1009,
-    "link": "dupadupa"
+    "surveyCode": "dupadupa"
   },
   "questions": [{
     "type": "oneChoice",
@@ -64,20 +64,20 @@ var MOCK_CONTENT = [{
   }]
 }];
 
-var removeDbKeys = function(survey) {
+var removeDbKeys = function (survey) {
   delete(survey['_id']);
   delete(survey['__v']);
-  _.forEach(survey.questions, function(question) {
+  _.forEach(survey.questions, function (question) {
     delete(question['_id']);
   });
 };
 
 
-describe('MongoDataProvider tests', function() {
-  beforeEach(function(done) {
-    mongodb.connect('mongodb://localhost:27018/test', function(err, db) {
+describe('MongoDataProvider tests', function () {
+  beforeEach(function (done) {
+    mongodb.connect('mongodb://localhost:27018/test', function (err, db) {
       if (!err) {
-        db.collection('surveys').insert(MOCK_CONTENT, function(err, doc) {
+        db.collection('surveys').insert(MOCK_CONTENT, function (err, doc) {
           db.close();
           done();
         });
@@ -85,10 +85,10 @@ describe('MongoDataProvider tests', function() {
     });
   });
 
-  afterEach(function(done) {
-    mongodb.connect('mongodb://localhost:27018/test', function(err, db) {
+  afterEach(function (done) {
+    mongodb.connect('mongodb://localhost:27018/test', function (err, db) {
       if (!err) {
-        db.collection('surveys').remove({}, function(err) {
+        db.collection('surveys').remove({}, function (err) {
           if (!err) {
             done();
           }
@@ -99,8 +99,8 @@ describe('MongoDataProvider tests', function() {
 
   var dataProvider = new MongoDataProvider('test');
 
-  it('Should return survey with given id', function(done) {
-    dataProvider.getSurveyById(dummySurveyId, function(err, survey) {
+  it('Should return survey with given id', function (done) {
+    dataProvider.getSurveyById(dummySurveyId, function (err, survey) {
       expect(err).not.to.be.ok();
       expect(survey).to.be.ok();
       expect(survey.toObject()).to.eql(MOCK_CONTENT[0]);
@@ -108,7 +108,7 @@ describe('MongoDataProvider tests', function() {
     });
   });
 
-  it('should get survey by specific filter', function(done) {
+  it('should get survey by specific filter', function (done) {
     var filter = {
       "metadata.userId": dummyUserId,
       "metadata.title": {
@@ -118,7 +118,7 @@ describe('MongoDataProvider tests', function() {
       }
     };
 
-    dataProvider.getSurveys(filter, function(err, surveys) {
+    dataProvider.getSurveys(filter, function (err, surveys) {
       expect(err).not.to.be.ok();
       expect(surveys).to.be.ok();
       expect(surveys).to.have.length(2);
@@ -131,7 +131,7 @@ describe('MongoDataProvider tests', function() {
     });
   });
 
-  it('should return only given keys', function(done) {
+  it('should return only given keys', function (done) {
     var filter = {
       "metadata.userId": dummyUserId,
       "metadata.title": {
@@ -141,7 +141,7 @@ describe('MongoDataProvider tests', function() {
       }
     };
 
-    dataProvider.getSurveys(filter, 'metadata.title', function(err, surveys) {
+    dataProvider.getSurveys(filter, 'metadata.title', function (err, surveys) {
       expect(err).not.to.be.ok();
       expect(surveys).to.be.ok();
       expect(surveys).to.have.length(2);
@@ -160,7 +160,7 @@ describe('MongoDataProvider tests', function() {
     });
   });
 
-  it('should add new survey', function(done) {
+  it('should add new survey', function (done) {
     var newSurvey = {
       "metadata": {
         "userId": dummyUserId,
@@ -168,7 +168,7 @@ describe('MongoDataProvider tests', function() {
         "description": "ddd",
         "status": "draft",
         "answerCount": 0,
-        "link": ""
+        "surveyCode": "qwe"
       },
       "questions": [{
         "type": "oneChoice",
@@ -179,31 +179,52 @@ describe('MongoDataProvider tests', function() {
       }]
     };
 
-    dataProvider.addSurvey(newSurvey, function(err, survey) {
-      expect(err).not.to.be.ok();
-      expect(survey).to.be.ok();
-
-      // Check if it is really added to db
-      var id = survey._id;
-      dataProvider.getSurveyById(id, function(err, survey) {
-        expect(err).not.to.be.ok();
+    dataProvider.addSurvey(newSurvey)
+      .then(function (survey) {
         expect(survey).to.be.ok();
 
-        // Before comparing we must delete keys added by mongoose
-        survey = survey.toObject();
-        removeDbKeys(survey);
-        expect(survey).to.eql(newSurvey);
-        done();
+        // Check if it is really added to db
+        var id = survey._id;
+        dataProvider.getSurveyById(id, function (err, survey) {
+          expect(err).not.to.be.ok();
+          expect(survey).to.be.ok();
+
+          // Before comparing we must delete keys added by mongoose
+          survey = survey.toObject();
+          newSurvey.metadata.surveyCode = survey.metadata.surveyCode;
+          removeDbKeys(survey);
+          expect(survey).to.eql(newSurvey);
+          done();
+        });
+      }, function(err) {
+        expect(err).not.to.be.ok();
       });
-    });
+
+    //dataProvider.addSurvey(newSurvey, function (err, survey) {
+    //  expect(err).not.to.be.ok();
+    //  expect(survey).to.be.ok();
+    //
+    //  // Check if it is really added to db
+    //  var id = survey._id;
+    //  dataProvider.getSurveyById(id, function (err, survey) {
+    //    expect(err).not.to.be.ok();
+    //    expect(survey).to.be.ok();
+    //
+    //    // Before comparing we must delete keys added by mongoose
+    //    survey = survey.toObject();
+    //    removeDbKeys(survey);
+    //    expect(survey).to.eql(newSurvey);
+    //    done();
+    //  });
+    //});
   });
 
-  it('should delete survey', function(done) {
-    dataProvider.deleteSurvey(dummySurveyId, function(err, survey) {
+  it('should delete survey', function (done) {
+    dataProvider.deleteSurvey(dummySurveyId, function (err, survey) {
       expect(err).not.to.be.ok();
       expect(survey).to.be.ok();
 
-      dataProvider.getSurveyById(survey._id, function(err, survey) {
+      dataProvider.getSurveyById(survey._id, function (err, survey) {
         expect(err).not.to.be.ok();
         expect(survey).not.to.be.ok();
         done();
@@ -211,7 +232,7 @@ describe('MongoDataProvider tests', function() {
     });
   });
 
-  it('should update survey', function(done) {
+  it('should update survey', function (done) {
     var updatingSurvey = {
       "metadata": {
         "userId": dummyUserId,
@@ -219,7 +240,7 @@ describe('MongoDataProvider tests', function() {
         "description": "ccc",
         "status": "inProgress",
         "answerCount": 4,
-        "link": ""
+        "surveyCode": "asd"
       },
       "questions": [{
         "type": "oneChoice",
@@ -231,7 +252,7 @@ describe('MongoDataProvider tests', function() {
     };
 
     dataProvider.updateSurvey(dummySurveyId, updatingSurvey)
-      .then(function(survey) {
+      .then(function (survey) {
         survey = survey.toObject();
         removeDbKeys(survey);
         expect(survey).to.eql(updatingSurvey);
@@ -239,7 +260,7 @@ describe('MongoDataProvider tests', function() {
       });
   });
 
-  it('shouldn\'update survey due to validation error', function(done) {
+  it('shouldn\'update survey due to validation error', function (done) {
     var updatingSurvey = {
       "metadata": {
         "userId": dummyUserId,
@@ -259,14 +280,16 @@ describe('MongoDataProvider tests', function() {
     };
 
     dataProvider.updateSurvey(dummySurveyId, updatingSurvey)
-      .then(function(doc) {
+      .then(function (doc) {
         expect(doc._doc).not.to.be.ok();
         done();
-      }, function(err) {
+      }, function (err) {
         expect(err).to.be.ok();
         expect(err.name).to.equal('ValidationError');
         expect(err.message).to.equal('Validation failed');
         done();
       });
   });
+
+
 });

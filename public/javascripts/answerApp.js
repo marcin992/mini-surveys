@@ -1,6 +1,7 @@
 var app = angular.module('surveyApp', [
   'ui.router',
-  'surveys',
+  'common',
+  'answers',
   'xeditable',
   'ui.sortable'
 ]);

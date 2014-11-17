@@ -23,7 +23,10 @@ var surveySchema = mongoose.Schema({
       enum: ['draft', 'inProgress', 'finished']
     },
     answerCount: Number,
-    link: String
+    surveyCode: {
+      type: String,
+      unique: true
+    }
   },
   questions: [questionSchema]
 });

@@ -22,6 +22,7 @@ module.exports = function(app, surveyProvider, passport) {
 
   var surveys = require('./surveyRoutes')(surveyProvider);
   var auth = require('./authRoutes')(passport);
+  var respond = require('./respondentRoutes');
 
   router.route('/api/surveys')
     .get(hasAccess, surveys.getSurveys)
@@ -31,6 +32,9 @@ module.exports = function(app, surveyProvider, passport) {
     .get(hasAccess, surveys.getSurveyById)
     .put(hasAccess, surveys.updateSurvey)
     .delete(hasAccess, surveys.deleteSurvey);
+
+  router.route('/api/code/:surveyCode')
+    .get(surveys.getSurveyByCode);
 
   router.route('/')
     .get(function(req, res) {
@@ -63,6 +67,9 @@ module.exports = function(app, surveyProvider, passport) {
         title: 'Surveys'
       });
     });
+
+  router.route('/survey/:surveyCode')
+    .get(respond.surveyView);
 
   router.route('/partials/:filename')
     .get(isLoggedIn, function(req, res) {

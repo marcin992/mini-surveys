@@ -1,0 +1,13 @@
+extends layout
+block content
+  div(ng-init="surveyCode='#{surveyCode}'", ng-controller="RespondController")
+    ul.list-group
+      li.list-group-item(ng-repeat="question in survey.questions")
+        p {{ question.body }}
+
+block append scripts
+  script(src='/javascripts/common/main.js')
+  script(src='/javascripts/common/services/Surveys.js')
+  script(src='/javascripts/answers/main.js')
+  script(src='/javascripts/answers/controllers/RespondController.js')
+  script(src='/javascripts/answerApp.js')

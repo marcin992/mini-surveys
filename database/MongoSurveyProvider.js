@@ -7,6 +7,8 @@ var Answer = require('./models/Answer');
 var User = require('./models/User');
 var Message = require('../utils/Messages');
 
+var CODE_LENGTH = 10;
+
 /**
  *
  * @param {String} environment
@@ -52,6 +54,16 @@ MongoSurveyProvider.prototype = {
   /**
    *
    * @param {Object} filter
+   * @returns {q.Promise}
+   */
+  getSurvey: function(filter) {
+    var model = this._model;
+    return Q.denodeify(model.findOne.bind(model))(filter);
+  },
+
+  /**
+   *
+   * @param {Object} filter
    * @param {String} query
    * @param {Function} doneCallback
    */
@@ -62,11 +74,18 @@ MongoSurveyProvider.prototype = {
   /**
    *
    * @param {Object} newSurvey
-   * @param {Function} doneCallback
+   * @returns {q.Promise}
    */
-  addSurvey: function (newSurvey, doneCallback) {
+  addSurvey: function (newSurvey) {
     var survey = new this._model(newSurvey);
-    survey.save(doneCallback);
+    var surveyCode = generateCode(CODE_LENGTH);
+    survey.metadata.surveyCode = surveyCode;
+    return Q.denodeify(survey.save.bind(survey))()
+      .then(function(result) {
+
+        // some stupid thing with denodeify save
+        return result[0];
+      });
   },
 
   /**
@@ -124,3 +143,15 @@ MongoSurveyProvider.prototype = {
 };
 
 module.exports = MongoSurveyProvider;
+
+
+var generateCode = function(codeLength) {
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  var text = '';
+
+  for(var i = 0; i < codeLength; i++) {
+    text += possible.charAt(Math.random() * possible.length);
+  }
+
+  return text;
+};

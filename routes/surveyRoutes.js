@@ -41,18 +41,25 @@ module.exports = function(surveyProvider) {
           "description": req.body.description,
           "status": "draft",
           "answerCount": 0,
-          "link": ""
+          "surveyCode": ""
         },
         "questions": []
       };
 
-      surveyProvider.addSurvey(survey, function(err, survey) {
-        if(err) {
-          MessageSender.sendDatabaseError(res, err);
-        } else {
+      surveyProvider.addSurvey(survey)
+        .then(function(survey) {
           MessageSender.sendJsonObject(res, survey);
-        }
-      });
+        }, function(err) {
+          MessageSender.sendDatabaseError(res, err);
+        });
+
+      //surveyProvider.addSurvey(survey, function(err, survey) {
+      //  if(err) {
+      //    MessageSender.sendDatabaseError(res, err);
+      //  } else {
+      //    MessageSender.sendJsonObject(res, survey);
+      //  }
+      //});
     },
 
     deleteSurvey: function(req, res) {
@@ -72,6 +79,14 @@ module.exports = function(surveyProvider) {
         }, function(err) {
           MessageSender.sendDatabaseError(res, err);
         });
+    },
+
+    getSurveyByCode: function(req, res) {
+      surveyProvider.getSurvey({
+        "metadata.surveyCode": req.params.surveyCode
+      }).then(function(result) {
+        MessageSender.sendJsonObject(res, result);
+      });
     }
   };
 };

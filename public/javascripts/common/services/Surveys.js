@@ -2,9 +2,9 @@
  * Created by Marcin on 2014-09-27.
  */
 
-var surveys = angular.module('surveys');
+var common = angular.module('common');
 
-surveys.factory('Surveys', [
+common.factory('Surveys', [
   '$http',
   function ($http) {
     return {
@@ -30,6 +30,21 @@ surveys.factory('Surveys', [
           method: 'GET',
           url: '/api/surveys/' + surveyId
         }).success(callback);
+      },
+
+      /**
+       *
+       * @param {String} surveyCode
+       * @returns {*}
+       */
+      getSurveyByCode: function(surveyCode) {
+        return $http({
+          method: 'GET',
+          url: '/api/code/' + surveyCode,
+          cache: true
+        }).then(function(result) {
+          return result.data.data;
+        });
       },
 
       /**

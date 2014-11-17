@@ -35,7 +35,7 @@ app.directive('questions', function() {
             possibleAnswers: []
           });
 
-          questionForm.$show();
+          $scope.updateSurvey();
         },
 
         selectQuestion: function(index) {

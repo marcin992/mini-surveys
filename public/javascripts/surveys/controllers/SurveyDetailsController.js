@@ -7,11 +7,13 @@ var surveys = angular.module('surveys');
 surveys.controller('SurveyDetailsController', [
   '$scope',
   '$stateParams',
+  '$location',
   'Surveys',
-  function($scope, $stateParams, Surveys) {
+  function($scope, $stateParams, $location, Surveys) {
     _.extend($scope, {
       selectedQuestion: -1,
       survey: {},
+      address: '',
 
       updateSurvey: function(data) {
         Surveys.updateSurvey($scope.survey._id, $scope.survey)
@@ -35,6 +37,9 @@ surveys.controller('SurveyDetailsController', [
 
     Surveys.getSurveyById($stateParams.surveyId, function(survey) {
       $scope.survey = survey.data;
+      $scope.address = $location.absUrl().replace(/(https?:\/\/.*?\/)(.*)/, '$1' + 'survey/' + $scope.survey.metadata.surveyCode);
     });
+
+
   }
 ]);
