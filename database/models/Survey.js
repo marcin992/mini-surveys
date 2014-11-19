@@ -7,16 +7,30 @@ var mongoose = require('mongoose');
 var questionSchema = mongoose.Schema({
   type: {
     type: String,
-    enum: ['oneChoice', 'multiChoice', 'boolean', 'text']
+    enum: ['oneChoice', 'multiChoice', 'boolean', 'text'],
+    required: true
   },
-  body: String,
+  body: {
+    type: String,
+    required: true
+  },
+  isRequired: {
+    type: Boolean,
+    required: false
+  },
   possibleAnswers: [String]
 });
 
 var surveySchema = mongoose.Schema({
   metadata: {
-    userId: mongoose.Schema.Types.ObjectId,
-    title: String,
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true
+    },
+    title: {
+      type: String,
+      required: true
+    },
     description: String,
     status: {
       type: String,
@@ -30,7 +44,5 @@ var surveySchema = mongoose.Schema({
   },
   questions: [questionSchema]
 });
-
-//var Survey = mongoose.model('surveys', surveySchema);
 
 module.exports = surveySchema;

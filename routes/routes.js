@@ -7,7 +7,7 @@ var router = express.Router();
 var MessageSender = require('../utils/MessageSender');
 var Message = require('../utils/Messages');
 
-module.exports = function(app, surveyProvider, passport) {
+module.exports = function(app, surveyProvider, answerProvider, passport) {
   function isLoggedIn(req, res, next) {
     if(req.isAuthenticated())
       return next();
@@ -22,7 +22,7 @@ module.exports = function(app, surveyProvider, passport) {
 
   var surveys = require('./surveyRoutes')(surveyProvider);
   var auth = require('./authRoutes')(passport);
-  var respond = require('./respondentRoutes');
+  var respond = require('./respondentRoutes')(answerProvider);
 
   router.route('/api/surveys')
     .get(hasAccess, surveys.getSurveys)
@@ -32,6 +32,10 @@ module.exports = function(app, surveyProvider, passport) {
     .get(hasAccess, surveys.getSurveyById)
     .put(hasAccess, surveys.updateSurvey)
     .delete(hasAccess, surveys.deleteSurvey);
+
+  router.route('/api/answers/:surveyId')
+    .get(respond.getAnswers)
+    .post(respond.saveAnswer);
 
   router.route('/api/code/:surveyCode')
     .get(surveys.getSurveyByCode);

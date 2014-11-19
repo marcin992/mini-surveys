@@ -5,7 +5,7 @@ ul.list-group(ui-sortable="sortableOptions", ng-model="survey.questions")
          .col-sm-10
             a(href="#", editable-text="question.body", onbeforesave="updateSurvey()", ng-mouseenter="hoverQuestion($index)",
             ng-mouseleave="hoverQuestion(-1)")
-               h4 {{ question.body }}
+               h4 \#{{$index + 1}} {{ question.body }}
                   span.glyphicon.glyphicon-pencil(ng-show="hoveredSurvey === $index")
          .col-sm-2
             a.selectable(data-toggle="modal", data-target="#confirmationModal")

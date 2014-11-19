@@ -1,13 +1,46 @@
 extends layout
 block content
-  div(ng-init="surveyCode='#{surveyCode}'", ng-controller="RespondController")
-    ul.list-group
-      li.list-group-item(ng-repeat="question in survey.questions")
-        p {{ question.body }}
+  .container-fluid
+    .row
+      .col-sm-7
+        div(ng-init="surveyCode='#{surveyCode}'", ng-controller="RespondController")
+          h3 {{ survey.metadata.title }}
+          h4 {{ survey.metadata.description }}
+
+          .panel.panel-default(ng-repeat="question in survey.questions")
+            .panel-heading
+              h4 \#{{ $index+1 }}  {{ question.body }}
+            .panel-body
+              div(ng-show="question.type === 'text'")
+                input.form-control(type="text", ng-model="answers[$index]", ng-keypress="dd(answers)")
+              div(ng-show="question.type === 'oneChoice'")
+                ul
+                  li(ng-repeat="possibleAnswer in question.possibleAnswers")
+                    label
+                      input(type="radio", ng-model="$parent.answers[$parent.$index]", value="{{possibleAnswer}}")
+                      |  {{possibleAnswer}}
+
+          button.btn.btn-primary(ng-click="saveAnswers()") Send answers
+
+    //ul.list-group(ng-show="survey !== null")
+      li.list-group-item.question-list-item(ng-repeat="question in survey.questions")
+        h4 \#{{ $index+1 }}  {{ question.body }}
+        div(ng-show="question.type === 'text'")
+          input.form-control(type="text", ng-model="answers[$index]", ng-keypress="dd(answers)")
+        div(ng-show="question.type === 'oneChoice'")
+          ul
+            li(ng-repeat="possibleAnswer in question.possibleAnswers")
+              label
+                input(type="radio", ng-model="$parent.answers[$parent.$index]", value="{{possibleAnswer}}")
+                |  {{possibleAnswer}}
+
+    div(ng-show="survey === null")
+      p There's no survey with that code.
 
 block append scripts
   script(src='/javascripts/common/main.js')
   script(src='/javascripts/common/services/Surveys.js')
+  script(src='/javascripts/common/services/Answers.js')
   script(src='/javascripts/answers/main.js')
   script(src='/javascripts/answers/controllers/RespondController.js')
   script(src='/javascripts/answerApp.js')

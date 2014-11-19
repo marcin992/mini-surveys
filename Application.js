@@ -15,6 +15,7 @@ var https = require('https');
 var fs = require('fs');
 
 var MongoSurveyProvider = require('./database/MongoSurveyProvider');
+var MongoAnswerProvider = require('./database/MongoAnswerProvider');
 var MongoUserProvider = require('./database/MongoUserProvider');
 
 var Application = function (serverPort) {
@@ -29,6 +30,7 @@ Application.prototype = {
   app: null,
   server: null,
   surveyProvider: null,
+  answerProvider: null,
   userProvider: null,
 
   _init: function () {
@@ -64,10 +66,12 @@ Application.prototype = {
     require('./config/passport')(passport, this.userProvider);
 
     this.surveyProvider = new MongoSurveyProvider(this.app.get('env'));
+
+    this.answerProvider = new MongoAnswerProvider(this.app.get('env'));
   },
 
   _registerRoutes: function () {
-    var routes = require('./routes/routes')(this.app, this.surveyProvider, passport);
+    var routes = require('./routes/routes')(this.app, this.surveyProvider, this.answerProvider, passport);
   },
 
   start: function (done) {

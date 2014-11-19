@@ -32,6 +32,7 @@ app.directive('questions', function() {
           $scope.survey.questions.push({
             body: "New question",
             type: 'oneChoice',
+            isRequired: false,
             possibleAnswers: []
           });
 
