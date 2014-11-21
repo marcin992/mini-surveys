@@ -1,3 +1,7 @@
-p {{ answers }}
-
 button.btn.btn-default(ng-click="getAnswers()") Get answers
+br
+.panel.panel-default(ng-repeat="answer in answers")
+  .panel-heading
+    h4 {{ survey.questions[$index].body }}
+  .panel-body
+    canvas(barchart legend=true, data="answer", responsive="true")

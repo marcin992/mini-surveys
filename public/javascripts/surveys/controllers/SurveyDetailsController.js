@@ -16,6 +16,7 @@ surveys.controller('SurveyDetailsController', [
       survey: {},
       address: '',
       answers: [],
+      chartData: [],
 
       updateSurvey: function(data) {
         Surveys.updateSurvey($scope.survey._id, $scope.survey)
@@ -39,8 +40,23 @@ surveys.controller('SurveyDetailsController', [
       getAnswers: function() {
         Answers.getAnswers($scope.survey._id)
           .then(function(result) {
-            $scope.answers = result.data.data;
+            $scope.answers = $scope._prepareChartData(result.data.data);
           });
+      },
+
+      _prepareChartData: function(answers) {
+        return _.map(answers, function(answer) {
+          return {
+            "labels": answer.labels,
+            "datasets": [{
+              fillColor : "rgba(25,52,65,0.6)",
+              strokeColor : "#3E606F",
+              pointColor : "rgba(151,187,205,0)",
+              pointStrokeColor : "#e67e22",
+              data: answer.values
+            }]
+          };
+        });
       }
     });
 

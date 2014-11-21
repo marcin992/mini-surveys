@@ -20,8 +20,13 @@ AnswerMiner.prototype = {
             data[questionNumber][answer] = data[questionNumber][answer]+1 || 1;
           });
         });
-        console.log(result[0].answers);
-        return data;
+        var result = _.mapValues(data, function(res) {
+          return {
+            labels: _.keys(res),
+            values: _.values(res)
+          };
+        });
+        return result;
       })
   }
 };
