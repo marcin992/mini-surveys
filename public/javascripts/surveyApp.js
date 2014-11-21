@@ -26,22 +26,24 @@ app.config([
       .state('surveyDetails', {
         url: '/:surveyId',
         templateUrl: 'partials/surveyView',
-        abstract: true
+        abstract: true,
+        controller: 'SurveyDetailsController'
       })
       .state('surveyDetails.edit', {
         url: '',
-        templateUrl: 'partials/editSurvey',
-        controller: 'SurveyDetailsController'
+        templateUrl: 'partials/editSurvey'
       })
       .state('surveyDetails.editQuestions', {
         url: '/questions',
-        templateUrl: 'partials/editQuestions',
-        controller: 'SurveyDetailsController'
+        templateUrl: 'partials/editQuestions'
       })
       .state('surveyDetails.sharing', {
         url: '/sharing',
-        templateUrl: 'partials/sharing',
-        controller: 'SurveyDetailsController'
+        templateUrl: 'partials/sharing'
+      })
+      .state('surveyDetails.analysis', {
+        url: '/analysis',
+        templateUrl: 'partials/analysis'
       });
   }]);
 

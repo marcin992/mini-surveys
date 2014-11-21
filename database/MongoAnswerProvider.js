@@ -53,7 +53,7 @@ MongoAnswerProvider.prototype = {
   },
 
   getAnswers: function(surveyId) {
-    var model = this.model;
+    var model = this._model;
 
     return Q.denodeify(model.find.bind(model))({
       surveyId: surveyId

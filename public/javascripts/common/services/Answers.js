@@ -12,6 +12,13 @@ common.factory('Answers', [
             answers: answers
           }
         });
+      },
+
+      getAnswers: function(surveyId) {
+        return $http({
+          method: 'GET',
+          url: '/api/answers/' + surveyId
+        });
       }
     };
   }

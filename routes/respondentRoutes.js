@@ -1,7 +1,7 @@
 var MessageSender = require('../utils/MessageSender');
 var Message = require('../utils/Messages');
 
-module.exports = function(answerProvider) {
+module.exports = function(answerProvider, answerMiner) {
   return {
     surveyView: function(req, res) {
       var surveyCode = req.params.surveyCode;
@@ -24,7 +24,18 @@ module.exports = function(answerProvider) {
     },
 
     getAnswers: function(req, res) {
-
+      answerMiner.countAnswers(req.params.surveyId)
+        .then(function(result) {
+          MessageSender.sendJsonObject(res, result);
+        }, function(err) {
+          MessageSender.sendDatabaseError(res, err);
+        });
+      //answerProvider.getAnswers(req.params.surveyId)
+      //  .then(function(result) {
+      //    MessageSender.sendJsonObject(res, result);
+      //  }, function(err) {
+      //    MessageSender.sendDatabaseError(res, err);
+      //  });
     }
   };
 

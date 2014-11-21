@@ -17,6 +17,7 @@ var fs = require('fs');
 var MongoSurveyProvider = require('./database/MongoSurveyProvider');
 var MongoAnswerProvider = require('./database/MongoAnswerProvider');
 var MongoUserProvider = require('./database/MongoUserProvider');
+var AnswerMiner = require('./database/AnswerMiner');
 
 var Application = function (serverPort) {
   this.port = serverPort;
@@ -32,6 +33,7 @@ Application.prototype = {
   surveyProvider: null,
   answerProvider: null,
   userProvider: null,
+  answerMiner: null,
 
   _init: function () {
     this.app = express();
@@ -68,10 +70,12 @@ Application.prototype = {
     this.surveyProvider = new MongoSurveyProvider(this.app.get('env'));
 
     this.answerProvider = new MongoAnswerProvider(this.app.get('env'));
+
+    this.answerMiner = new AnswerMiner(this.answerProvider);
   },
 
   _registerRoutes: function () {
-    var routes = require('./routes/routes')(this.app, this.surveyProvider, this.answerProvider, passport);
+    var routes = require('./routes/routes')(this.app, this.surveyProvider, this.answerProvider, this.answerMiner, passport);
   },
 
   start: function (done) {

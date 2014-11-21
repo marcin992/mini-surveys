@@ -7,7 +7,7 @@ var router = express.Router();
 var MessageSender = require('../utils/MessageSender');
 var Message = require('../utils/Messages');
 
-module.exports = function(app, surveyProvider, answerProvider, passport) {
+module.exports = function(app, surveyProvider, answerProvider, answerMiner, passport) {
   function isLoggedIn(req, res, next) {
     if(req.isAuthenticated())
       return next();
@@ -22,7 +22,7 @@ module.exports = function(app, surveyProvider, answerProvider, passport) {
 
   var surveys = require('./surveyRoutes')(surveyProvider);
   var auth = require('./authRoutes')(passport);
-  var respond = require('./respondentRoutes')(answerProvider);
+  var respond = require('./respondentRoutes')(answerProvider, answerMiner);
 
   router.route('/api/surveys')
     .get(hasAccess, surveys.getSurveys)
