@@ -12,10 +12,10 @@ var config = {
       databaseName: "surveyDb"
     },
     production: {
-      host: 'ds029960.mongolab.com',
-      port: 29960,
-      user: 'admin',
-      password: 'njtcmttcr',
+      host: '127.0.0.1',
+      port: 24098,
+      user: 'surveyReader',
+      password: '7WzsaPiszwc',
       databaseName: 'pico-survey'
     },
     test: {
