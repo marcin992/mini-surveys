@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var ObjectId = require('mongodb').ObjectID;
 var Q = require('q');
 var _ = require('lodash-node');
 
@@ -39,17 +40,23 @@ MongoAnswerProvider.prototype = {
     this._model = this._connection.model('answers', Answer);
   },
 
-  saveAnswers: function(surveyId, answers) {
-    var respond = new this._model({
-      surveyId: surveyId,
-      answers: answers
-    });
+  saveAnswers: function(answers) {
+    var model = this._model;
+    return Q.denodeify(model.collection.insert.bind(model.collection))(answers);
 
-    return Q.denodeify(respond.save.bind(respond))()
-      .then(function(result) {
-        // some stupid thing with denodeify save
-        return result[0];
-      })
+
+
+
+    //var respond = new this._model({
+    //  surveyId: surveyId,
+    //  answers: answers
+    //});
+    //
+    //return Q.denodeify(respond.save.bind(respond))()
+    //  .then(function(result) {
+    //    // some stupid thing with denodeify save
+    //    return result[0];
+    //  })
   },
 
   getAnswers: function(surveyId) {
@@ -58,6 +65,33 @@ MongoAnswerProvider.prototype = {
     return Q.denodeify(model.find.bind(model))({
       surveyId: surveyId
     });
+  },
+
+  deleteAnswers: function(surveyId, questionNumber) {
+    var model = this._model;
+
+    return Q.denodeify(model.collection.remove.bind(model.collection))({
+      surveyId: surveyId,
+      questionNumber: questionNumber
+    });
+  },
+
+  countAnswers: function(surveyId) {
+    var model = this._model;
+    return Q.denodeify(model.aggregate.bind(model))([{
+      $match: {
+        surveyId: {
+          $eq: surveyId
+        }
+      }
+    }, {
+      $group: {
+        _id: {
+          questionNumber: "$questionNumber",
+          respond: "$respond"
+        }, count: { $sum: 1 }
+      }
+    }]);
   }
 };
 

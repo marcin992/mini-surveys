@@ -1,7 +1,9 @@
 button.btn.btn-default(ng-click="getAnswers()") Get answers
 br
-.panel.panel-default(ng-repeat="answer in answers")
+.panel.panel-default(ng-repeat="(questionNumber, answer) in answers")
   .panel-heading
-    h4 {{ survey.questions[$index].body }}
+    h4 {{ survey.questions[questionNumber].body }}
   .panel-body
-    canvas(barchart legend=true, data="answer", responsive="true")
+    .row
+      .col-sm-7
+        canvas(chart='Bar', legend='true', data="answer", responsive="true")

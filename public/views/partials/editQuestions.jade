@@ -1,3 +1,5 @@
 h3 Questions
-
-questions(survey="survey", update-survey="updateSurvey()")
+.alert.alert-warning(ng-show="survey.metadata.status === 'inProgress'")
+  strong Warning!
+  |  There are some answers to this survey! Editing questions is limited. Editing questions can corrupt collected results.
+questions(survey="survey", update-survey="updateSurvey()", delete-answers="deleteAnswers(questionNumber)")

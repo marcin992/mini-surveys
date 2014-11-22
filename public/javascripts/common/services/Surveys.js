@@ -90,6 +90,15 @@ common.factory('Surveys', [
             survey: updatingSurvey
           }
         });
+      },
+
+      activateSurvey: function(surveyId) {
+        return $http({
+          method: 'POST',
+          url: '/api/surveys/' + surveyId + '/activate'
+        }).then(function(result) {
+          return result.data.data;
+        });
       }
     }
   }

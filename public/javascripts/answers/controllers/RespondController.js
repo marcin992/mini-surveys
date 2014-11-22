@@ -9,21 +9,28 @@ answers.controller('RespondController', [
     _.extend($scope, {
       survey: {},
       surveyCode: '',
-      answers: {},
+      answers: [],
 
       getSurvey: function() {
         $timeout(function() {
           Surveys.getSurveyByCode($scope.surveyCode)
             .then(function(result) {
               $scope.survey = result;
-              console.log(result);
+              $scope.answers = _.map($scope.survey.questions, function(q, index) {
+                return {
+                  surveyId: $scope.survey._id,
+                  questionNumber: index,
+                  respond: ''
+                }
+              });
+              console.log($scope.answers);
             });
         }, 0);
 
       },
 
       saveAnswers: function() {
-        Answers.saveAnswers($scope.survey._id, $scope.answers)
+        Answers.saveAnswers($scope.answers)
           .then(function(result) {
             console.log(result);
           })

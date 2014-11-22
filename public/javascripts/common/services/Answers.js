@@ -4,10 +4,10 @@ common.factory('Answers', [
   '$http',
   function ($http) {
     return {
-      saveAnswers: function(surveyId, answers) {
+      saveAnswers: function(answers) {
         return $http({
           method: 'POST',
-          url: '/api/answers/' + surveyId,
+          url: '/api/answers',
           data: {
             answers: answers
           }
@@ -18,6 +18,16 @@ common.factory('Answers', [
         return $http({
           method: 'GET',
           url: '/api/answers/' + surveyId
+        });
+      },
+
+      deleteAnswers: function(surveyId, questionNumber) {
+        return $http({
+          method: 'POST',
+          url: '/api/answers/' + surveyId,
+          data: {
+            questionNumber: questionNumber
+          }
         });
       }
     };

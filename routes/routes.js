@@ -20,7 +20,7 @@ module.exports = function(app, surveyProvider, answerProvider, answerMiner, pass
     MessageSender.sendMessage(res, Message.NO_ACCESS.en);
   }
 
-  var surveys = require('./surveyRoutes')(surveyProvider);
+  var surveys = require('./surveyRoutes')(surveyProvider, answerProvider);
   var auth = require('./authRoutes')(passport);
   var respond = require('./respondentRoutes')(answerProvider, answerMiner);
 
@@ -33,9 +33,15 @@ module.exports = function(app, surveyProvider, answerProvider, answerMiner, pass
     .put(hasAccess, surveys.updateSurvey)
     .delete(hasAccess, surveys.deleteSurvey);
 
+  router.route('/api/surveys/:surveyId/activate')
+    .post(hasAccess, surveys.activateSurvey);
+
+  router.route('/api/answers')
+    .post(respond.saveAnswer);
+
   router.route('/api/answers/:surveyId')
     .get(respond.getAnswers)
-    .post(respond.saveAnswer);
+    .post(respond.deleteAnswers);
 
   router.route('/api/code/:surveyCode')
     .get(surveys.getSurveyByCode);

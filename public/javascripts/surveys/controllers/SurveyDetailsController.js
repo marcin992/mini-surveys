@@ -21,7 +21,7 @@ surveys.controller('SurveyDetailsController', [
       updateSurvey: function(data) {
         Surveys.updateSurvey($scope.survey._id, $scope.survey)
           .then(function(survey) {
-            console.log(survey);
+            $scope.getAnswers();
           });
       },
 
@@ -37,6 +37,21 @@ surveys.controller('SurveyDetailsController', [
         });
       },
 
+      deleteAnswers: function(questionNumber) {
+        Answers.deleteAnswers($scope.survey._id, questionNumber)
+          .then(function() {
+            $scope.getAnswers();
+          });
+      },
+
+      activateSurvey: function() {
+        Surveys.activateSurvey($scope.survey._id)
+          .then(function(survey) {
+            $scope.survey = survey;
+            $scope.address = $location.absUrl().replace(/(https?:\/\/.*?\/)(.*)/, '$1' + 'survey/' + $scope.survey.metadata.surveyCode);
+          })
+      },
+
       getAnswers: function() {
         Answers.getAnswers($scope.survey._id)
           .then(function(result) {
@@ -45,7 +60,15 @@ surveys.controller('SurveyDetailsController', [
       },
 
       _prepareChartData: function(answers) {
-        return _.map(answers, function(answer) {
+        return _.map(answers, function(answer, questionNumber) {
+          //Show on chart labels with no answers
+          _.each($scope.survey.questions[questionNumber].possibleAnswers,
+          function(possibleAnswer) {
+            if(!_.contains(answer.labels, possibleAnswer)) {
+              answer.labels.push(possibleAnswer);
+              answer.values.push(0);
+            }
+          });
           return {
             "labels": answer.labels,
             "datasets": [{
@@ -62,7 +85,9 @@ surveys.controller('SurveyDetailsController', [
 
     Surveys.getSurveyById($stateParams.surveyId, function(survey) {
       $scope.survey = survey.data;
-      $scope.address = $location.absUrl().replace(/(https?:\/\/.*?\/)(.*)/, '$1' + 'survey/' + $scope.survey.metadata.surveyCode);
+      if($scope.survey.metadata.status !== 'draft'){
+        $scope.address = $location.absUrl().replace(/(https?:\/\/.*?\/)(.*)/, '$1' + 'survey/' + $scope.survey.metadata.surveyCode);
+      }
     });
 
 

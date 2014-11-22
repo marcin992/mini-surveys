@@ -88,6 +88,27 @@ MongoSurveyProvider.prototype = {
       });
   },
 
+  activateSurvey: function(surveyId) {
+    var deferred = Q.defer();
+
+    this._model.findById(surveyId, function(err, survey) {
+      if(err) {
+        deferred.reject(err);
+      } else {
+        survey.metadata.status = 'inProgress';
+        survey.save(function(err, survey) {
+          if(err) {
+            deferred.reject(err);
+          } else {
+            deferred.resolve(survey);
+          }
+        })
+      }
+    }.bind(this));
+
+    return deferred.promise;
+  },
+
   /**
    *
    * @param {String} surveyId

@@ -5,7 +5,7 @@
 var MessageSender = require('../utils/MessageSender');
 var Message = require('../utils/Messages');
 
-module.exports = function(surveyProvider) {
+module.exports = function(surveyProvider, answerProvider) {
   return {
     getSurveys: function(req, res) {
       surveyProvider.getSurveys({
@@ -67,9 +67,23 @@ module.exports = function(surveyProvider) {
         if(err) {
           MessageSender.sendDatabaseError(res, err);
         } else {
-          MessageSender.sendJsonObject(res, survey);
+          answerProvider.deleteAnswers(req.params.surveyId)
+            .then(function() {
+              MessageSender.sendJsonObject(res, survey);
+            }, function(err) {
+              MessageSender.sendError(res, err);
+            });
         }
       });
+    },
+
+    activateSurvey: function(req, res) {
+      surveyProvider.activateSurvey(req.params.surveyId)
+        .then(function(survey) {
+          MessageSender.sendJsonObject(res, survey);
+        }, function(err) {
+          MessageSender.sendError(res, err);
+        });
     },
 
     updateSurvey: function(req, res) {

@@ -1,2 +1,4 @@
 .form-group
    input.form-control(type="text", ng-model="address", readonly)
+
+button.btn.btn-default(ng-click="activateSurvey()", ng-show="survey.metadata.status==='draft'") Activate survey

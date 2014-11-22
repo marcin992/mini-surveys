@@ -12,10 +12,9 @@ module.exports = function(answerProvider, answerMiner) {
     },
 
     saveAnswer: function(req, res) {
-      var surveyId = req.params.surveyId;
       var answers = req.body.answers;
 
-      answerProvider.saveAnswers(surveyId, answers)
+      answerProvider.saveAnswers(answers)
         .then(function(result) {
           MessageSender.sendJsonObject(res, result);
         }, function(err) {
@@ -36,6 +35,15 @@ module.exports = function(answerProvider, answerMiner) {
       //  }, function(err) {
       //    MessageSender.sendDatabaseError(res, err);
       //  });
+    },
+
+    deleteAnswers: function(req, res) {
+      answerProvider.deleteAnswers(req.params.surveyId, req.body.questionNumber)
+        .then(function() {
+          MessageSender.sendMessage(res, "Answers deleted");
+        }, function(err) {
+          MessageSender.sendError(res, err);
+        });
     }
   };
 

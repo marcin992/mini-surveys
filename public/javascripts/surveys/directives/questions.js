@@ -5,7 +5,8 @@ app.directive('questions', function() {
     restrict: 'E',
     scope: {
       survey: '=',
-      updateSurvey: '&'
+      updateSurvey: '&',
+      deleteAnswers: '&'
     },
     controller: function($scope) {
       _.extend($scope, {
@@ -53,6 +54,7 @@ app.directive('questions', function() {
 
         deleteQuestion: function() {
           $scope.survey.questions.splice($scope.selectedQuestion, 1);
+          $scope.deleteAnswers({questionNumber: $scope.selectedQuestion});
           $scope.updateSurvey();
         },
 
