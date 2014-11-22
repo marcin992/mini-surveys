@@ -12,12 +12,12 @@ block content
               h4 \#{{ $index+1 }}  {{ question.body }}
             .panel-body
               div(ng-show="question.type === 'text'")
-                input.form-control(type="text", ng-model="answers[$index]", ng-keypress="dd(answers)")
+                input.form-control(type="text", ng-model="answers[$index].answer", ng-keypress="dd(answers)")
               div(ng-show="question.type === 'oneChoice'")
                 ul
                   li(ng-repeat="possibleAnswer in question.possibleAnswers")
                     label
-                      input(type="radio", ng-model="$parent.answers[$parent.$index]", value="{{possibleAnswer}}")
+                      input(type="radio", ng-model="$parent.answers[$parent.$index].answer", value="{{possibleAnswer}}")
                       |  {{possibleAnswer}}
 
           button.btn.btn-primary(ng-click="saveAnswers()") Send answers

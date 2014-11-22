@@ -4,4 +4,6 @@ br
   .panel-heading
     h4 {{ survey.questions[$index].body }}
   .panel-body
-    canvas(barchart legend=true, data="answer", responsive="true")
+    .row
+      .col-sm-6
+        canvas(barchart legend=true, data="answer", responsive="true")

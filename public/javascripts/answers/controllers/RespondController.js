@@ -9,13 +9,19 @@ answers.controller('RespondController', [
     _.extend($scope, {
       survey: {},
       surveyCode: '',
-      answers: {},
+      answers: [],
 
       getSurvey: function() {
         $timeout(function() {
           Surveys.getSurveyByCode($scope.surveyCode)
             .then(function(result) {
               $scope.survey = result;
+              _.each($scope.survey.questions, function(question, index) {
+                $scope.answers.push({
+                  "questionNumber": index,
+                  "answer": ""
+                });
+              });
               console.log(result);
             });
         }, 0);

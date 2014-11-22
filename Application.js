@@ -71,7 +71,7 @@ Application.prototype = {
 
     this.answerProvider = new MongoAnswerProvider(this.app.get('env'));
 
-    this.answerMiner = new AnswerMiner(this.answerProvider);
+    this.answerMiner = new AnswerMiner(this.answerProvider, this.surveyProvider);
   },
 
   _registerRoutes: function () {
@@ -79,7 +79,10 @@ Application.prototype = {
   },
 
   start: function (done) {
-    this.server = this.app.listen(this.app.get('port'), done);
+    var options = require('./config/ssl');
+    this.server = https.createServer(options, this.app);
+    this.server.listen(5040);
+    //this.server = this.app.listen(this.app.get('port'), done);
   },
 
   stop: function(done) {

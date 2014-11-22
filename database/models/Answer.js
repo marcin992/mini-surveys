@@ -6,11 +6,11 @@ var mongoose = require('mongoose');
 
 var answerSchema = mongoose.Schema({
   surveyId: mongoose.Schema.Types.ObjectId,
-  //answers: [{
-  //  questionNumber: Number,
-  //  answer: String
-  //}]
-  answers: Object
+  answers: [{
+    questionNumber: Number,
+    answer: String
+  }]
+  //answers: Object
 });
 
 var Answer = mongoose.model('answers', answerSchema);

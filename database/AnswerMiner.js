@@ -1,12 +1,20 @@
 var Q = require('q');
 var _ = require('lodash-node');
 
-var AnswerMiner = function(answerProvider) {
+/**
+ *
+ * @param {MongoAnswerProvider} answerProvider
+ * @param {MongoSurveyProvider} surveyProvider
+ * @constructor
+ */
+var AnswerMiner = function(answerProvider, surveyProvider) {
   this.answerProvider = answerProvider;
+  this.surveyProvider = surveyProvider;
 };
 
 AnswerMiner.prototype = {
   answerProvider: null,
+  surveyProvider: null,
 
   countAnswers: function(surveyId) {
     var deferred = Q.defer();
