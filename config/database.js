@@ -16,7 +16,7 @@ var config = {
       port: 24098,
       user: 'surveyReader',
       password: '7WzsaPiszwc',
-      databaseName: 'pico-survey'
+      databaseName: 'surveyDb'
     },
     test: {
       host: "127.0.0.1",
