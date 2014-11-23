@@ -38,10 +38,7 @@ surveys.controller('SurveyDetailsController', [
       },
 
       deleteAnswers: function(questionNumber) {
-        Answers.deleteAnswers($scope.survey._id, questionNumber)
-          .then(function() {
-            $scope.getAnswers();
-          });
+        Answers.deleteAnswers($scope.survey._id, questionNumber);
       },
 
       activateSurvey: function() {

@@ -44,7 +44,8 @@ app.config([
       })
       .state('surveyDetails.analysis', {
         url: '/analysis',
-        templateUrl: 'partials/analysis'
+        templateUrl: 'partials/analysis',
+        controller: 'SurveyDetailsController'
       });
   }]);
 
