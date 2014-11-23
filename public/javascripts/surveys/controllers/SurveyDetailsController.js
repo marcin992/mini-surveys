@@ -17,6 +17,9 @@ surveys.controller('SurveyDetailsController', [
       address: '',
       answers: [],
       chartData: [],
+      options: {
+        responsive: true
+      },
 
       updateSurvey: function(data) {
         Surveys.updateSurvey($scope.survey._id, $scope.survey)

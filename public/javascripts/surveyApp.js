@@ -3,7 +3,7 @@ var app = angular.module('surveyApp', [
   'common',
   'surveys',
   'xeditable',
-  'angles',
+  'tc.chartjs',
   'ui.sortable'
 ]);
 
