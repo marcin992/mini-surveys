@@ -72,10 +72,10 @@ surveys.controller('SurveyDetailsController', [
           return {
             "labels": answer.labels,
             "datasets": [{
-              fillColor : "rgba(25,52,65,0.6)",
-              strokeColor : "#3E606F",
-              pointColor : "rgba(151,187,205,0)",
-              pointStrokeColor : "#e67e22",
+              fillColor : "rgba(151,187,205,0.5)",
+              strokeColor : "rgba(151,187,205,0.8)",
+              highlightFill: 'rgba(151,187,205,0.75)',
+              highlightStroke: 'rgba(151,187,205,1)',
               data: answer.values
             }]
           };

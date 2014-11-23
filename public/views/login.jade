@@ -22,18 +22,19 @@ block content
 
   .container-fluid
     .col-sm-4.col-sm-offset-4
-      .my-panel
-        .my-panel-header
+      .panel.panel-default
+        .panel-heading
           h1 Login
+        .panel-body
           if message.length > 0
             .alert.alert-danger
               p= message
-        form(action="/login", method="POST")
-          .form-group
-            label Email
-            input(type="text", class="form-control", name="email")
-          .form-group
-            label Password
-            input(type="password", class="form-control", name="password")
-          br
-          button(type="submit", class="btn btn-warning btn-lg") Login!
+          form(action="/login", method="POST")
+            .form-group
+              label Email
+              input(type="text", class="form-control", name="email")
+            .form-group
+              label Password
+              input(type="password", class="form-control", name="password")
+            br
+            button(type="submit", class="btn btn-primary btn-lg") Login!
