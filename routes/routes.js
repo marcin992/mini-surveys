@@ -6,8 +6,10 @@ var express = require('express');
 var router = express.Router();
 var MessageSender = require('../utils/MessageSender');
 var Message = require('../utils/Messages');
+var EmailSender = require('../app/EmailSender');
+var nodemailer = require('nodemailer');
 
-module.exports = function(app, surveyProvider, answerProvider, answerMiner, passport) {
+module.exports = function(app, surveyProvider, answerProvider, answerMiner, passport, userProvider) {
   function isLoggedIn(req, res, next) {
     if(req.isAuthenticated())
       return next();
@@ -23,6 +25,7 @@ module.exports = function(app, surveyProvider, answerProvider, answerMiner, pass
   var surveys = require('./surveyRoutes')(surveyProvider, answerProvider);
   var auth = require('./authRoutes')(passport);
   var respond = require('./respondentRoutes')(answerProvider, answerMiner);
+  var emailSender = new EmailSender();
 
   router.route('/api/surveys')
     .get(hasAccess, surveys.getSurveys)
@@ -65,10 +68,39 @@ module.exports = function(app, surveyProvider, answerProvider, answerMiner, pass
   router.route('/signup')
     .get(auth.signupView)
     .post(passport.authenticate('local-signup', {
-      successRedirect: '/profile',
+      successRedirect: '/activation',
       failureRedirect: '/signup',
       failureFlash: true
     }));
+
+  router.route('/activation')
+    .get(function(req, res) {
+      var user = req.user;
+      var url = req.protocol + '://' + req.get('host') + req.originalUrl + '/' + user.activationCode;
+
+      emailSender.sendEmail(user.local.email, 'Activation', url, '<a href="' + url + '">' + url + '</a>')
+        .then(function(info) {
+          res.render('activation', {
+            title: 'Activation'
+          });
+        }, function(err) {
+          res.send(err);
+        });
+    });
+
+  router.route('/activation/:activationCode')
+    .get(function(req, res) {
+      userProvider.activateUser(req.params.activationCode)
+        .then(function(user) {
+          res.render('login', {
+            message: 'Profile activated!'
+          });
+        }, function(err) {
+          res.send(err);
+        });
+    });
+
+
 
   router.route('/profile')
     .get(isLoggedIn, function(req, res) {

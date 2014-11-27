@@ -66,5 +66,10 @@ module.exports = {
   NO_ACCESS: {
     en: "You don't have access",
     pl: "Brak dostępu"
+  },
+
+  NO_ACTIVE: {
+    en: "You aren't activated",
+    pl: "Użytkownik nie aktywowany"
   }
 };

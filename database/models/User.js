@@ -9,7 +9,9 @@ var userSchema = mongoose.Schema({
   local: {
     email: String,
     password: String
-  }
+  },
+  activationCode: String,
+  isActive: Boolean
 });
 
 userSchema.methods.generateHash = function (password) {

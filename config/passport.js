@@ -55,6 +55,9 @@ module.exports = function(passport, userProvider) {
       if(!user.validPassword(password))
         return done(null, false, req.flash('loginMessage', Message.WRONG_PASSWORD.en));
 
+      if(!user.isActive)
+        return done(null, false, req.flash('loginMessage', Message.NO_ACTIVE.en));
+
       return done(null, user);
     });
   }));

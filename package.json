@@ -25,7 +25,8 @@
     "lodash-node": "*",
     "mongodb": "^1.4.8",
     "superagent": "*",
-    "supertest": "*"
+    "supertest": "*",
+    "nodemailer": "^1.3.0"
   },
   "devDependencies": {
     "grunt": "^0.4.5",

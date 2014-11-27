@@ -75,7 +75,7 @@ Application.prototype = {
   },
 
   _registerRoutes: function () {
-    var routes = require('./routes/routes')(this.app, this.surveyProvider, this.answerProvider, this.answerMiner, passport);
+    var routes = require('./routes/routes')(this.app, this.surveyProvider, this.answerProvider, this.answerMiner, passport, this.userProvider);
   },
 
   start: function (done) {

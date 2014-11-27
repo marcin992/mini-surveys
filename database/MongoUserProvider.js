@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var Q = require('q');
 
 var User = require('./models/User');
 var Message = require('../utils/Messages');
@@ -34,6 +35,30 @@ MongoUserProvider.prototype = {
     this._model.findById(userId, query, doneCallback);
   },
 
+  activateUser: function(activationCode) {
+    var deferred = Q.defer();
+    this._model.findOne({
+      activationCode: activationCode
+    }, function(err, user) {
+      if(err) {
+        deferred.reject(err);
+      } else if(!user) {
+        deferred.reject();
+      } else {
+        user.isActive = true;
+        user.save(function(err, user) {
+          if(err){
+            deferred.reject(err);
+          } else {
+            deferred.resolve(user);
+          }
+        });
+      }
+    });
+
+    return deferred.promise;
+  },
+
   getUserByEmail: function(email, doneCallback) {
     this._model.findOne({
       'local.email': email
@@ -44,6 +69,8 @@ MongoUserProvider.prototype = {
     var user = new this._model();
     user.local.email = email;
     user.local.password = user.generateHash(password);
+    user.activationCode = generateActivationCode();
+    user.isActive = false;
 
     user.save(doneCallback);
   },
@@ -52,5 +79,16 @@ MongoUserProvider.prototype = {
     return this._model.validPassword(password);
   }
 };
+
+var generateActivationCode = function() {
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  var text = '';
+
+  for(var i = 0; i < 30; i++) {
+    text += possible.charAt(Math.random() * possible.length);
+  }
+
+  return text;
+}
 
 module.exports = MongoUserProvider;
