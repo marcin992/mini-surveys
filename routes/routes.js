@@ -74,7 +74,7 @@ module.exports = function(app, surveyProvider, answerProvider, answerMiner, pass
     }));
 
   router.route('/activation')
-    .get(function(req, res) {
+    .get(isLoggedIn, function(req, res) {
       var user = req.user;
       var url = req.protocol + '://' + req.get('host') + req.originalUrl + '/' + user.activationCode;
 
