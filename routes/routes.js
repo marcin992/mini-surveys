@@ -16,6 +16,12 @@ module.exports = function(app, surveyProvider, answerProvider, answerMiner, pass
     res.redirect('/login');
   }
 
+  function isActive(req, res, next) {
+    if(req.isAuthenticated() && req.user.isActive)
+      return next();
+    res.redirect('/login');
+  }
+
   function hasAccess(req, res, next) {
     if(req.isAuthenticated())
       return next();
@@ -103,7 +109,7 @@ module.exports = function(app, surveyProvider, answerProvider, answerMiner, pass
 
 
   router.route('/profile')
-    .get(isLoggedIn, function(req, res) {
+    .get(isActive, function(req, res) {
       res.render('profile.jade', {
         user: req.user,
         title: 'Surveys'
