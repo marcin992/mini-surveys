@@ -43,7 +43,7 @@ Application.prototype = {
     this.app.set('view engine', 'jade');
 
     this.app.use(favicon());
-    this.app.use(logger('dev'));
+    this.app.use(logger('combined'));
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded());
     this.app.use(cookieParser());
