@@ -1,0 +1,21 @@
+div()
+   h3 {{ survey.metadata.title }}
+   h4 {{ survey.metadata.description }}
+
+   .panel.panel-default(ng-repeat="question in survey.questions")
+      .panel-heading
+         h4 \#{{ $index+1 }}  {{ question.body }}
+      .panel-body
+         div(ng-show="question.type === 'text'")
+            input.form-control(type="text", ng-model="answers[$index].respond", ng-keypress="dd(answers)")
+         div(ng-show="question.type === 'oneChoice'")
+            ul
+               li(ng-repeat="possibleAnswer in question.possibleAnswers")
+                  label
+                     input(type="radio", ng-model="$parent.answers[$parent.$index].respond", value="{{possibleAnswer}}")
+                     |  {{possibleAnswer}}
+
+   button.btn.btn-primary(ng-click="saveAnswers()") Send answers
+
+div(ng-show="survey === null")
+   p There's no survey with that code.

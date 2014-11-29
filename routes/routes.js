@@ -120,7 +120,7 @@ module.exports = function(app, surveyProvider, answerProvider, answerMiner, pass
     .get(respond.surveyView);
 
   router.route('/partials/:filename')
-    .get(isLoggedIn, function(req, res) {
+    .get(function(req, res) {
       res.render('partials/' + req.params.filename, {
         user: req.user
       });

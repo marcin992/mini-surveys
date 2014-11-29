@@ -3,7 +3,8 @@ var app = angular.module('surveyApp', [
   'common',
   'answers',
   'xeditable',
-  'ui.sortable'
+  'ui.sortable',
+  'ngStorage'
 ]);
 
 app.config([
@@ -13,30 +14,15 @@ app.config([
     $urlRouterProvider.otherwise('/');
 
     $stateProvider
-      .state('dashboard', {
+      .state('respond', {
         url: '/',
-        templateUrl: 'partials/dashboard',
-        controller: 'DashboardController'
+        templateUrl: '/partials/respond',
+        controller: 'RespondController'
       })
-      .state('newSurvey', {
-        url: '/newSurvey',
-        templateUrl: 'partials/addSurvey',
-        controller: 'NewSurveyController'
-      })
-      .state('surveyDetails', {
-        url: '/:surveyId',
-        templateUrl: 'partials/surveyView',
-        abstract: true
-      })
-      .state('surveyDetails.edit', {
-        url: '',
-        templateUrl: 'partials/editSurvey',
-        controller: 'SurveyDetailsController'
-      })
-      .state('surveyDetails.editQuestions', {
-        url: '/questions',
-        templateUrl: 'partials/editQuestions',
-        controller: 'SurveyDetailsController'
+      .state('responded', {
+        url: '/done',
+        templateUrl: '/partials/responded',
+        controller: 'RespondController'
       });
   }]);
 

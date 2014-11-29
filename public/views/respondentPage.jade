@@ -1,9 +1,9 @@
 extends layout
 block content
-  .container-fluid
+  .container-fluid(ng-controller="RespondController")
     .row
       .col-sm-7
-        div(ng-init="surveyCode='#{surveyCode}'", ng-controller="RespondController")
+        .ng-cloak(ng-init="surveyCode='#{surveyCode}'", ng-show="!$storage[surveyCode].responded")
           h3 {{ survey.metadata.title }}
           h4 {{ survey.metadata.description }}
 
@@ -21,6 +21,9 @@ block content
                       |  {{possibleAnswer}}
 
           button.btn.btn-primary(ng-click="saveAnswers()") Send answers
+
+        div(ng-show="$storage[surveyCode].responded === true")
+          p Thank you for responding
 
     div(ng-show="survey === null")
       p There's no survey with that code.

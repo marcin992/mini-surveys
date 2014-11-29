@@ -5,38 +5,43 @@ answers.controller('RespondController', [
   'Surveys',
   'Answers',
   '$timeout',
-  function($scope, Surveys, Answers, $timeout) {
+  '$localStorage',
+  function ($scope, Surveys, Answers, $timeout, $localStorage) {
     _.extend($scope, {
       survey: {},
       surveyCode: '',
       answers: [],
+      $storage: $localStorage.$default({
+        responded: false
+      }),
 
-      getSurvey: function() {
-        $timeout(function() {
+      getSurvey: function () {
+        $timeout(function () {
           Surveys.getSurveyByCode($scope.surveyCode)
-            .then(function(result) {
+            .then(function (result) {
               $scope.survey = result;
-              $scope.answers = _.map($scope.survey.questions, function(q, index) {
+              $scope.answers = _.map($scope.survey.questions, function (q, index) {
                 return {
                   surveyId: $scope.survey._id,
                   questionNumber: index,
                   respond: ''
                 }
               });
-              console.log($scope.answers);
             });
         }, 0);
 
       },
 
-      saveAnswers: function() {
+      saveAnswers: function () {
         Answers.saveAnswers($scope.answers)
-          .then(function(result) {
-            console.log(result);
-          })
+          .then(function (result) {
+            $scope.$storage[$scope.surveyCode] = {
+              responded: true
+            }
+          });
       },
 
-      dd: function(q) {
+      dd: function (q) {
         console.log(q);
       }
     });
