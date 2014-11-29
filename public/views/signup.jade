@@ -34,9 +34,12 @@ block content
           form(action="/signup", method="POST")
             .form-group
               label Email
-              input(type="text", class="form-control", name="email")
+              input(type="email", class="form-control", name="email", required)
             .form-group
               label Password
-              input(type="password", class="form-control", name="password")
+              input(type="password", class="form-control", name="password", required, onchange="form.password2.pattern = this.value")
+            .form-group
+              label Retype password
+              input(type="password", class="form-control", name="password2", required)
             br
             button(type="submit", class="btn btn-primary btn-lg") Sign up!
