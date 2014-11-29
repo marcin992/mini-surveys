@@ -18,6 +18,11 @@ ul.list-group(ui-sortable="sortableOptions", ng-model="survey.questions")
                p Question type
             dd
                select(ng-model="question.type", ng-options="type for type in types", ng-change="updateSurvey()")
+
+            dt
+               p Is required?
+            dd
+               input(type="checkbox", ng-model="question.isRequired")
             div(ng-hide="question.type === 'text' || question.type === 'boolean'")
                dt
                   p Possible answers
