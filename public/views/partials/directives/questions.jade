@@ -30,14 +30,17 @@ ul.list-group(ui-sortable="sortableOptions", ng-model="survey.questions")
                   ul.list-group
                      li.list-group-item(ng-repeat="answer in question.possibleAnswers track by $index")
                         .row
-                           .col-sm-10
+                           .col-sm-1
+                              input(type="radio", disabled, ng-show="question.type === 'oneChoice'")
+                              input(type="checkbox", disabled, ng-show="question.type === 'multiChoice'")
+                           .col-sm-9
                               a(href="#", editable-text="question.possibleAnswers[$index]", onbeforesave="updateSurvey()",
                               ng-mouseenter="hoverAnswer($index)", ng-mouseleave="hoverAnswer(-1)")
-                                 h5 {{ answer }}
+                                 p {{ answer }}
                                     span.glyphicon.glyphicon-pencil(ng-show="hoveredAnswer === $index")
                            .col-sm-2
                               a.selectable(ng-click="deleteAnswer($parent.$index, $index)")
-                                 h5
+                                 p
                                     span.glyphicon.glyphicon-remove.pull-right
 
                   button.btn.btn-default(ng-click="addAnswer($index)") Add answer

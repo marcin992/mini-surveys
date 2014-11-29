@@ -28,7 +28,21 @@ block content
                           |  {{possibleAnswer}}
                           p.pull-right(ng-show="answerFieldForm.answer.$invalid && answerFieldForm.answer.$dirty") This question is required.
 
-            button.btn.btn-primary(type="submit", ng-disabled="answerForm.$invalid") Send answers
+                  div(ng-show="question.type === 'multiChoice'", ng-class="{'has-error': question.isRequired && answers[$index].respond.length === 0}")
+                    ul
+                      li(ng-repeat="possibleAnswer in question.possibleAnswers")
+                        label
+
+                          input(type="checkbox", name="answer", value="{{possibleAnswer}}", ng-click="toggleSelection($parent.$index, possibleAnswer)",
+                          ng-checked="$parent.answers[$parent.$index].respond.indexOf(possibleAnswer) > -1", ng-required="question.isRequired", ng-class="{'has-error': answerFieldForm.answer.$invalid && answerFieldForm.answer.$dirty}")
+                          |  {{ possibleAnswer }}
+                          //input(type="checkbox", name="answer", ng-model="$parent.answers[$parent.$index].respond", ng-change="dd($parent.answers)",
+                          //value="{{possibleAnswer}}", ng-required="question.isRequired", ng-class="{'has-error': answerFieldForm.answer.$invalid && answerFieldForm.answer.$dirty}")
+                          //|  {{possibleAnswer}}
+                          //p.pull-right(ng-show="answerFieldForm.answer.$invalid && answerFieldForm.answer.$dirty") This question is required.
+            .alert.alert-danger(ng-show="!answeredAll") Please answer all required questions.
+
+            button.btn.btn-primary(type="submit") Send answers
 
           div(ng-show="$storage[surveyCode].responded === true")
             p Thank you for responding
