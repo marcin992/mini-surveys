@@ -3,27 +3,35 @@ block content
   .container-fluid(ng-controller="RespondController")
     .row
       .col-sm-7
-        .ng-cloak(ng-init="surveyCode='#{surveyCode}'", ng-show="!$storage[surveyCode].responded")
-          h3 {{ survey.metadata.title }}
-          h4 {{ survey.metadata.description }}
+        form(name="answerForm", ng-submit="saveAnswers(answerForm.$valid)", novalidate)
+          .ng-cloak(ng-init="surveyCode='#{surveyCode}'", ng-show="!$storage[surveyCode].responded")
+            h3 {{ survey.metadata.title }}
+            h4 {{ survey.metadata.description }}
 
-          .panel.panel-default(ng-repeat="question in survey.questions")
-            .panel-heading
-              h4 \#{{ $index+1 }}  {{ question.body }}
-            .panel-body
-              div(ng-show="question.type === 'text'")
-                input.form-control(type="text", ng-model="answers[$index].respond", ng-keypress="dd(answers)")
-              div(ng-show="question.type === 'oneChoice'")
-                ul
-                  li(ng-repeat="possibleAnswer in question.possibleAnswers")
-                    label
-                      input(type="radio", ng-model="$parent.answers[$parent.$index].respond", value="{{possibleAnswer}}")
-                      |  {{possibleAnswer}}
+            .panel.panel-default(ng-repeat="question in survey.questions")
+              .panel-heading
+                h4(ng-class="{bold: question.isRequired}") \#{{ $index+1 }}  {{ question.body }}
+                  span(ng-show="question.isRequired")  *
+              .panel-body
+                ng-form(name="answerFieldForm")
+                  div(ng-show="question.type === 'text'")
+                    input.form-control(type="text", name="answer", ng-model="answers[$index].respond", ng-required="question.isRequired",
+                    ng-class="{'has-error': answerFieldForm.answer.$invalid == true && answerFieldForm.answer.$dirty}")
+                    br
+                    p.pull-right(ng-show="answerFieldForm.answer.$invalid && answerFieldForm.answer.$dirty") This question is required.
+                  div(ng-show="question.type === 'oneChoice'")
+                    ul
+                      li(ng-repeat="possibleAnswer in question.possibleAnswers")
+                        label
+                          input(type="radio", name="answer", ng-model="$parent.answers[$parent.$index].respond",
+                          value="{{possibleAnswer}}", ng-required="question.isRequired", ng-class="{'has-error': answerFieldForm.answer.$invalid && answerFieldForm.answer.$dirty}")
+                          |  {{possibleAnswer}}
+                          p.pull-right(ng-show="answerFieldForm.answer.$invalid && answerFieldForm.answer.$dirty") This question is required.
 
-          button.btn.btn-primary(ng-click="saveAnswers()") Send answers
+            button.btn.btn-primary(type="submit", ng-disabled="answerForm.$invalid") Send answers
 
-        div(ng-show="$storage[surveyCode].responded === true")
-          p Thank you for responding
+          div(ng-show="$storage[surveyCode].responded === true")
+            p Thank you for responding
 
     div(ng-show="survey === null")
       p There's no survey with that code.
