@@ -6,7 +6,11 @@ module.exports = function (passport) {
   return {
     loginView: function (req, res) {
       res.render('login.jade', {
-        message: req.flash('loginMessage'),
+        message: {
+          text: req.flash('loginMessage'),
+          type: 'error'
+
+        },
         title: "Login"
       });
     },

@@ -99,7 +99,10 @@ module.exports = function(app, surveyProvider, answerProvider, answerMiner, pass
       userProvider.activateUser(req.params.activationCode)
         .then(function(user) {
           res.render('login', {
-            message: 'Profile activated!'
+            message: {
+              text: 'Profile activated!',
+              type: 'info'
+            }
           });
         }, function(err) {
           res.send(err);

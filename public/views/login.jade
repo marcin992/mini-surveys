@@ -26,9 +26,13 @@ block content
         .panel-heading
           h1 Login
         .panel-body
-          if message.length > 0
-            .alert.alert-danger
-              p= message
+          if message.text.length > 0
+            if message.type == 'error'
+              .alert.alert-danger
+                p= message.text
+            else if message.type == 'info'
+              .alert.alert-info
+                p= message.text
           form(action="/login", method="POST")
             .form-group
               label Email
