@@ -214,7 +214,7 @@ Ankietka.pl jest serwisem polskim, prawdopodobnie najpopularniejszym w~naszym kr
 \item Rozwinięta analiza odpowiedzi (wykresy)
 \item Możliwość eksportu do pliku
 \end{itemize}
-
+\newpage
 \paragraph{Wady}
 \begin{itemize}
 \item Ograniczenia w~darmowej wersji
@@ -231,7 +231,7 @@ Ankietka.pl jest serwisem polskim, prawdopodobnie najpopularniejszym w~naszym kr
 
 \subsubsection{SurveyMonkey.com}
 Jako ostatni omówiony zostanie serwis SurveyMonkey.com. W~porównaniu z~wcześniej przedstawionymi rozwiązaniami, SurveyMonkey.com jest najbardziej rozbudowanym, profesjonalnym narzędziem, powszechnie używanym przez wiele światowych firm (Facebook, Samsung, Virgin). Jak można się spodziewać, za wysoką jakość trzeba zapłacić. Podobnie jak na stronie Ankietka.pl istnieje darmowa wersja serwisu, jednak ograniczenia są bardzo duże: limit pytań w~ankiecie - 10, limit odpowiedzi - 100. W~płatnej wersji (najtańsza wersja - 75 zł/msc) otrzymujemy wiele użytecznych funkcji, opisanych niżej. Dokładna oferta serwisu została przedstawiona na Rysunku 5.
-
+\newpage
 \paragraph{Zalety}
 \begin{itemize}
 \item Kompleksowe, profesjonalne narzędzie
@@ -265,7 +265,7 @@ Aplikację tworzą trzy oddzielne części:
 \end{itemize}
 Tego typu architektura określana jest mianem MEAN (\textbf{M}ongoDB, \textbf{E}xpress.js, \newline \textbf{A}ngular.js, \textbf{N}ode.js).
 Serwer HTTP udostępnia REST'owe API, będące podstawowym kanałem komunikacji między klientem a~serwerem. API zostało dokładniej opisane w~punkcie 4.3.
-\par W~przeciwieństwie do tradycyjnego podejścia do tworzenia aplikacji internetowych, w~projekcie zastosowano koncepcję Single Page Application. Polega ona na tym, że przy przechodzeniu między poszczególnymi widokami nie jest wymagane pobranie całej zawartości strony (HTML + arkusze stylów + skrypty), ale jedynie części widoku. Część kliencka aplikacji (Angular) wykonuje zapytanie typu AJAX do serwera i~w odpowiedzi otrzymuje fragment strony HTML, który to fragment zostaje umieszczony w~zdefiniowanym przez programistę miejscu. Wszelkie dane dynamiczne (np. dane o~odpowiedziach do ankiety) są pobierane z~serwera w~ten sam sposób.
+\par W~przeciwieństwie do tradycyjnego podejścia do tworzenia aplikacji internetowych, w~projekcie zastosowano koncepcję Single Page Application. Polega ona na tym, że przy przechodzeniu między poszczególnymi widokami nie jest wymagane pobranie całej zawartości strony (HTML + arkusze stylów + skrypty), ale jedynie części widoku. Część kliencka aplikacji (Angular) wykonuje zapytanie typu AJAX do serwera i~w odpowiedzi otrzymuje fragment strony HTML, który to fragment zostaje umieszczony w~zdefiniowanym przez programistę miejscu. Wszelkie dane dynamiczne (np. dane o~odpowiedziach do ankiety) są pobierane z~serwera w~ten sam sposób. [4]
 \par Dane wykorzystywane w~aplikacji przesyłane są pomiędzy poszczególnymi jej częściami w~formacie dokumentów JSON.
 \par Rysunek 6. przedstawia architekturę projektowanego systemu.
 
@@ -274,11 +274,12 @@ Serwer HTTP udostępnia REST'owe API, będące podstawowym kanałem komunikacji 
 \scalebox{0.67}{\includegraphics{obrazy/architektura}}
 \caption{Architektura aplikacji}
 \end{center}
+\textit{Źródło: https://scotch.io/wp-content/uploads/2013/11/mean.jpg}
 \end{figure}
 
 \par Funkcję persystencji pełni w~aplikacji baza danych MongoDB. Jest to nierelacyjna baza danych, w~której dane są przechowywane w~postaci dokumentów JSON, co ujednolica strukturę danych w~całym projekcie. Więcej informacji o~MongoDB znajduje się w~punkcie 4.1.2.
 
-\par Schodząc na nieco niższy poziom architektury, trzeba opisać strukturę serwera HTTP. Node.js sam w~sobie nie jest widoczny publicznie na porcie 80. W~rzeczywistości wykorzystany został serwer Nginx jako reverse proxy: wszystkie zapytania na port 80 kieruje najpierw na port 443, gdzie dokładane są zabezpieczenia, a~następnie na port 7070, na którym pracuje serwer Node.js.
+\par Schodząc na nieco niższy poziom architektury, trzeba opisać strukturę serwera HTTP. Node.js sam w~sobie nie jest widoczny publicznie na porcie 80. W~rzeczywistości wykorzystany został serwer Nginx jako reverse proxy: wszystkie zapytania na port 80 kieruje najpierw na port 443, gdzie dokładane są zabezpieczenia, a~następnie na port 7070, na którym pracuje serwer Node.js. [5]
 \par Rysunek 7. przedstawia architekturę systemu wzbogaconą o serwer Nginx.
 
 \begin{figure}[H]
@@ -289,7 +290,7 @@ Serwer HTTP udostępnia REST'owe API, będące podstawowym kanałem komunikacji 
 \end{figure}
 
 \subsection{Struktura bazy danych}
-Baza MongoDB jest bazą nierelacyjną, która pozwala na zagnieżdżanie obiektów. Jest to bardzo wygodne, ponieważ użytkownik ma możliwość przechowywania powiązanych ze sobą danych w~jednej kolekcji, co przyspiesza proces wydobywania danych z~bazy - nie ma konieczności tworzenia skomplikowanych często JOIN'ów. Struktura bazy danych przedstawiona została na Rysunku 8.
+Baza MongoDB jest bazą nierelacyjną, która pozwala na zagnieżdżanie obiektów. Jest to bardzo wygodne, ponieważ użytkownik ma możliwość przechowywania powiązanych ze sobą danych w~jednej kolekcji, co przyspiesza proces wydobywania danych z~bazy - nie ma konieczności tworzenia skomplikowanych często JOIN'ów. Struktura bazy danych przedstawiona została na Rysunku 8. [7] [12]
 
 \begin{figure}[H]
 \begin{center}
@@ -303,7 +304,7 @@ Baza MongoDB jest bazą nierelacyjną, która pozwala na zagnieżdżanie obiekt�
 \subsection{Wykorzystane technologie}
 \subsubsection{Node.js}
 Platforma  Node.js jest staje się coraz bardziej popularnym narzędziem do tworzenia aplikacji serwerowych. W~przeciwieństwie do tradycyjnego podejścia (np. Apache), w~Node.js programista sam tworzy serwer HTTP. Wbrew pozorom, stworzenie takiego serwera zajmuje jedną linię kodu.
-\par Node.js to biblioteka umożliwiająca wykonywanie skryptów JavaScript dzięki użyciu silnika V8 firmy Google, na której oparty został Google Chrome. Jest rozwiązaniem multiplatformowym, opartym na architekturze sterowanej zdarzeniami. Node.js operuje na jednym wątku, jednak dzięki zastosowaniu nieblokującej obsługi wejścia/wyjścia, pozwala na obsługę dziesiątek tysięcy równoległych połączeń do serwera. Takie asynchroniczne podejście wymaga, aby każda operacja wykorzystująca strumień we/wy używała funkcji zwrotnej (ang. \textit{callback}), która wykonuje się po otrzymaniu danych.
+\par Node.js to biblioteka umożliwiająca wykonywanie skryptów JavaScript dzięki użyciu silnika V8 firmy Google, na której oparty został Google Chrome. Jest rozwiązaniem multiplatformowym, opartym na architekturze sterowanej zdarzeniami. Node.js operuje na jednym wątku, jednak dzięki zastosowaniu nieblokującej obsługi wejścia/wyjścia, pozwala na obsługę dziesiątek tysięcy równoległych połączeń do serwera. Takie asynchroniczne podejście wymaga, aby każda operacja wykorzystująca strumień we/wy używała funkcji zwrotnej (ang. \textit{callback}), która wykonuje się po otrzymaniu danych. [9] [11]
 \par Listing 1. pokazuje sposób sposób, w jaki w Node.js obsługuje się operacje asynchroniczne. Jako drugi parametr funkcji przekazywana jest funkcja zwrotna (ang. \texttt{callback}), która zostaje wywołana kiedy przychodzi odpowiedź funkcji \texttt{getSurveyById}.
 \begin{lstlisting}[caption=Przykład użycia funkcji zwrotnej w~pobraniu danych z~bazy danych. ]
 Surveys.getSurveyById($stateParams.surveyId, function(survey) {
@@ -312,19 +313,20 @@ Surveys.getSurveyById($stateParams.surveyId, function(survey) {
        */
     });
 \end{lstlisting}
-\par Działanie Node.js opiera się na tzw. pętli zdarzeń. Wszystkie zdarzenia zachodzące podczas działania programu obsługiwane są w~tej pętli w~kolejności, w~jakiej się w~niej znajdą. Takie podejście nie blokuje działania programu, więc mimo faktu, że Node.js działa na jednym wątku, możliwe wysłanie odpowiedzi do wielu klientów jednocześnie. Rysunek 9. pokazuje schemat działania pętli zdarzeń Node.js.
+\par Działanie Node.js opiera się na tzw. pętli zdarzeń. Wszystkie zdarzenia zachodzące podczas działania programu obsługiwane są w~tej pętli w~kolejności, w~jakiej się w~niej znajdą. Takie podejście nie blokuje działania programu, więc mimo faktu, że Node.js działa na jednym wątku, możliwe wysłanie odpowiedzi do wielu klientów jednocześnie. Rysunek 9. pokazuje schemat działania pętli zdarzeń Node.js. [3]
 
 \begin{figure}[H]
 \begin{center}
 \scalebox{0.8}{\includegraphics{obrazy/petla}}
 \caption{Schemat działania pętli zdarzeń w~Node.js}
 \end{center}
+\textit{Źródło: http://sekurak.pl/wp-content/uploads/2013/08/nodejseventloop.png}
 \end{figure}
 
 \subsubsection{MongoDB}
-MongoDB to nierelacyjny system zarządzania bazą danych napisany w~języku C++. Charakteryzuje się dużą skalowalnością, wydajnością oraz brakiem ściśle zdefiniowanej struktury obsługiwanych baz danych. Zamiast tego, dane składowane są jako dokumenty w~stylu JSON, co umożliwia aplikacjom bardziej naturalne ich przetwarzanie, przy zachowaniu możliwości tworzenia hierarchii oraz indeksowania.
+MongoDB to nierelacyjny system zarządzania bazą danych napisany w~języku C++. Charakteryzuje się dużą skalowalnością, wydajnością oraz brakiem ściśle zdefiniowanej struktury obsługiwanych baz danych. Zamiast tego, dane składowane są jako dokumenty w~stylu JSON, co umożliwia aplikacjom bardziej naturalne ich przetwarzanie, przy zachowaniu możliwości tworzenia hierarchii oraz indeksowania. [7]
 
-\par Dane w~MongoDB przechowywane są w~formie dokumentów JSON, co pozwala na zagnieżdżanie danych. Programista ma możliwość umieszczenia powiązanych ze sobą danych w~jednej kolekcji, co zmniejsza czas dostępu do tych danych. W~relacyjnej bazie danych podczas pobierania danych często zachodzi potrzeba zwracania się do różnych tabel za pomocą JOIN'ów, w~MongoDB jest to wyeliminowane.
+\par Dane w~MongoDB przechowywane są w~formie dokumentów JSON, co pozwala na zagnieżdżanie danych. Programista ma możliwość umieszczenia powiązanych ze sobą danych w~jednej kolekcji, co zmniejsza czas dostępu do tych danych. W~relacyjnej bazie danych podczas pobierania danych często zachodzi potrzeba zwracania się do różnych tabel za pomocą JOIN'ów, w~MongoDB jest to wyeliminowane. [12]
 
 \par Podobnie jak w~relacyjnych bazach danych, w~MongoDB istnieje możliwość indeksowania pól dokumentu.
 
@@ -340,7 +342,7 @@ MongoDB to nierelacyjny system zarządzania bazą danych napisany w~języku C++.
 \end{figure}
 
 \subsubsection{Mongoose}
-Biblioteka Mongoose pozwala na ustandaryzowanie dostępu do bazy danych MongoDB. Generalnie, do MongoDB użytkownik może zapisać jakiekolwiek dane, nie istnieje żaden natywny sposób ograniczania lub walidacji wprowadzanych danych. Z~tego powodu powstała właśnie biblioteka Mongoose, w~której programista może zdefiniować strukturę kolekcji i~przy zapisywaniu danych do bazy przeprowadzana jest ich walidacja.
+Biblioteka Mongoose pozwala na ustandaryzowanie dostępu do bazy danych MongoDB. Generalnie, do MongoDB użytkownik może zapisać jakiekolwiek dane, nie istnieje żaden natywny sposób ograniczania lub walidacji wprowadzanych danych. Z~tego powodu powstała właśnie biblioteka Mongoose, w~której programista może zdefiniować strukturę kolekcji i~przy zapisywaniu danych do bazy przeprowadzana jest ich walidacja. [8]
 \par Listing 2. pokazuje sposób deklarowania struktury pojedynczej kolekcji bazy MongoDB z użyciem biblioteki Mongoose.
 
 \begin{lstlisting}[caption=Przykład definicji struktury kolekcji w~bibliotece Mongoose ]
@@ -370,8 +372,8 @@ var surveySchema = mongoose.Schema({
 \end{lstlisting}
 
 \subsubsection{Angular.JS}
-Angular.JS jest frameworkiem frontendowym umożliwiającym tworzenie aplikacji w~stylu Single Page Application. Angular dzięki zastosowaniu wzorca MVC pozwala w~efektywny sposób oddzielić logikę aplikacji od widoku HTML. Najważniejszą funkcją Angulara jest dwukierunkowe wiązanie danych, która redukuje ilość kodu napisanego w~trakcie uwalniania backendu serwera z~odpowiedzialności za szablony. Szablony są stworzone w~prostym HTMLu zgodnie z~danymi zawartymi w~zakresie (scope) zdefiniowanym przez model. Serwis \$scope w~Angular wyłapuje zmiany w~modelu i~modyfikuje HTML w~widoku poprzez kontroler. Podobnie, wszelkie zmiany w~widoku widać w~modelu. To pozwala ominąć potrzebę aktywnego manipulowania DOMu i~ułatwia samodzielne i~szybkie tworzenie aplikacji internetowych. Angular wyłapuje zmiany w~modelach przez porównanie wartości z~wartościami zgromadzonymi we wcześniejszym procesie dirty-checking.
-
+Angular.JS jest frameworkiem frontendowym umożliwiającym tworzenie aplikacji w~stylu Single Page Application. Angular dzięki zastosowaniu wzorca MVC pozwala w~efektywny sposób oddzielić logikę aplikacji od widoku HTML. Najważniejszą funkcją Angulara jest dwukierunkowe wiązanie danych, która redukuje ilość kodu napisanego w~trakcie uwalniania backendu serwera z~odpowiedzialności za szablony. Szablony są stworzone w~prostym HTMLu zgodnie z~danymi zawartymi w~zakresie (scope) zdefiniowanym przez model. Serwis \$scope w~Angular wyłapuje zmiany w~modelu i~modyfikuje HTML w~widoku poprzez kontroler. Podobnie, wszelkie zmiany w~widoku widać w~modelu. To pozwala ominąć potrzebę aktywnego manipulowania DOMu i~ułatwia samodzielne i~szybkie tworzenie aplikacji internetowych. Angular wyłapuje zmiany w~modelach przez porównanie wartości z~wartościami zgromadzonymi we wcześniejszym procesie dirty-checking. [1] [2]
+\newpage
 \subsubsection{Inne technologie}
 Oprócz wymienionych wyżej technologii w~projekcie użytych zostało więcej dodatkowych bibliotek przydatnych przy realizacji pomniejszych zadań. Każda z~niżej wymienionych technologii jest dostępna na licencji MIT.
 
@@ -462,7 +464,7 @@ W celu umożliwienia komunikacji między stroną kliencką a~serwerem, na serwer
 Obiekt typu Router definiuje konkretną ścieżkę HTTP, a~następnie przypisuje jej obsługiwane funkcje (GET, POST, PUT, DELETE). Jeśli w~argumencie przekazanych jest więcej funkcji, wykonywane są one jedna po drugiej. W~tym przypadku w~wielu miejscach sprawdzane jest najpierw, czy użytkownik wykonujący zapytanie do serwera jest zalogowany (funkcja \texttt{hasAccess}), a~potem dopiero wykonuje właściwą część zapytania.
 \par Na szczególną uwagę zasługują ścieżki zaczynające się przedrostkiem \texttt{/partials}. Wysyłają one do klienta fragmenty widoków HTML, które następnie Angular.JS wstawia w~odpowiednie miejsca na stronie.
 \par Dane z~serwera są wysyłane do klienta w~postaci dokumentów JSON.
-
+\newpage
 \subsubsection{/api/surveys}
 Metody:
 \begin{itemize}
@@ -492,7 +494,7 @@ Metody:
 	\item surveyId \{String\} - identyfikator ankiety
 	\end{itemize}
 \end{itemize}
-
+\newpage
 \subsubsection{/api/surveys/\{surveyId\}/activate}
 Metody:
 \begin{itemize}
@@ -527,7 +529,7 @@ Metody:
 	\end{itemize}
 
 \end{itemize}
-
+\newpage
 \subsubsection{/api/code/\{surveyCode\}}
 Metody:
 \begin{itemize}
@@ -537,10 +539,9 @@ Metody:
 	\end{itemize}
 
 \end{itemize}
-
 \subsection{Komunikacja serwera HTTP z~bazą danych}
 Poniżej opisane zostały klasy pełniące funkcje dostępu do bazy danych.
-
+\newpage
 \subsubsection{MongoSurveyProvider}
 Klasa odpowiedzialna za dostep do danych z~kolekcji \texttt{surveys}. \\
 Metody:
@@ -740,7 +741,7 @@ W trakcie pisania aplikacji częściowo wprowadzona została koncepcja TDD (ang.
 \end{center}
 
 \textbf{Ocena testu: } Pozytywna
-
+\newpage
 \subsection{Edycja pytań ankiety}
 
 \textbf{Cel testu}: testowanie poprawnego edytowania pytań. \\
@@ -790,7 +791,7 @@ W trakcie pisania aplikacji częściowo wprowadzona została koncepcja TDD (ang.
 \end{center}
 
 \textbf{Ocena testu: } Pozytywna
-
+\newpage
 \subsection{Kontrola jednokrotnego głosowania}
 
 \textbf{Cel testu}: testowanie oddawania tylko jednego głosu przez respondenta. \\
@@ -830,7 +831,7 @@ Pierwszym krokiem do wdrożenia aplikacji Code-Shop jest zainstalowanie platform
 \end{figure} 
 
 \subsubsection{Windows}
-Aby zainstalować \textit{Node.js} na systemie operacyjnym \textit{Windows} wystarczy przejść na stronę \textit{http://nodejs.org/download/}, skąd można pobrać przeznaczone dla tego systemu instalatory (.msi lub .exe). Następnie należy postępować zgodnie z~instrukcjami tegoż instalatora, co spowoduje zainstalowanie środowiska w systemie operacyjnym.
+Aby zainstalować \textit{Node.js} na systemie operacyjnym \textit{Windows} wystarczy przejść na stronę \textit{http://nodejs.org/download/}, skąd można pobrać przeznaczone dla tego systemu instalatory (.msi lub .exe). Następnie należy postępować zgodnie z~instrukcjami tegoż instalatora, co spowoduje zainstalowanie środowiska w systemie operacyjnym. [10]
 
 \subsubsection{Linux}
 Poniżej przedstawiono instrukcję instalacji dla dwóch dystrybucji Linuxa: Debian i~Ubuntu. Jest poprawna również dla dystrybucji opartych na tych dwóch, takich jak Linux Mint, Linux Mint Debian Edition, elementaryOS. \\
@@ -844,7 +845,7 @@ Następnym, ostatnim krokiem jest zaistalowanie środowiska za pomocą menadżer
 apt-get install -y nodejs
 \end{lstlisting}
 
-Powyższe kroki odnoszą się do systemu Debian. Na Ubuntu proces instalacji jest praktycznie identyczny, należy tylko dodać komendę \texttt{sudo}.
+Powyższe kroki odnoszą się do systemu Debian. Na Ubuntu proces instalacji jest praktycznie identyczny, należy tylko dodać komendę \texttt{sudo}. [10]
 
 \subsection{Nginx}
 \subsubsection{Windows}
@@ -914,10 +915,11 @@ server {
     proxy_set_header Host $host;
   }
 \end{lstlisting}
+[5]
 
 \subsection{MongoDB}
 \subsubsection{Windows}
-Baza danych MongoDB dla systemu Windows przeznaczona jest dla różnych architektur, więc w~pierwszej kolejności należy zidentyfikować jaki typ systemu jest zainstalowany na danym komputerze. Następnie należy przejść na stronę pobierania MongoDB (http://www.mongodb.org/downloads) i~pobrać odpowiednią wersję bazy (2.6.4). Kolejnym krokiem jest samo zainstalowanie MongoDB, które polega na postępowaniu według instrukcji instalatora.
+Baza danych MongoDB dla systemu Windows przeznaczona jest dla różnych architektur, więc w~pierwszej kolejności należy zidentyfikować jaki typ systemu jest zainstalowany na danym komputerze. Następnie należy przejść na stronę pobierania MongoDB (http://www.mongodb.org/downloads) i~pobrać odpowiednią wersję bazy (2.6.4). Kolejnym krokiem jest samo zainstalowanie MongoDB, które polega na postępowaniu według instrukcji instalatora. [12]
 \par Rysunek 13. pokazuje sposoby pobierania MongoDB.
 \begin{figure}[H]
     \centering
@@ -985,7 +987,7 @@ sudo service mongod start
 \end{lstlisting}
 \end{enumerate}
 
-Po wykonaniu tego kroku wystartowany został serwis MongoDB. Poniższa została przetestowana na dystrybucjach Ubuntu oraz Debian.
+Po wykonaniu tego kroku wystartowany został serwis MongoDB. Poniższa została przetestowana na dystrybucjach Ubuntu oraz Debian. [12]
 
 
 
@@ -1094,17 +1096,18 @@ Płyta CD dołączona do dokumentacji zawiera kod źródłowy projektu oraz elek
 \section*{Literatura}
 
 \addcontentsline{toc}{section}{\protect\numberline{}Literatura}%
-1. Ethan Brown, \textit{Web development with Node and Express}, O’Reilly Media 2014 \\
-2. Guillermo Rauch, \textit{Podręcznik Node.js}, Smashing Magazine 2014 \\
-3. \textit{AngularJS API Docs}, https://docs.angularjs.org/api, 10.12.2014 \\
-4. \textit{Express – api reference}, http://expressjs.com/4x/api.html, 10.12.2014 \\
-5. \textit{MongoDB}, http://en.wikipedia.org/wiki/MongoDB, 10.12.2014 \\ 
-6. \textit{Mongoose API v3.8.19}, http://mongoosejs.com/docs/api.html, 10.12.2014 \\
-7. \textit{Node.js}, http://en.wikipedia.org/wiki/Node.js, 10.12.2014
-8. \textit{Node.js v0.10.33 Manual \& Documentation}, http://nodejs.org/api/, 10.12.2014 \\
-9. \textit{Robomongo v.8.0.1},
-http://blog.bulaj.com/2013/04/09/robomongo-latwiejsza-praca-z-mongodb/, 10.12.2014 \\
-10. \textit{The MongoDB 2.6 Manual}, http://docs.mongodb.org/manual/, 10.12.2014 \\
+1. \textit{AngularJS}, http://pl.wikipedia.org/wiki/AngularJS, 10.12.2014 \\
+2. \textit{AngularJS API Docs}, https://docs.angularjs.org/api, 10.12.2014 \\
+3. \textit{Bezpieczeństwo aplikacji internetowych bazujących na platformie Node.js}, http://sekurak.pl/bezpieczenstwo-aplikacji-internetowych-opartych-o-platforme-node-js-czesc-1, 10.12.2014 \\
+4. Ethan Brown, \textit{Web development with Node and Express}, O’Reilly Media 2014 \\
+5. \textit{Configuring Nginx and SSL with Node.js}, http://www.sitepoint.com/configuring-nginx-ssl-node-js/, 10.12.2014 \\
+6. \textit{Express – api reference}, http://expressjs.com/4x/api.html, 10.12.2014 \\
+7. \textit{MongoDB}, http://en.wikipedia.org/wiki/MongoDB, 10.12.2014 \\ 
+8. \textit{Mongoose API v3.8.19}, http://mongoosejs.com/docs/api.html, 10.12.2014 \\
+9. \textit{Node.js}, http://en.wikipedia.org/wiki/Node.js, 10.12.2014
+10. \textit{Node.js v0.10.33 Manual \& Documentation}, http://nodejs.org/api/, 10.12.2014 \\
+11. Guillermo Rauch, \textit{Podręcznik Node.js}, Smashing Magazine 2014 \\
+12. \textit{The MongoDB 2.6 Manual}, http://docs.mongodb.org/manual/, 10.12.2014 \\
 
 
 
